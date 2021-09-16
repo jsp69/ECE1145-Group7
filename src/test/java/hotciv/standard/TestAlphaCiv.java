@@ -49,11 +49,32 @@ public class TestAlphaCiv {
   @Test
   public void shouldBeRedAsStartingPlayer() {
     assertThat(game, is(notNullValue()));
-    // TODO: reenable the assert below to get started...
-    // assertThat(game.getPlayerInTurn(), is(Player.RED));
+    assertThat(game.getPlayerInTurn(), is(Player.RED));
   }
 
-  /**
+  @Test
+  public void redCityat1_1(){
+    Position p=new Position(1,1);
+    assertThat(game, is(notNullValue()));
+    assertThat(game.getCityAt(p).getOwner(),is(Player.RED));
+  }
+
+  @Test
+  public void oceanat1_1(){
+    Position p=new Position(1,0);
+    assertThat(game,is(notNullValue()));
+    assertThat(game.getTileAt(p).getTypeString(),is("ocean"));
+  }
+
+  @Test
+  public void cannotMoveOverMountain(){
+    Position pTo=new Position(3,3);
+    Position pFrom=new Position(2,2);
+    assertThat(game,is(notNullValue()));
+    assertThat(game.moveUnit(pFrom,pTo),is(false));
+  }
+
+  /*
   REMOVE ME. Not a test of HotCiv, just an example of what
       matchers the hamcrest library has...
   @Test
