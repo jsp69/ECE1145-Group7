@@ -90,6 +90,27 @@ public class TestAlphaCiv {
 
   }
 
+  @Test
+  public void redWinsIn3000() {
+    assertThat(game, is(notNullValue()));
+    assertThat(game.getWinner(), is(Player.RED));
+  }
+
+  @Test
+  public void redAttacksBlue() {
+    assertThat(game, is(notNullValue()));
+    assertThat(game.getWinner(), is(Player.RED));
+  }
+
+/*  @Test
+  public void plainsProduceThree() {
+    Position p = new Position(1,1);
+    assertThat(game,is(notNullValue()));
+    assertThat(game.getTileAt(p).getProduce(), is(3));
+  }*/
+
+
+
   /*
   REMOVE ME. Not a test of HotCiv, just an example of what
       matchers the hamcrest library has...

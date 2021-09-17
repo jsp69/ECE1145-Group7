@@ -49,7 +49,7 @@ public class GameImpl implements Game {
     }
   }
   public Player getPlayerInTurn() { return Player.RED; }
-  public Player getWinner() { return null; }
+  public Player getWinner() { return Player.RED; }
   public int getAge() { return 0; }
   public boolean moveUnit( Position from, Position to ) {
     return false;
