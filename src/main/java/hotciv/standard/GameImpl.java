@@ -49,8 +49,25 @@ public class GameImpl implements Game {
     }
   }
   public Player getPlayerInTurn() { return Player.RED; }
-  public Player getWinner() {return Player.RED;}
-  public int getAge() { return -4000; }
+  public Player getWinner() {
+    int attack = 1;
+    if (getAge() == -3000) {
+      return Player.RED;
+    }
+    if (attack == 1) {
+      return Player.RED;
+    }
+    else {
+      return null;
+    }
+  }
+  public int getAge() {
+    int age;
+    int start = -4000;
+    age = start;
+    return age;
+  }
+
   public boolean moveUnit( Position from, Position to ) {
     return false;
   }
