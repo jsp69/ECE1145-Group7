@@ -53,14 +53,14 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void redCityat1_1(){
+  public void redCityAt1_1(){
     Position p=new Position(1,1);
     assertThat(game, is(notNullValue()));
     assertThat(game.getCityAt(p).getOwner(),is(Player.RED));
   }
 
   @Test
-  public void oceanat1_1(){
+  public void oceanAt1_1(){
     Position p=new Position(1,0);
     assertThat(game,is(notNullValue()));
     assertThat(game.getTileAt(p).getTypeString(),is("ocean"));
@@ -72,6 +72,14 @@ public class TestAlphaCiv {
     Position pFrom=new Position(2,2);
     assertThat(game,is(notNullValue()));
     assertThat(game.moveUnit(pFrom,pTo),is(false));
+  }
+
+  @Test
+  public void redCannotMoveOverBlue() {
+    Position posTo = new Position(3, 3);
+    Position posFrom = new Position(2, 2);
+    assertThat(game, is(notNullValue()));
+    assertThat(game.moveUnit(posFrom, posTo), is(false));
   }
 
   /*
