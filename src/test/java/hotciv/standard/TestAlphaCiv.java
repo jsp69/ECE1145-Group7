@@ -78,15 +78,16 @@ public class TestAlphaCiv {
   public void redCannotMoveOverBlue() {
     Position posTo = new Position(3, 3);
     Position posFrom = new Position(2, 2);
-    assertThat(game, is(notNullValue()));
-    assertThat(game.moveUnit(posFrom, posTo), is(false));
+    assertNotEquals(nullValue(), game);
+    assertFalse(game.moveUnit(posFrom, posTo));
   }
 
   @Test
-  public void endOfRoundProductionIs6() {
+  public void endOfRoundProductionIs6More() {
     City city = new CityImpl(Player.RED);
-    assertThat(game, is(notNullValue()));
-    assertThat(city.getProduction(), is(6));
+    int oldTreasury = city.getTreasury();
+    game.endOfTurn();
+    assertEquals(oldTreasury + 6, city.getTreasury());
   }
 
   @Test
