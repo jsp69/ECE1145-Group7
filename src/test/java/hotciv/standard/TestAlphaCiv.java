@@ -102,12 +102,23 @@ public class TestAlphaCiv {
     assertThat(game.getWinner(), is(Player.RED));
   }
 
-/*  @Test
-  public void plainsProduceThree() {
-    Position p = new Position(1,1);
+  @Test
+  public void gameStartsAt4000() {
+    assertThat(game, is(notNullValue()));
+    assertThat(game.getAge(), is(-4000));
+  }
+
+  @Test
+  public void unitsCannotMoveOceans() {
+    Position pTo = new Position(1,0);
+    Position pFrom = new Position(1,1);
     assertThat(game,is(notNullValue()));
-    assertThat(game.getTileAt(p).getProduce(), is(3));
-  }*/
+    assertThat(game.moveUnit(pFrom,pTo),is(false));
+  }
+
+
+
+
 
 
 

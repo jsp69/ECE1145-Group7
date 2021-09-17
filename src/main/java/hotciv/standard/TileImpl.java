@@ -11,6 +11,6 @@ public class TileImpl implements Tile {
     public String getTypeString() { return "ocean"; }
 
     //not supposed to use in impl?
-    //Accessor to get production
-    public int getProduce(){ return this.produce; }
+    //Mutator to set production
+    public int setProduce(){ return this.produce; }
 }

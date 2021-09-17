@@ -38,8 +38,8 @@ public class GameImpl implements Game {
     return new CityImpl(Player.RED);
   }
   public Player getPlayerInTurn() { return Player.RED; }
-  public Player getWinner() { return Player.RED; }
-  public int getAge() { return 0; }
+  public Player getWinner() {return Player.RED;}
+  public int getAge() { return -4000; }
   public boolean moveUnit( Position from, Position to ) {
     return false;
   }
