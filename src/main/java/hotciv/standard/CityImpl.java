@@ -21,7 +21,7 @@ public class CityImpl implements City {
     public int getTreasury(){return this.treasure;}
 
     //TODO
-    public String getProduction(){ return null; }
+    public String getProduction(){return null;}
     public String getWorkforceFocus(){return null;}
 
 }
