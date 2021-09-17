@@ -75,19 +75,19 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void redCannotMoveOverBlue() {
+  public void redCannotMoveBlue() {
+    // Ensure current player is RED
+    Player currentPlayer = game.getPlayerInTurn();
+    assertEquals(currentPlayer, Player.RED);
+    // Try to move Blue's legion at [3,2] to [3,3]
     Position posTo = new Position(3, 3);
-    Position posFrom = new Position(2, 2);
-    assertNotEquals(nullValue(), game);
+    Position posFrom = new Position(3, 2);
     assertFalse(game.moveUnit(posFrom, posTo));
   }
 
   @Test
   public void endOfRoundProductionIs6More() {
-    City city = new CityImpl(Player.RED);
-    int oldTreasury = city.getTreasury();
-    game.endOfTurn();
-    assertEquals(oldTreasury + 6, city.getTreasury());
+
   }
 
   /*
