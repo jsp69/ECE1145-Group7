@@ -35,7 +35,18 @@ public class GameImpl implements Game {
   }
   public Unit getUnitAt( Position p ) { return null; }
   public City getCityAt( Position p ) {
-    return new CityImpl(Player.RED);
+    // Set city positions
+    Position rCity = new Position(1, 1);
+    Position bCity = new Position(4, 1);
+    if (p.equals(rCity)) {
+      return new CityImpl(Player.RED);
+    }
+    else if (p.equals(bCity)) {
+      return new CityImpl(Player.BLUE);
+    }
+    else {
+      return null;
+    }
   }
   public Player getPlayerInTurn() { return Player.RED; }
   public Player getWinner() {return Player.RED;}
@@ -44,15 +55,12 @@ public class GameImpl implements Game {
     return false;
   }
   public void endOfTurn() {
-    for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < 4; j++) {
-        Position p = new Position(i, j);
-        City c = getCityAt(p);
-        if (c != null) {
-
-        }
-      }
-    }
+    // Check Red's city at [1,1] and Blue's city at [4,1]
+    Position rCity = new Position(1, 1);
+    Position bCity = new Position(4, 1);
+    // Add 6 production to each city
+    ((CityImpl)(getCityAt(rCity))).setTreasury(getCityAt(rCity).getTreasury() + 6);
+    ((CityImpl)(getCityAt(bCity))).setTreasury(getCityAt(bCity).getTreasury() + 6);
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}

@@ -9,7 +9,7 @@ public class CityImpl implements City {
     int treasure;
 
     //Constructor assigning Owner
-    public CityImpl(Player p){this.owner=p;}
+    public CityImpl(Player p){this.owner = p;}
 
     //Accessor to get Owner
     public Player getOwner(){return this.owner;}
@@ -23,5 +23,8 @@ public class CityImpl implements City {
     //TODO
     public String getProduction(){return null;}
     public String getWorkforceFocus(){return null;}
+
+    //Method to change the value of a city's treasure
+    public void setTreasury(int t) { this.treasure = t; }
 
 }
