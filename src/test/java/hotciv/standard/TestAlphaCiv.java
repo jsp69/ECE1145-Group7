@@ -54,22 +54,22 @@ public class TestAlphaCiv {
 
   @Test
   public void redCityAt1_1(){
-    Position p=new Position(1,1);
+    Position p = new Position(1,1);
     assertThat(game, is(notNullValue()));
     assertThat(game.getCityAt(p).getOwner(),is(Player.RED));
   }
 
   @Test
   public void oceanAt1_1(){
-    Position p=new Position(1,0);
+    Position p = new Position(1,0);
     assertThat(game,is(notNullValue()));
     assertThat(game.getTileAt(p).getTypeString(),is("ocean"));
   }
 
   @Test
   public void cannotMoveOverMountain(){
-    Position pTo=new Position(3,3);
-    Position pFrom=new Position(2,2);
+    Position pTo = new Position(3,3);
+    Position pFrom = new Position(2,2);
     assertThat(game,is(notNullValue()));
     assertThat(game.moveUnit(pFrom,pTo),is(false));
   }
@@ -80,6 +80,13 @@ public class TestAlphaCiv {
     Position posFrom = new Position(2, 2);
     assertThat(game, is(notNullValue()));
     assertThat(game.moveUnit(posFrom, posTo), is(false));
+  }
+
+  @Test
+  public void endOfRoundProductionIs6() {
+    City city = new CityImpl(Player.RED);
+    assertThat(game, is(notNullValue()));
+    assertThat(city.getProduction(), is(6));
   }
 
   /*
