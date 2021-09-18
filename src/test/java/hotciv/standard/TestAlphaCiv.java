@@ -78,8 +78,7 @@ public class TestAlphaCiv {
   public void redCannotMoveBlue() {
     assertThat(game, is(notNullValue()));
     // Ensure current player is RED
-    Player currentPlayer = game.getPlayerInTurn();
-    assertEquals(currentPlayer, Player.RED);
+    assertEquals(game.getPlayerInTurn(), Player.RED);
     // Try to move Blue's legion at [3,2] to [3,3]
     Position posTo = new Position(3, 3);
     Position posFrom = new Position(3, 2);
