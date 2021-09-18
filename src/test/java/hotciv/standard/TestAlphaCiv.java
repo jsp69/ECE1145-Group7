@@ -94,8 +94,10 @@ public class TestAlphaCiv {
     Position bCity = new Position(4, 1);
     int oldTresRed = (game.getCityAt(rCity)).getTreasury();
     int oldTresBlue = (game.getCityAt(bCity)).getTreasury();
-    // Run the end of turn method
-    game.endOfTurn();
+    // Run the end of turn method twice to signal end of round
+    for (int i = 0; i < 2; i++) {
+      game.endOfTurn();
+    }
     // Check that production was increased by 6 in both cities
     assertEquals(oldTresRed + 6, (game.getCityAt(rCity)).getTreasury());
     assertEquals(oldTresBlue + 6, (game.getCityAt(bCity)).getTreasury());
@@ -110,6 +112,18 @@ public class TestAlphaCiv {
     // Check population sizes of cities
     assertEquals(1, game.getCityAt(rCity).getSize());
     assertEquals(1, game.getCityAt(bCity).getSize());
+  }
+
+  @Test
+  public void blueAfterRed() {
+    assertThat(game, is(notNullValue()));
+    // Check current player
+    if (game.getPlayerInTurn().equals(Player.RED)) {
+      // End current player's turn
+      game.endOfTurn();
+      // Check next player is blue
+      assertEquals(Player.BLUE, game.getPlayerInTurn());
+    }
   }
 
   @Test

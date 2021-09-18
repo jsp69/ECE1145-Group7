@@ -33,6 +33,7 @@ public class GameImpl implements Game {
   // Preliminary set-up for AlphaCiv
   City redCity = new CityImpl(Player.RED);
   City blueCity = new CityImpl(Player.BLUE);
+  int turn = 0;
 
   public Tile getTileAt( Position p ) {
     return new TileImpl("ocean");
@@ -52,7 +53,14 @@ public class GameImpl implements Game {
       return null;
     }
   }
-  public Player getPlayerInTurn() { return Player.RED; }
+  public Player getPlayerInTurn() {
+    if (turn == 0) {
+      return Player.RED;
+    }
+    else {
+      return Player.BLUE;
+    }
+  }
   public Player getWinner() {
     int attack = 1;
     if (getAge() == -3000) {
@@ -76,16 +84,21 @@ public class GameImpl implements Game {
     return false;
   }
   public void endOfTurn() {
-    // Check Red's city at [1,1] and Blue's city at [4,1]
-    Position rCity = new Position(1, 1);
-    Position bCity = new Position(4, 1);
-    // Add 6 production to each city
-    ((CityImpl)(getCityAt(rCity))).setTreasury(getCityAt(rCity).getTreasury() + 6);
-    ((CityImpl)(getCityAt(bCity))).setTreasury(getCityAt(bCity).getTreasury() + 6);
-    ((CityImpl)(getCityAt(bCity))).setTreasury(6);
-    System.out.print((getCityAt(bCity)).getTreasury());
+    // Increment turn count
+    turn = turn + 1;
+    // Check if round is over
+    if (turn > 1) {
+      endOfRound();
+    }
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
   public void performUnitActionAt( Position p ) {}
+  public void endOfRound() {
+    // Add 6 production to each city
+    ((CityImpl)(redCity)).setTreasury(((CityImpl)(redCity)).getTreasury() + 6);
+    ((CityImpl)(blueCity)).setTreasury(((CityImpl)(blueCity)).getTreasury() + 6);
+    // Reset turn counter
+    turn = 0;
+  }
 }
