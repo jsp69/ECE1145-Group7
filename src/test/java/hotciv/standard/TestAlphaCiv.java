@@ -76,6 +76,7 @@ public class TestAlphaCiv {
 
   @Test
   public void redCannotMoveBlue() {
+    assertThat(game, is(notNullValue()));
     // Ensure current player is RED
     Player currentPlayer = game.getPlayerInTurn();
     assertEquals(currentPlayer, Player.RED);
@@ -87,7 +88,17 @@ public class TestAlphaCiv {
 
   @Test
   public void endOfRoundProductionIs6More() {
-
+    assertThat(game, is(notNullValue()));
+    // Set variables for treasury amounts and city positions
+    Position rCity = new Position(1, 1);
+    Position bCity = new Position(4, 1);
+    int oldTresRed = (game.getCityAt(rCity)).getTreasury();
+    int oldTresBlue = (game.getCityAt(bCity)).getTreasury();
+    // Run the end of turn method
+    game.endOfTurn();
+    // Check that production was increased by 6 in both cities
+    assertEquals(oldTresRed + 6, (game.getCityAt(rCity)).getTreasury());
+    assertEquals(oldTresBlue + 6, (game.getCityAt(bCity)).getTreasury());
   }
 
   @Test

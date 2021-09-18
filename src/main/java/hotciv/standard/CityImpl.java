@@ -25,6 +25,5 @@ public class CityImpl implements City {
     public String getWorkforceFocus(){return null;}
 
     //Method to change the value of a city's treasure
-    public void setTreasury(int t) { this.treasure = t; }
-
+    public void setTreasury(int t) { treasure = t; }
 }

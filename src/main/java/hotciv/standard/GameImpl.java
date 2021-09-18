@@ -30,6 +30,10 @@ import hotciv.framework.*;
 */
 
 public class GameImpl implements Game {
+  // Preliminary set-up for AlphaCiv
+  City redCity = new CityImpl(Player.RED);
+  City blueCity = new CityImpl(Player.BLUE);
+
   public Tile getTileAt( Position p ) {
     return new TileImpl("ocean");
   }
@@ -39,10 +43,10 @@ public class GameImpl implements Game {
     Position rCity = new Position(1, 1);
     Position bCity = new Position(4, 1);
     if (p.equals(rCity)) {
-      return new CityImpl(Player.RED);
+      return redCity;
     }
     else if (p.equals(bCity)) {
-      return new CityImpl(Player.BLUE);
+      return blueCity;
     }
     else {
       return null;
@@ -78,6 +82,8 @@ public class GameImpl implements Game {
     // Add 6 production to each city
     ((CityImpl)(getCityAt(rCity))).setTreasury(getCityAt(rCity).getTreasury() + 6);
     ((CityImpl)(getCityAt(bCity))).setTreasury(getCityAt(bCity).getTreasury() + 6);
+    ((CityImpl)(getCityAt(bCity))).setTreasury(6);
+    System.out.print((getCityAt(bCity)).getTreasury());
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
