@@ -35,6 +35,9 @@ public class GameImpl implements Game {
   City blueCity = new CityImpl(Player.BLUE);
   int turn = 0;
 
+  Unit unitRed = new UnitImpl(Player.RED);
+  Unit unitBlue = new UnitImpl(Player.BLUE);
+
   public Tile getTileAt( Position p ) {
     return new TileImpl("ocean");
   }
@@ -66,7 +69,7 @@ public class GameImpl implements Game {
     if (getAge() == -3000) {
       return Player.RED;
     }
-    if (attack == 1) {
+    if (unitRed.getAttackingStrength() > 0) {
       return Player.RED;
     }
     else {
@@ -74,9 +77,14 @@ public class GameImpl implements Game {
     }
   }
   public int getAge() {
-    int age;
-    int start = -4000;
-    age = start;
+    int age = 0;
+    if (turn == 0) {
+      int start = -4000;
+      age = start;
+    }
+    if (turn > 0){
+      age = age + 100;
+    }
     return age;
   }
 
@@ -101,4 +109,5 @@ public class GameImpl implements Game {
     // Reset turn counter
     turn = 0;
   }
+  public int turnCount() { return turn;}
 }
