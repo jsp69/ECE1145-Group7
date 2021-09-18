@@ -102,6 +102,17 @@ public class TestAlphaCiv {
   }
 
   @Test
+  public void cityPopulationAlways1() {
+    assertThat(game, is(notNullValue()));
+    // Set city positions
+    Position rCity = new Position(1, 1);
+    Position bCity = new Position(4, 1);
+    // Check population sizes of cities
+    assertEquals(1, game.getCityAt(rCity).getSize());
+    assertEquals(1, game.getCityAt(bCity).getSize());
+  }
+
+  @Test
   public void redWinsIn3000() {
     assertThat(game, is(notNullValue()));
     assertThat(game.getWinner(), is(Player.RED));

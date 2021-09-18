@@ -5,7 +5,7 @@ import hotciv.framework.Player;
 
 public class CityImpl implements City {
     Player owner;
-    int size;
+    static int size = 1;
     int treasure;
 
     //Constructor assigning Owner
