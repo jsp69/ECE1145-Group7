@@ -103,17 +103,6 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void cityPopulationAlways1() {
-    assertThat(game, is(notNullValue()));
-    // Set city positions
-    Position rCity = new Position(1, 1);
-    Position bCity = new Position(4, 1);
-    // Check population sizes of cities
-    assertEquals(1, game.getCityAt(rCity).getSize());
-    assertEquals(1, game.getCityAt(bCity).getSize());
-  }
-
-  @Test
   public void blueAfterRed() {
     assertThat(game, is(notNullValue()));
     // Check current player
@@ -123,6 +112,17 @@ public class TestAlphaCiv {
       // Check next player is blue
       assertEquals(Player.BLUE, game.getPlayerInTurn());
     }
+  }
+
+  @Test
+  public void cityPopulationAlways1() {
+    assertThat(game, is(notNullValue()));
+    // Set city positions
+    Position rCity = new Position(1, 1);
+    Position bCity = new Position(4, 1);
+    // Check population sizes of cities
+    assertEquals(1, game.getCityAt(rCity).getSize());
+    assertEquals(1, game.getCityAt(bCity).getSize());
   }
 
   @Test
