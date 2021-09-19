@@ -128,44 +128,43 @@ public class TestAlphaCiv {
   @Test
   public void redWinsIn3000() {
     assertThat(game, is(notNullValue()));
+    //Check year of game
     if(game.getAge() == -3000) {
+      //Check the winner is red
       assertThat(game.getWinner(), is(Player.RED));
     }
   }
 
   @Test
   public void redAttacksBlue() {
-    Position p = new Position(1, 1);
+    //Set unit position
+    Position pos = new Position(2, 0);
     assertThat(game, is(notNullValue()));
-    if(game.getUnitAt(p).getAttackingStrength() > 0) {
+    //Check unit attacking strength
+    if(game.getUnitAt(pos).getAttackingStrength() > 0) {
+      //Check the winner is red
       assertThat(game.getWinner(), is(Player.RED));
     }
   }
 
-/*  @Test
-  public void gameStartsAt4000() {
-    assertThat(game, is(notNullValue()));
-    if(game.getPlayerInTurn() == Player.RED) && (game.turnCount() == 0) {
-      assertThat(game.getAge(), is(-4000));
-    }
-    else {
-      return null;
-    }
-  }*/
-
   @Test
-  public void unitsCannotMoveOceans() {
-    Position pTo = new Position(1,0);
-    Position pFrom = new Position(1,1);
+  public void redArcher2_0(){
+    //Set unit position
+    Position p = new Position(2,0);
     assertThat(game,is(notNullValue()));
-    assertThat(game.moveUnit(pFrom,pTo),is(false));
+    //Check the unit type
+    assertThat(game.getUnitAt(p).getTypeString(),is("archer"));
   }
 
-
-
-
-
-
+  @Test
+  public void gameStartsAt4000() {
+    assertThat(game, is(notNullValue()));
+    //Check if the game started
+    if((game.getPlayerInTurn() == Player.RED) && (game.getAge() > -4000)) {
+      //Check the year is 4000BC
+      assertThat(game.getAge(), is(-4000));
+    }
+  }
 
   /*
   REMOVE ME. Not a test of HotCiv, just an example of what
