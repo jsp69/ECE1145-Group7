@@ -35,10 +35,13 @@ public class GameImpl implements Game {
   City blueCity = new CityImpl(Player.BLUE);
   int turn = 0;
 
+  Unit unitRed = new UnitImpl(Player.RED);
+  Unit unitBlue = new UnitImpl(Player.BLUE);
+
   public Tile getTileAt( Position p ) {
     return new TileImpl("ocean");
   }
-  public Unit getUnitAt( Position p ) { return null; }
+  public Unit getUnitAt( Position p ) { return new UnitImpl("archer"); }
   public City getCityAt( Position p ) {
     // Set city positions
     Position rCity = new Position(1, 1);
@@ -62,11 +65,12 @@ public class GameImpl implements Game {
     }
   }
   public Player getWinner() {
-    int attack = 1;
+    //Red wins if 3000 BC
     if (getAge() == -3000) {
       return Player.RED;
     }
-    if (attack == 1) {
+    //Red's unit wins if attacks
+    if (unitRed.getAttackingStrength() > 0) {
       return Player.RED;
     }
     else {
@@ -74,9 +78,16 @@ public class GameImpl implements Game {
     }
   }
   public int getAge() {
-    int age;
-    int start = -4000;
-    age = start;
+    int age = 0;
+    //Set start year to 4000 BC
+    if (turn == 0) {
+      int start = -4000;
+      age = start;
+    }
+    //Increment by 100 years
+    if (turn > 0){
+      age = age + 100;
+    }
     return age;
   }
 
@@ -101,4 +112,5 @@ public class GameImpl implements Game {
     // Reset turn counter
     turn = 0;
   }
+
 }
