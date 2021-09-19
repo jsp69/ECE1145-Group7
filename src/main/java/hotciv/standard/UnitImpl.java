@@ -7,9 +7,12 @@ public class UnitImpl implements Unit {
 
     Player owner;
     int attack = 1;
-    int defense = 0;
-    int move = 0;
+    String tType;
 
+    //Constructor assigning type
+    public UnitImpl(String type) { this.tType = type; }
+
+    //Accessor to return type
     public String getTypeString() {return "archer";}
 
     //Constructor assigning Owner
@@ -21,12 +24,9 @@ public class UnitImpl implements Unit {
     //Accessor to get attacking strength
     public int getAttackingStrength() {return attack; }
 
-    //Accessor to get defensive strength
-    public int getDefensiveStrength() {return defense;}
-
-    //Accessor to get move count
-    public int getMoveCount() {return move;}
-
+    //TODO
+    public int getDefensiveStrength() {return 0;}
+    public int getMoveCount() {return 0;}
 }
 
 
