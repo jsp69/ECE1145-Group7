@@ -166,6 +166,35 @@ public class TestAlphaCiv {
     }
   }
 
+  @Test
+  public void unitsGetMaxMoveStart() {
+    assertThat(game, is(notNullValue()));
+
+  }
+
+  @Test
+  public void yearAdvances100() {
+    assertThat(game, is(notNullValue()));
+    //Check if game age is divisible by 100
+    if (game.getAge() % 100 == 0) {
+      //Check that the game's age is equal to it
+      assertThat(game.getAge(), is(game.getAge()));
+    }
+  }
+
+  @Test
+  public void redUnitMovesAndDefends() {
+    //Check if position has red city
+    Position p = new Position(1, 1);
+    assertThat(game, is(notNullValue()));
+    if(game.getCityAt(p).getOwner() == (Player.RED)) {
+      //Check that the red unit can defend its city
+      assertThat(game.getUnitAt(p).getDefensiveStrength(), is(1));
+    }
+  }
+
+
+
   /*
   REMOVE ME. Not a test of HotCiv, just an example of what
       matchers the hamcrest library has...

@@ -87,6 +87,7 @@ public class GameImpl implements Game {
     //Increment by 100 years
     if (turn > 0){
       age = age + 100;
+      endOfRound();
     }
     return age;
   }
