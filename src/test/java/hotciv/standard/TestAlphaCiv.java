@@ -168,8 +168,13 @@ public class TestAlphaCiv {
 
   @Test
   public void unitsGetMaxMoveStart() {
+    Position p = new Position(1, 1);
     assertThat(game, is(notNullValue()));
-
+    //check if round started
+    if(game.getPlayerInTurn() == Player.RED || game.getPlayerInTurn() == Player.BLUE) {
+      //Check that units have max move count
+      assertThat(game.getUnitAt(p).getMoveCount(), is(1));
+    }
   }
 
   @Test
@@ -183,6 +188,18 @@ public class TestAlphaCiv {
   }
 
   @Test
+  public void redTakesBlueMovesOnTo() {
+    Position redUnit = new Position(1, 1);
+    Position blueUnit = new Position(4, 1);
+    assertThat(game, is(notNullValue()));
+    //Check that red unit is attacking
+    if(game.getUnitAt(redUnit).getAttackingStrength() == 1) {
+      //Check that blue owner becomes red
+      assertThat(game.getUnitAt(blueUnit).getOwner(), is(game.getUnitAt(redUnit).getOwner()));
+    }
+  }
+
+  @Test
   public void redUnitMovesAndDefends() {
     //Check if position has red city
     Position p = new Position(1, 1);
@@ -192,6 +209,8 @@ public class TestAlphaCiv {
       assertThat(game.getUnitAt(p).getDefensiveStrength(), is(1));
     }
   }
+
+
 
 
 
