@@ -24,12 +24,20 @@ public class UnitImpl implements Unit {
     public Player getOwner(){return this.owner;}
 
     //Accessor to get attacking strength
-    public int getAttackingStrength() {return attack; }
+    public int getAttackingStrength() {
+        if(getOwner() == Player.RED) {
+            owner = Player.BLUE;
+        }
+        if(getOwner() == Player.BLUE) {
+            owner = Player.RED;
+        }
+        return attack;
+    }
 
-    //TODO
     public int getDefensiveStrength() {return defense;}
+
     public int getMoveCount() {
-        if(getDefensiveStrength() == 1) {
+        if(getDefensiveStrength() == 1 || getAttackingStrength() == 1) {
             move++;
         }
         return move;}
