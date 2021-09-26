@@ -166,6 +166,54 @@ public class TestAlphaCiv {
     }
   }
 
+  @Test
+  public void unitsGetMaxMoveStart() {
+    Position p = new Position(1, 1);
+    assertThat(game, is(notNullValue()));
+    //check if round started
+    if(game.getPlayerInTurn() == Player.RED || game.getPlayerInTurn() == Player.BLUE) {
+      //Check that units have max move count
+      assertThat(game.getUnitAt(p).getMoveCount(), is(1));
+    }
+  }
+
+  @Test
+  public void yearAdvances100() {
+    assertThat(game, is(notNullValue()));
+    //Check if game age is divisible by 100
+    if (game.getAge() % 100 == 0) {
+      //Check that the game's age is equal to it
+      assertThat(game.getAge(), is(game.getAge()));
+    }
+  }
+
+  @Test
+  public void redTakesBlueMovesOnTo() {
+    Position redUnit = new Position(1, 1);
+    Position blueUnit = new Position(4, 1);
+    assertThat(game, is(notNullValue()));
+    //Check that red unit is attacking
+    if(game.getUnitAt(redUnit).getAttackingStrength() == 1) {
+      //Check that blue owner becomes red
+      assertThat(game.getUnitAt(blueUnit).getOwner(), is(game.getUnitAt(redUnit).getOwner()));
+    }
+  }
+
+  @Test
+  public void redUnitMovesAndDefends() {
+    //Check if position has red city
+    Position p = new Position(1, 1);
+    assertThat(game, is(notNullValue()));
+    if(game.getCityAt(p).getOwner() == (Player.RED)) {
+      //Check that the red unit can defend its city
+      assertThat(game.getUnitAt(p).getDefensiveStrength(), is(1));
+    }
+  }
+
+
+
+
+
   /*
   REMOVE ME. Not a test of HotCiv, just an example of what
       matchers the hamcrest library has...

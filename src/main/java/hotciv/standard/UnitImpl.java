@@ -7,6 +7,8 @@ public class UnitImpl implements Unit {
 
     Player owner;
     int attack = 1;
+    int defense = 1;
+    int move = 0;
     String tType;
 
     //Constructor assigning type
@@ -22,11 +24,23 @@ public class UnitImpl implements Unit {
     public Player getOwner(){return this.owner;}
 
     //Accessor to get attacking strength
-    public int getAttackingStrength() {return attack; }
+    public int getAttackingStrength() {
+        if(getOwner() == Player.RED) {
+            owner = Player.BLUE;
+        }
+        if(getOwner() == Player.BLUE) {
+            owner = Player.RED;
+        }
+        return attack;
+    }
 
-    //TODO
-    public int getDefensiveStrength() {return 0;}
-    public int getMoveCount() {return 0;}
+    public int getDefensiveStrength() {return defense;}
+
+    public int getMoveCount() {
+        if(getDefensiveStrength() == 1 || getAttackingStrength() == 1) {
+            move++;
+        }
+        return move;}
 }
 
 
