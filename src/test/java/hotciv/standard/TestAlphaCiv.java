@@ -193,13 +193,13 @@ public class TestAlphaCiv {
   /*@Test
   public void redTakesBlueMovesOnTo() {
     assertThat(game, is(notNullValue()));
-    Position redUnit = new Position(2, 0);
+    Position p = new Position(2, 0);
     Position blueCity = new Position(4, 1);
     //Check that red unit is attacking
-    if(game.moveUnit(redUnit, blueCity)) {
+    if(((GameImpl)(game)).moveUnitMore(p, blueCity)) {
+      assertThat(game.getUnitAt(blueCity).getAttackingStrength(), is(1));
       //Check that blue owner becomes red
-      //assertEquals((game.getCityAt(blueCity)).getOwner(), Player.RED);
-      assertEquals(1, 1);
+      assertEquals((game.getCityAt(blueCity)).getOwner(), Player.RED);
     }
   }*/
 

@@ -39,6 +39,11 @@ public class Position {
     this.r = r; this.c = c; 
   }
 
+  public Position(Position pos) {
+    this.r = pos.getRow();
+    this.c = pos.getColumn();
+  }
+
   protected int r;
   protected int c;
 
@@ -67,4 +72,7 @@ public class Position {
   public String toString() {
     return "["+r+","+c+"]";
   }
+
+  public void setRow(int row) { this.r = row; }
+  public void setColumn(int col) { this.c = col; }
 }
