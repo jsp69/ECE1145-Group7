@@ -141,6 +141,7 @@ public class GameImpl implements Game {
       boolean southNorth = (disCol == -1) || (disCol == 1);
       boolean eastWest = (disRow == -1) || (disRow == 1);
       boolean zeros = (disCol == 0) || (disRow == 0);
+      // Check that position is only a distance of 1 in any given direction
       if ((southNorth || eastWest) && zeros) {
         // Change position of unit
         ((UnitImpl)(getUnitAt(from))).changePosition(to);

@@ -203,16 +203,20 @@ public class TestAlphaCiv {
     }
   }*/
 
-  /*@Test
+  @Test
   public void redUnitMovesAndDefends() {
+    assertThat(game, is(notNullValue()));
     //Check if position has red city
     Position p = new Position(1, 1);
-    assertThat(game, is(notNullValue()));
+    Position p_interim = new Position(2, 1);
     if(game.getCityAt(p).getOwner() == (Player.RED)) {
+      //Move Red unit to the city
+      game.moveUnit(((UnitImpl)(((GameImpl)(game)).unitRed1)).getPosition(), p_interim);
+      game.moveUnit(p_interim, p);
       //Check that the red unit can defend its city
       assertThat(game.getUnitAt(p).getDefensiveStrength(), is(1));
     }
-  }*/
+  }
 
   @Test
   public void redUnitAttacksBlueAndWins() {
