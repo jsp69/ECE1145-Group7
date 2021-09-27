@@ -31,25 +31,58 @@ import hotciv.framework.*;
 
 public class GameImpl implements Game {
   // Preliminary set-up for AlphaCiv
+  // Set cities
   City redCity = new CityImpl(Player.RED);
   City blueCity = new CityImpl(Player.BLUE);
+  // Set turn count
   int turn = 0;
-
-  Unit unitRed = new UnitImpl(Player.RED);
-  Unit unitBlue = new UnitImpl(Player.BLUE);
+  Position rArcher = new Position(2, 0);
+  Position bLegion = new Position(3, 2);
+  Position rSettler = new Position(4, 3);
+  // Set tiles
+  Tile ocean = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
+  Tile hills = new TileImpl(GameConstants.HILLS, new Position(0, 1));
+  Tile mountains = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
+  // Set units
+  Unit unitRed1 = new UnitImpl(GameConstants.ARCHER, Player.RED, rArcher);
+  Unit unitRed2 = new UnitImpl(GameConstants.SETTLER, Player.RED, rSettler);
+  Unit unitBlue = new UnitImpl(GameConstants.LEGION, Player.BLUE, bLegion);
 
   public Tile getTileAt( Position p ) {
-    return new TileImpl("ocean");
+    if ((p.getColumn() == 0) && (p.getRow() == 1)) {
+      return ocean;
+    }
+    else if ((p.getColumn() == 1) && (p.getRow() == 0)) {
+      return hills;
+    }
+    else if ((p.getColumn() == 2) && (p.getRow() == 2)) {
+      return mountains;
+    }
+    else {
+      return new TileImpl(GameConstants.PLAINS, p);
+    }
   }
-  public Unit getUnitAt( Position p ) { return new UnitImpl("archer"); }
+  public Unit getUnitAt( Position p ) {
+    // Return correct unit
+    if (p.equals(rArcher)) {
+      return unitRed1;
+    }
+    else if (p.equals(bLegion)) {
+      return unitBlue;
+    }
+    else if (p.equals(rSettler)) {
+      return unitRed2;
+    }
+    else {
+      return null;
+    }
+  }
   public City getCityAt( Position p ) {
-    // Set city positions
-    Position rCity = new Position(1, 1);
-    Position bCity = new Position(4, 1);
-    if (p.equals(rCity)) {
+    // Return correct city
+    if (p.equals(((CityImpl)(redCity)).getPosition())) {
       return redCity;
     }
-    else if (p.equals(bCity)) {
+    else if (p.equals(((CityImpl)(blueCity)).getPosition())) {
       return blueCity;
     }
     else {
@@ -70,7 +103,7 @@ public class GameImpl implements Game {
       return Player.RED;
     }
     //Red's unit wins if attacks
-    if (unitRed.getAttackingStrength() > 0) {
+    if (unitRed1.getAttackingStrength() > 0) {
       return Player.RED;
     }
     else {
@@ -93,7 +126,29 @@ public class GameImpl implements Game {
   }
 
   public boolean moveUnit( Position from, Position to ) {
-    return false;
+    //Ensure new position isn't mountains
+    if (getTileAt(to).equals(mountains) || getTileAt(to).equals(ocean)) {
+      return false;
+    }
+    // Ensure it is the correct player's unit
+    if (getPlayerInTurn() != getUnitAt(from).getOwner()) {
+      return false;
+    }
+    else {
+      // Change position of unit
+      ((UnitImpl)(getUnitAt(from))).changePosition(to);
+      // Return true if unit was moved
+      if (getUnitAt(to).equals(getUnitAt(to))) {
+        //Change city ownership
+        if ((to == ((CityImpl)(blueCity)).getPosition()) && (getUnitAt(to).getOwner() == Player.RED)) {
+          ((CityImpl)(blueCity)).setOwner(Player.RED);
+        }
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
   }
   public void endOfTurn() {
     // Increment turn count
@@ -113,5 +168,40 @@ public class GameImpl implements Game {
     // Reset turn counter
     turn = 0;
   }
+
+
+
+  // Establish new city
+  public City settlerNewCity(Position p) {
+    // Check position is a settler
+    if (p == rSettler) {
+      // Create new city, delete settler
+      rSettler = null;
+      return new CityImpl(Player.RED, p);
+    }
+    else {
+      return null;
+    }
+  }
+
+  // Fortify the archers
+  public boolean archersFortify(Position pos) {
+    Unit archers = getUnitAt(pos);
+    //Check that unit is archers
+    if (archers.getTypeString().equals(GameConstants.ARCHER)) {
+      // Set attack to 0
+      ((UnitImpl)(archers)).setAttack(0);
+      // Set defenses to 5
+      ((UnitImpl)(archers)).setDefenses(5);
+      // Set max move count to 0
+      ((UnitImpl)(archers)).setMoveCount(0);
+      return true;
+    }
+    else {
+      //Unit not archers
+      return false;
+    }
+  }
+
 
 }
