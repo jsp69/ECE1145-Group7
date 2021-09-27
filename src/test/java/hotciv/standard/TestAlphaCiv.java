@@ -233,12 +233,11 @@ public class TestAlphaCiv {
     assertThat(game, is(notNullValue()));
     //Set unit position
     Position pos = new Position(2, 0);
-    assertThat(game, is(notNullValue()));
-    //Check unit attacking strength
-    if(game.getUnitAt(pos).getAttackingStrength() > 0) {
-      //Check the winner is red
-      assertThat(game.getWinner(), is(Player.RED));
-    }
+    Position new1 = new Position(2, 1);
+    Position new2 = new Position(3, 4);
+    //Check movement
+    assertTrue(game.moveUnit(pos, new1));
+    assertFalse(game.moveUnit(new1, new2));
   }
 
   @Test

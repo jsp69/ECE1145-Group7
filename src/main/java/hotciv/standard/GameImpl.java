@@ -64,13 +64,13 @@ public class GameImpl implements Game {
   }
   public Unit getUnitAt( Position p ) {
     // Return correct unit
-    if (p.equals(rArcher)) {
+    if (p.equals(((UnitImpl)(unitRed1)).getPosition())) {
       return unitRed1;
     }
-    else if (p.equals(bLegion)) {
+    else if (p.equals(((UnitImpl)(unitBlue)).getPosition())) {
       return unitBlue;
     }
-    else if (p.equals(rSettler)) {
+    else if (p.equals(((UnitImpl)(unitRed2)).getPosition())) {
       return unitRed2;
     }
     else {
@@ -135,10 +135,15 @@ public class GameImpl implements Game {
       return false;
     }
     else {
-      // Change position of unit
-      ((UnitImpl)(getUnitAt(from))).changePosition(to);
       // Return true if unit was moved
-      if (getUnitAt(to).equals(getUnitAt(to))) {
+      int disCol = from.getColumn() - to.getColumn();
+      int disRow = from.getRow() - to.getRow();
+      boolean southNorth = (disCol == -1) || (disCol == 1);
+      boolean eastWest = (disRow == -1) || (disRow == 1);
+      boolean zeros = (disCol == 0) || (disRow == 0);
+      if ((southNorth || eastWest) && zeros) {
+        // Change position of unit
+        ((UnitImpl)(getUnitAt(from))).changePosition(to);
         //Change city ownership
         if ((to == ((CityImpl)(blueCity)).getPosition()) && (getUnitAt(to).getOwner() == Player.RED)) {
           ((CityImpl)(blueCity)).setOwner(Player.RED);
@@ -168,8 +173,6 @@ public class GameImpl implements Game {
     // Reset turn counter
     turn = 0;
   }
-
-
 
   // Establish new city
   public City settlerNewCity(Position p) {

@@ -58,7 +58,6 @@ public class UnitImpl implements Unit {
 
     //Change unit position
     public void changePosition(Position pos) {
-        System.out.println(pos);
         this.p = pos;
     }
 
