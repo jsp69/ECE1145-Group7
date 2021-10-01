@@ -32,28 +32,61 @@ import hotciv.framework.*;
 public class GameImpl implements Game {
 
   // Preliminary set-up for AlphaCiv
+  // Set cities
   City redCity = new CityImpl(Player.RED);
   City blueCity = new CityImpl(Player.BLUE);
+  // Set turn count
   int turn = 0;
-
-  Unit unitRed = new UnitImpl(Player.RED);
-  Unit unitBlue = new UnitImpl(Player.BLUE);
+  Position rArcher = new Position(2, 0);
+  Position bLegion = new Position(3, 2);
+  Position rSettler = new Position(4, 3);
+  // Set tiles
+  Tile ocean = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
+  Tile hills = new TileImpl(GameConstants.HILLS, new Position(0, 1));
+  Tile mountains = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
+  // Set units
+  Unit unitRed1 = new UnitImpl(GameConstants.ARCHER, Player.RED, rArcher);
+  Unit unitRed2 = new UnitImpl(GameConstants.SETTLER, Player.RED, rSettler);
+  Unit unitBlue = new UnitImpl(GameConstants.LEGION, Player.BLUE, bLegion);
 
   //Preliminary set-up for GammaCiv
   private GammaCiv gammaCiv;
 
   public Tile getTileAt( Position p ) {
-    return new TileImpl("ocean");
+    if ((p.getColumn() == 0) && (p.getRow() == 1)) {
+      return ocean;
+    }
+    else if ((p.getColumn() == 1) && (p.getRow() == 0)) {
+      return hills;
+    }
+    else if ((p.getColumn() == 2) && (p.getRow() == 2)) {
+      return mountains;
+    }
+    else {
+      return new TileImpl(GameConstants.PLAINS, p);
+    }
   }
-  public Unit getUnitAt( Position p ) { return new UnitImpl("archer"); }
+  public Unit getUnitAt( Position p ) {
+    // Return correct unit
+    if (p.equals(((UnitImpl)(unitRed1)).getPosition())) {
+      return unitRed1;
+    }
+    else if (p.equals(((UnitImpl)(unitBlue)).getPosition())) {
+      return unitBlue;
+    }
+    else if (p.equals(((UnitImpl)(unitRed2)).getPosition())) {
+      return unitRed2;
+    }
+    else {
+      return null;
+    }
+  }
   public City getCityAt( Position p ) {
-    // Set city positions
-    Position rCity = new Position(1, 1);
-    Position bCity = new Position(4, 1);
-    if (p.equals(rCity)) {
+    // Return correct city
+    if (p.equals(((CityImpl)(redCity)).getPosition())) {
       return redCity;
     }
-    else if (p.equals(bCity)) {
+    else if (p.equals(((CityImpl)(blueCity)).getPosition())) {
       return blueCity;
     }
     else {
@@ -74,7 +107,7 @@ public class GameImpl implements Game {
       return Player.RED;
     }
     //Red's unit wins if attacks
-    if (unitRed.getAttackingStrength() > 0) {
+    if (unitRed1.getAttackingStrength() > 0) {
       return Player.RED;
     }
     else {
@@ -97,8 +130,71 @@ public class GameImpl implements Game {
   }
 
   public boolean moveUnit( Position from, Position to ) {
-    return false;
+    //Ensure new position isn't mountains
+    System.out.print("moveUnit(): ");
+    System.out.print(from);
+    System.out.println(to);
+    if (getTileAt(to).equals(mountains) || getTileAt(to).equals(ocean)) {
+      return false;
+    }
+    // Ensure it is the correct player's unit
+    System.out.println(getUnitAt(from));
+    if (getPlayerInTurn() != getUnitAt(from).getOwner()) {
+      return false;
+    }
+    else {
+      // Return true if unit was moved
+      int disCol = from.getColumn() - to.getColumn();
+      int disRow = from.getRow() - to.getRow();
+      boolean southNorth = (disCol == -1) || (disCol == 1);
+      boolean eastWest = (disRow == -1) || (disRow == 1);
+      boolean zeros = (disCol == 0) || (disRow == 0);
+      // Check that position is only a distance of 1 in any given direction
+      if ((southNorth || eastWest) && zeros) {
+        // Change position of unit
+        ((UnitImpl)(getUnitAt(from))).changePosition(to);
+        //Change city ownership
+        if ((to == ((CityImpl)(blueCity)).getPosition()) && (getUnitAt(to).getOwner() == Player.RED)) {
+          ((CityImpl)(blueCity)).setOwner(Player.RED);
+        }
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
   }
+
+  public boolean moveUnitMore(Position p1, Position p2) {
+    Position oldP = new Position(p1);
+    while (!moveUnit(p1,p2)) {
+      System.out.print("while: \n");
+      //Add one to row, move unit
+      if (p1.getRow() != p2.getRow()) {
+        p1.setRow(p1.getRow() + 1);
+        System.out.print("oldP: ");
+        System.out.println(getUnitAt(oldP));
+        System.out.print("p1: ");
+        System.out.println(getUnitAt(p1));
+        moveUnit(oldP, p1);
+        oldP.setRow(p1.getRow());
+      }
+      //Add one to column, move unit
+      if (p1.getColumn() != p2.getColumn()) {
+        p1.setColumn(p1.getColumn() + 1);
+        System.out.print("oldP: ");
+        System.out.println(getUnitAt(oldP));
+        System.out.print("p1: ");
+        System.out.println(getUnitAt(p1));
+        moveUnit(oldP, p1);
+        oldP.setColumn(p1.getColumn());
+      }
+    }
+    System.out.print("outta");
+    //Check if unit has been moved
+    return (p1.getColumn() == p2.getColumn()) && (p1.getRow() == p2.getRow());
+  }
+
   public void endOfTurn() {
     // Increment turn count
     turn = turn + 1;
@@ -131,8 +227,44 @@ public class GameImpl implements Game {
     turn = 0;
   }
 
+<<<<<<< HEAD
   public GameImpl(GammaCiv gammaCiv) {
     this.gammaCiv = gammaCiv;
   }
 
+=======
+  // Establish new city
+  public City settlerNewCity(Position p) {
+    // Check position is a settler
+    if (p == rSettler) {
+      // Create new city, delete settler
+      rSettler = null;
+      return new CityImpl(Player.RED, p);
+    }
+    else {
+      return null;
+    }
+  }
+
+  // Fortify the archers
+  public boolean archersFortify(Position pos) {
+    Unit archers = getUnitAt(pos);
+    //Check that unit is archers
+    if (archers.getTypeString().equals(GameConstants.ARCHER)) {
+      // Set attack to 0
+      ((UnitImpl)(archers)).setAttack(0);
+      // Set defenses to 5
+      ((UnitImpl)(archers)).setDefenses(5);
+      // Set max move count to 0
+      ((UnitImpl)(archers)).setMoveCount(0);
+      return true;
+    }
+    else {
+      //Unit not archers
+      return false;
+    }
+  }
+
+
+>>>>>>> 5bdffd7c633b41d61309fd62ebde96887b940242
 }
