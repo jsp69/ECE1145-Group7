@@ -30,6 +30,7 @@ import hotciv.framework.*;
 */
 
 public class GameImpl implements Game {
+
   // Preliminary set-up for AlphaCiv
   City redCity = new CityImpl(Player.RED);
   City blueCity = new CityImpl(Player.BLUE);
@@ -37,6 +38,9 @@ public class GameImpl implements Game {
 
   Unit unitRed = new UnitImpl(Player.RED);
   Unit unitBlue = new UnitImpl(Player.BLUE);
+
+  //Preliminary set-up for GammaCiv
+  private GammaCiv gammaCiv;
 
   public Tile getTileAt( Position p ) {
     return new TileImpl("ocean");
@@ -105,13 +109,30 @@ public class GameImpl implements Game {
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
-  public void performUnitActionAt( Position p ) {}
+  public void performUnitActionAt( Position p ) {
+    if(getUnitAt(p).equals("settler")){
+      //Build city at position
+      getCityAt(p);
+    }
+    if(getUnitAt(p).equals("archer")) {
+      //Fortify by doubling defensive strength
+      int twice = this.getUnitAt(p).getDefensiveStrength();
+      twice = twice * 2;
+      //Cannot be moved in UnitImpl
+      //If already fortified, action removes fortification
+      endOfTurn();
+    }
+    }
   public void endOfRound() {
     // Add 6 production to each city
     ((CityImpl)(redCity)).setTreasury(((CityImpl)(redCity)).getTreasury() + 6);
     ((CityImpl)(blueCity)).setTreasury(((CityImpl)(blueCity)).getTreasury() + 6);
     // Reset turn counter
     turn = 0;
+  }
+
+  public GameImpl(GammaCiv gammaCiv) {
+    this.gammaCiv = gammaCiv;
   }
 
 }
