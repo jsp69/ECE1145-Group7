@@ -37,7 +37,7 @@ public class UnitImpl implements Unit {
     public int getDefensiveStrength() {return defense;}
 
     public int getMoveCount() {
-        if(getDefensiveStrength() == 1 || getAttackingStrength() == 1) {
+        if(getAttackingStrength() == 1) {
             move++;
         }
         return move;}
