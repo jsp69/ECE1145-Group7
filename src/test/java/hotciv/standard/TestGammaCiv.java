@@ -16,7 +16,7 @@ public class TestGammaCiv {
     }
 
     @Test
-    public void settlerActionBuildCity() {
+    public void settlerRedActionBuildCity() {
         assertThat(game, is(notNullValue()));
         assertThat(game.getPlayerInTurn(), is(Player.RED));
     }
