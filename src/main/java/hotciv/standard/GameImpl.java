@@ -1,7 +1,6 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
-
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -49,8 +48,8 @@ public class GameImpl implements Game {
   Unit unitRed2 = new UnitImpl(GameConstants.SETTLER, Player.RED, rSettler);
   Unit unitBlue = new UnitImpl(GameConstants.LEGION, Player.BLUE, bLegion);
 
-  //Preliminary set-up for GammaCiv
-  private GammaCiv gammaCiv;
+  public GameImpl(GammaCivImpl gammaCiv) {
+  }
 
   public Tile getTileAt( Position p ) {
     if ((p.getColumn() == 0) && (p.getRow() == 1)) {
@@ -205,20 +204,7 @@ public class GameImpl implements Game {
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
-  public void performUnitActionAt( Position p ) {
-    if(getUnitAt(p).equals("settler")){
-      //Build city at position
-      getCityAt(p);
-    }
-    if(getUnitAt(p).equals("archer")) {
-      //Fortify by doubling defensive strength
-      int twice = this.getUnitAt(p).getDefensiveStrength();
-      twice = twice * 2;
-      //Cannot be moved in UnitImpl
-      //If already fortified, action removes fortification
-      endOfTurn();
-    }
-    }
+  public void performUnitActionAt( Position p ) {}
   public void endOfRound() {
     // Add 6 production to each city
     ((CityImpl)(redCity)).setTreasury(((CityImpl)(redCity)).getTreasury() + 6);
@@ -228,9 +214,6 @@ public class GameImpl implements Game {
   }
 
 <<<<<<< HEAD
-  public GameImpl(GammaCiv gammaCiv) {
-    this.gammaCiv = gammaCiv;
-  }
 
 =======
   // Establish new city
