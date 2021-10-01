@@ -1,2 +1,4 @@
-package hotciv.standard;public class TestSettlerBuildStrategy {
+package hotciv.standard;
+
+public class TestSettlerBuildStrategy {
 }
