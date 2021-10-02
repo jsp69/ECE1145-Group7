@@ -50,13 +50,11 @@ public class UnitImpl implements Unit {
     }
 
     public int getMoveCount() {
-<<<<<<< HEAD
         if(getAttackingStrength() == 1) {
             move++;
-=======
+        }
         if (getDefensiveStrength() == 1 || getAttackingStrength() == 1) {
             this.move++;
->>>>>>> 5bdffd7c633b41d61309fd62ebde96887b940242
         }
         return this.move;
     }

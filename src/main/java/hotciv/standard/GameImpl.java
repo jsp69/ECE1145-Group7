@@ -48,8 +48,7 @@ public class GameImpl implements Game {
   Unit unitRed2 = new UnitImpl(GameConstants.SETTLER, Player.RED, rSettler);
   Unit unitBlue = new UnitImpl(GameConstants.LEGION, Player.BLUE, bLegion);
 
-  public GameImpl(GammaCivImpl gammaCiv) {
-  }
+  //public GameImpl(GammaCivImpl gammaCiv) {}
 
   public Tile getTileAt( Position p ) {
     if ((p.getColumn() == 0) && (p.getRow() == 1)) {
@@ -213,9 +212,6 @@ public class GameImpl implements Game {
     turn = 0;
   }
 
-<<<<<<< HEAD
-
-=======
   // Establish new city
   public City settlerNewCity(Position p) {
     // Check position is a settler
@@ -247,7 +243,4 @@ public class GameImpl implements Game {
       return false;
     }
   }
-
-
->>>>>>> 5bdffd7c633b41d61309fd62ebde96887b940242
 }
