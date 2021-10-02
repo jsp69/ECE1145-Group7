@@ -36,6 +36,7 @@ public class GameImpl implements Game {
   City blueCity = new CityImpl(Player.BLUE);
   // Set turn count
   int turn = 0;
+  int age = -4000;
   Position rArcher = new Position(2, 0);
   Position bLegion = new Position(3, 2);
   Position rSettler = new Position(4, 3);
@@ -113,18 +114,16 @@ public class GameImpl implements Game {
     }
   }
   public int getAge() {
-    int age = 0;
     //Set start year to 4000 BC
-    if (turn == 0) {
-      int start = -4000;
-      age = start;
+    if (this.turn == 0) {
+      endOfTurn();
     }
     //Increment by 100 years
-    if (turn > 0){
-      age = age + 100;
+    if (this.turn > 0){
+      this.age = this.age + 100;
       endOfRound();
     }
-    return age;
+    return this.age;
   }
 
   public boolean moveUnit( Position from, Position to ) {
@@ -195,9 +194,9 @@ public class GameImpl implements Game {
 
   public void endOfTurn() {
     // Increment turn count
-    turn = turn + 1;
+    this.turn++;
     // Check if round is over
-    if (turn > 1) {
+    if (this.turn > 1) {
       endOfRound();
     }
   }
@@ -206,10 +205,10 @@ public class GameImpl implements Game {
   public void performUnitActionAt( Position p ) {}
   public void endOfRound() {
     // Add 6 production to each city
-    ((CityImpl)(redCity)).setTreasury(((CityImpl)(redCity)).getTreasury() + 6);
-    ((CityImpl)(blueCity)).setTreasury(((CityImpl)(blueCity)).getTreasury() + 6);
+    ((CityImpl)(redCity)).setTreasury(redCity.getTreasury() + 6);
+    ((CityImpl)(blueCity)).setTreasury(blueCity.getTreasury() + 6);
     // Reset turn counter
-    turn = 0;
+    this.turn = 0;
   }
 
   // Establish new city
@@ -231,11 +230,11 @@ public class GameImpl implements Game {
     //Check that unit is archers
     if (archers.getTypeString().equals(GameConstants.ARCHER)) {
       // Set attack to 0
-      ((UnitImpl)(archers)).setAttack(0);
+      ((UnitImpl) archers).setAttack(0);
       // Set defenses to 5
-      ((UnitImpl)(archers)).setDefenses(5);
+      archers.setDefenses(5);
       // Set max move count to 0
-      ((UnitImpl)(archers)).setMoveCount(0);
+      archers.setMoveCount(0);
       return true;
     }
     else {

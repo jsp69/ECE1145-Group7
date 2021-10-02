@@ -36,32 +36,17 @@ public class UnitImpl implements Unit {
     }
 
     //Accessor to get attacking strength
-    public int getAttackingStrength() {
-        if (getOwner() == Player.RED) {
-            this.owner = Player.BLUE;
-        } else {
-            this.owner = Player.RED;
-        }
-        return this.attack;
-    }
+    public int getAttackingStrength() {return this.attack;}
 
     public int getDefensiveStrength() {
         return this.defense;
     }
 
-    public int getMoveCount() {
-        if(getAttackingStrength() == 1) {
-            move++;
-        }
-        if (getDefensiveStrength() == 1 || getAttackingStrength() == 1) {
-            this.move++;
-        }
-        return this.move;
-    }
+    public int getMoveCount() {return this.move;}
 
     //Change unit position
-    public void changePosition(Position pos) {
-        this.p = pos;
+    public void changePosition(Position p) {
+        this.p = p;
     }
 
     //Set max move count
@@ -78,9 +63,4 @@ public class UnitImpl implements Unit {
     public void setAttack(int a) {
         this.attack = a;
     }
-
 }
-
-
-
-
