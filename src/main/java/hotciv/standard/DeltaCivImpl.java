@@ -2,6 +2,7 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 import java.util.*;
+/** DeltaCiv implementation of HotCiv */
 
 public class DeltaCivImpl extends GameImpl {
     /** Code copied from StubGame1.java and edited for the DeltaCiv */
