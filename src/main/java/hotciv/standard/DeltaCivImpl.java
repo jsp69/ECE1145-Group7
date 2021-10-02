@@ -4,39 +4,54 @@ import hotciv.framework.*;
 import java.util.*;
 
 public class DeltaCivImpl extends GameImpl {
-    TileImpl[][] board;
+    /** Code copied from StubGame1.java and edited for the DeltaCiv */
+    public DeltaCivImpl() { world = defineWorld(); }
 
-    // Default constructor
-    DeltaCivImpl() {
-        setBoard();
-    }
+    // A simple implementation to draw the map of DeltaCiv
+    protected Map<Position,Tile> world;
+    public Tile getTileAt( Position p ) { return world.get(p); }
 
-    //Add tiles to board matrix
-    private void setBoard() {
-        //Create game board w/ AlphaCiv tile requirements
-        board = new TileImpl[4][4];
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if ((i == 0) && (j == 1)) {
-                    board[i][j] = new TileImpl(GameConstants.HILLS);
-                }
-                else if ((i == 1) && (j == 0)) {
-                    board[i][j] = new TileImpl(GameConstants.OCEANS);
-                }
-                else if ((i == 2) && (j == 2)) {
-                    board[i][j] = new TileImpl(GameConstants.MOUNTAINS);
-                }
-                else {
-                    board[i][j] = new TileImpl(GameConstants.PLAINS);
-                }
+    /** Define the world as the DeltaCiv layout */
+    private Map<Position,Tile> defineWorld() {
+        // Basically we use a 'data driven' approach - code the
+        // layout in a simple semi-visual representation, and
+        // convert it to the actual Game representation.
+        String[] layout =
+                new String[] {
+                        "...ooMooooo.....",
+                        "..ohhoooofffoo..",
+                        ".oooooMooo...oo.",
+                        ".ooMMMoooo..oooo",
+                        "...ofooohhoooo..",
+                        ".ofoofooooohhoo.",
+                        "...ooo..........",
+                        ".ooooo.ooohooM..",
+                        ".ooooo.oohooof..",
+                        "offfoooo.offoooo",
+                        "oooooooo...ooooo",
+                        ".ooMMMoooo......",
+                        "..ooooooffoooo..",
+                        "....ooooooooo...",
+                        "..ooohhoo.......",
+                        ".....ooooooooo..",
+                };
+        // Conversion...
+        Map<Position,Tile> theWorld = new HashMap<Position,Tile>();
+        String line;
+        for ( int r = 0; r < GameConstants.WORLDSIZE; r++ ) {
+            line = layout[r];
+            for ( int c = 0; c < GameConstants.WORLDSIZE; c++ ) {
+                char tileChar = line.charAt(c);
+                String type = "error";
+                if ( tileChar == '.' ) { type = GameConstants.OCEANS; }
+                if ( tileChar == 'o' ) { type = GameConstants.PLAINS; }
+                if ( tileChar == 'M' ) { type = GameConstants.MOUNTAINS; }
+                if ( tileChar == 'f' ) { type = GameConstants.FOREST; }
+                if ( tileChar == 'h' ) { type = GameConstants.HILLS; }
+                Position p = new Position(r,c);
+                theWorld.put(p, new TileImpl(type));
             }
         }
-    }
-
-    //Overwrite getTileAt()
-    public Tile getTileAt(Position pos) {
-        int row = pos.getRow();
-        int col = pos.getColumn();
-        return (board[row][col]);
-    }
+        return theWorld;
+        }
 }
