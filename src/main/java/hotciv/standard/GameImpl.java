@@ -131,9 +131,6 @@ public class GameImpl implements Game {
 
   public boolean moveUnit( Position from, Position to ) {
     //Ensure new position isn't mountains
-    System.out.print("moveUnit(): ");
-    System.out.print(from);
-    System.out.println(to);
     if (getTileAt(to).equals(mountains) || getTileAt(to).equals(ocean)) {
       return false;
     }
@@ -160,37 +157,33 @@ public class GameImpl implements Game {
         return true;
       }
       else {
-        return false;
+        moveUnitMore(from, to);
       }
     }
+    return false;
   }
 
   public boolean moveUnitMore(Position p1, Position p2) {
+    int count = 0;
     Position oldP = new Position(p1);
-    while (!moveUnit(p1,p2)) {
-      System.out.print("while: \n");
+    while (!((p1.getColumn() == p2.getColumn()) && (p1.getRow() == p2.getRow()))) {
       //Add one to row, move unit
       if (p1.getRow() != p2.getRow()) {
         p1.setRow(p1.getRow() + 1);
-        System.out.print("oldP: ");
-        System.out.println(getUnitAt(oldP));
-        System.out.print("p1: ");
-        System.out.println(getUnitAt(p1));
-        moveUnit(oldP, p1);
-        oldP.setRow(p1.getRow());
+        count++;
       }
       //Add one to column, move unit
       if (p1.getColumn() != p2.getColumn()) {
         p1.setColumn(p1.getColumn() + 1);
-        System.out.print("oldP: ");
-        System.out.println(getUnitAt(oldP));
-        System.out.print("p1: ");
-        System.out.println(getUnitAt(p1));
-        moveUnit(oldP, p1);
-        oldP.setColumn(p1.getColumn());
+        count++;
+      }
+      //Check move count
+      if (getUnitAt(oldP).getMoveCount() < count) {
+        return false;
       }
     }
-    System.out.print("outta");
+    //Change position of unit
+    ((UnitImpl)(getUnitAt(oldP))).changePosition(p1);
     //Check if unit has been moved
     return (p1.getColumn() == p2.getColumn()) && (p1.getRow() == p2.getRow());
   }
