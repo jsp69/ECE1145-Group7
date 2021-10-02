@@ -16,10 +16,12 @@ public class BetaCivImpl extends GameImpl{
             p.setColumn(i);
             for(int j=0;j<16;j++) {
                 p.setRow(j);
-                if (getCityAt(p).getOwner() == Player.RED) {
-                    redCount++;
-                } else if (getCityAt(p).getOwner() == Player.BLUE) {
-                    blueCount++;
+                if(getCityAt(p)!=null) {
+                    if (getCityAt(p).getOwner() == Player.RED) {
+                        redCount++;
+                    } else if (getCityAt(p).getOwner() == Player.BLUE) {
+                        blueCount++;
+                    }
                 }
             }
         }
@@ -57,6 +59,7 @@ public class BetaCivImpl extends GameImpl{
             }else{
                 this.age=-4000;
             }
+            endOfTurn();
         }
         return this.age;
     }
