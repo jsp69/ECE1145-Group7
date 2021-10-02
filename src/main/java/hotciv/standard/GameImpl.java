@@ -1,6 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
