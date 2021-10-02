@@ -1,8 +1,6 @@
 package hotciv.standard;
 
-import hotciv.framework.City;
-import hotciv.framework.Player;
-import hotciv.framework.Position;
+import hotciv.framework.*;
 
 public class CityImpl implements City {
     Player owner;

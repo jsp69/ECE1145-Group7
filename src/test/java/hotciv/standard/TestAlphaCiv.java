@@ -1,12 +1,10 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
-
+import org.hamcrest.CoreMatchers;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
-
-import java.util.*;
 
 /** Skeleton class for AlphaCiv test cases
 
@@ -50,7 +48,7 @@ public class TestAlphaCiv {
   @Test
   public void shouldBeRedAsStartingPlayer() {
     assertThat(game, is(notNullValue()));
-    assertThat(game.getPlayerInTurn(), is(Player.RED));
+    assertThat(game.getPlayerInTurn(), CoreMatchers.is(Player.RED));
   }
 
   @Test
@@ -254,7 +252,7 @@ public class TestAlphaCiv {
     // Check settler disappears, new city created
     assertNull(((GameImpl)(game)).rSettler);
     assertEquals(redCity2.getOwner(), Player.RED);
-    assertEquals(((CityImpl)(redCity2)).getPosition(), newCity);
+    Assert.assertEquals(((CityImpl)(redCity2)).getPosition(), newCity);
   }
 
   @Test

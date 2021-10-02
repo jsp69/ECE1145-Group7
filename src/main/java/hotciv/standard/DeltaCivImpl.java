@@ -1,6 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+
 import java.util.*;
 /** DeltaCiv implementation of HotCiv */
 
@@ -9,7 +10,7 @@ public class DeltaCivImpl extends GameImpl {
     public DeltaCivImpl() { world = defineWorld(); }
 
     // A simple implementation to draw the map of DeltaCiv
-    protected Map<Position,Tile> world;
+    protected Map<Position, Tile> world;
     public Tile getTileAt( Position p ) { return world.get(p); }
 
     /** Define the world as the DeltaCiv layout */
@@ -39,7 +40,7 @@ public class DeltaCivImpl extends GameImpl {
         // Conversion...
         Map<Position,Tile> theWorld = new HashMap<Position,Tile>();
         String line;
-        for ( int r = 0; r < GameConstants.WORLDSIZE; r++ ) {
+        for (int r = 0; r < GameConstants.WORLDSIZE; r++ ) {
             line = layout[r];
             for ( int c = 0; c < GameConstants.WORLDSIZE; c++ ) {
                 char tileChar = line.charAt(c);

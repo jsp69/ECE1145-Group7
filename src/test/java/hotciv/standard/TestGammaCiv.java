@@ -1,7 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
-
+import org.hamcrest.CoreMatchers;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -18,6 +18,6 @@ public class TestGammaCiv {
     @Test
     public void settlerRedActionBuildCity() {
         assertThat(game, is(notNullValue()));
-        assertThat(game.getPlayerInTurn(), is(Player.RED));
+        assertThat(game.getPlayerInTurn(), CoreMatchers.is(Player.RED));
     }
 }
