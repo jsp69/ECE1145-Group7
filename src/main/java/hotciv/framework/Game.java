@@ -36,7 +36,7 @@ public interface Game {
    * @param p the position in the world that must be returned.
    * @return the tile at position p.
    */
-  public Tile getTileAt( Position p );
+  public Tile getTileAt(Position p );
 
   /** return the uppermost unit in the stack of units at position 'p'
    * in the world.
@@ -45,14 +45,14 @@ public interface Game {
    * @return the unit that is at the top of the unit stack at position
    * p, OR null if no unit is present at position p.
    */
-  public Unit getUnitAt( Position p );
+  public Unit getUnitAt(Position p );
   
   /** return the city at position 'p' in the world.
    * Precondition: Position p is a valid position in the world.
    * @param p the position in the world.
    * @return the city at this position or null if no city here.
    */
-  public City getCityAt( Position p );
+  public City getCityAt(Position p );
 
   /** return the player that is 'in turn', that is, is able to
    * move units and manage cities.

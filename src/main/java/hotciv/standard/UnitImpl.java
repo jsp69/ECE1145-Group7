@@ -1,8 +1,6 @@
 package hotciv.standard;
 
-import hotciv.framework.Position;
-import hotciv.framework.Unit;
-import hotciv.framework.Player;
+import hotciv.framework.*;
 
 public class UnitImpl implements Unit {
 
