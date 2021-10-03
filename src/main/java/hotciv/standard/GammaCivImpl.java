@@ -7,9 +7,6 @@ import hotciv.framework.Position;
 
 public class GammaCivImpl extends GameImpl {
 
-    //Preliminary set-up for GammaCiv
-    private GammaCiv gammaCiv;
-
     //Set settler
     Position redSettler = new Position(4, 3);
     Position blueSettler = new Position(3, 4);
