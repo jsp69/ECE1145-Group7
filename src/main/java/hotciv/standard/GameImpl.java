@@ -39,8 +39,10 @@ public class GameImpl implements Game {
   int turn = 0;
   int age = -4000;
   Position rArcher = new Position(2, 0);
-  Position bLegion = new Position(3, 2);
   Position rSettler = new Position(4, 3);
+  Position bArcher = new Position(0,2);
+  Position bSettler = new Position(3, 4);
+  Position bLegion = new Position(3, 2);
   // Set tiles
   Tile ocean = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
   Tile hills = new TileImpl(GameConstants.HILLS, new Position(0, 1));
@@ -48,6 +50,8 @@ public class GameImpl implements Game {
   // Set units
   Unit unitRed1 = new UnitImpl(GameConstants.ARCHER, Player.RED, rArcher);
   Unit unitRed2 = new UnitImpl(GameConstants.SETTLER, Player.RED, rSettler);
+  Unit unitBlue1 = new UnitImpl(GameConstants.ARCHER, Player.BLUE, bArcher);
+  Unit unitBlue2 = new UnitImpl(GameConstants.SETTLER, Player.BLUE, bSettler);
   Unit unitBlue = new UnitImpl(GameConstants.LEGION, Player.BLUE, bLegion);
 
   //public GameImpl(GammaCivImpl gammaCiv) {}
