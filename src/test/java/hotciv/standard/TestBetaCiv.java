@@ -13,7 +13,7 @@ public class TestBetaCiv {
 
     @Before
     public void setUp(){
-        game= new BetaCivImpl();
+        game= new VarCivImpl(new BetaCivImpl());
     }
 
     //Test Variant World Aging from 4000BC to 1973AD

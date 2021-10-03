@@ -15,7 +15,7 @@ public class TestGammaCiv {
      */
     @Before
     public void setUp() {
-        game = new GammaCivImpl();
+        game = new VarCivImpl( new GammaCivImpl());
     }
 
     @Test
@@ -57,7 +57,6 @@ public class TestGammaCiv {
         Position oldBlueArcher = new Position(1, 1);
         Position newBlueArcher = new Position(0, 2);
         assertThat(game, is(notNullValue()));
-<<<<<<< HEAD
         if (newBlueArcher.equals("archer")) {
             //Check if defensive strength doubles
             int oldDoubled = game.getUnitAt(oldBlueArcher).getDefensiveStrength() * 2;
@@ -65,8 +64,6 @@ public class TestGammaCiv {
             //Check move count set to 0
             assertThat(game.getUnitAt(newBlueArcher).getMoveCount(), is(0));
         }
-=======
         assertThat(game.getPlayerInTurn(), CoreMatchers.is(Player.RED));
->>>>>>> 8f79d2a4f9eacbd3810c761e2833287e39a703c2
     }
 }
