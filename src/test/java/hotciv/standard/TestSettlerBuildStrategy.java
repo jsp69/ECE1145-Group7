@@ -12,7 +12,7 @@ public class TestSettlerBuildStrategy {
     /** Fixture for GammaCiv Strategy testing. */
     @Before
     public void setUp() {
-        game = new VarCivImpl( new GammaCivImpl());
+        game = new GammaCivImpl();
     }
 
     @Test
