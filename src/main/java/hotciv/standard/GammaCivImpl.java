@@ -2,83 +2,74 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-public class GammaCivImpl implements GammaCiv {
+import hotciv.framework.Player;
+import hotciv.framework.Position;
+
+public class GammaCivImpl extends GameImpl {
 
     //Preliminary set-up for GammaCiv
     private GammaCiv gammaCiv;
 
     //Set settler
     Position redSettler = new Position(4, 3);
-    Position blueSettler = new Position(3,4);
+    Position blueSettler = new Position(3, 4);
 
     //Set archer
     Position redArcher = new Position(2, 0);
-    Position blueArcher = new Position(0,2);
+    Position blueArcher = new Position(0, 2);
 
     // Set units
-    Unit unitR1 = new UnitImpl(GameConstants.ARCHER, Player.RED, redArcher);
-    Unit unitR2 = new UnitImpl(GameConstants.SETTLER, Player.RED, redSettler);
-    Unit unitB1 = new UnitImpl(GameConstants.ARCHER, Player.BLUE, blueArcher);
-    Unit unitB2 = new UnitImpl(GameConstants.SETTLER, Player.BLUE, blueSettler);
+    Unit unitR1 = new UnitImpl(GameConstants.ARCHER, Player.RED, redSettler);
+    Unit unitR2 = new UnitImpl(GameConstants.SETTLER, Player.RED, redArcher);
+    Unit unitR3 = new UnitImpl(GameConstants.SETTLER, Player.RED, redArcher);
+    Unit unitB1 = new UnitImpl(GameConstants.ARCHER, Player.BLUE, blueSettler);
+    Unit unitB2 = new UnitImpl(GameConstants.SETTLER, Player.BLUE, blueArcher);
+    Unit unitB3 = new UnitImpl(GameConstants.SETTLER, Player.BLUE, blueArcher);
 
-    public GammaCivImpl(SettlerBuildStrategy settlerBuildStrategy) {
-    }
-
-    public City settlerRedAction(Position p) {
+    public void performUnitActionAt(Position p) {
         //Check if red settler
-        if(p == redSettler) {
+        if (p == redSettler) {
             //Remove from world
             redSettler = null;
-            //Return new city with red as owner
-            return new CityImpl(Player.RED, p);
+            //Build city with red as owner
+            new CityImpl(Player.RED, p);
         }
-        else {
-            return null;
-        }
-    }
-
-    public City settlerBlueAction(Position p) {
         //Check if blue settler
-        if(p == blueSettler) {
+        if (p == blueSettler) {
             //Remove from world
             blueSettler = null;
-            //Return new city with blue as owner
-            return new CityImpl(Player.BLUE, p);
+            //Build city with red as owner
+            new CityImpl(Player.BLUE, p);
         }
-        else {
-            return null;
-        }
-    }
-
-    public UnitImpl redArcherFortify(Position p) {
         //Check if red archer
-        if(p == redArcher) {
-            //Double defensive strength
-            int ds = (unitR1.getDefensiveStrength()) * 2;
-            unitR1.setDefenses(ds);
-            //Settler cannot move
-            unitR1.setMoveCount(0);
-            //Return new unit with red as owner
-            return new UnitImpl("archer", Player.RED, p);
+        if (p == redArcher) {
+            //Check if already fortified
+            int oldDS = unitR3.getDefensiveStrength()*2;
+            if(oldDS == unitR2.getDefensiveStrength()) {
+                //Defensive strength stays same
+                unitR3.getDefensiveStrength();
+            }
+            else {
+                //Double defensive strength
+                int ds = (unitR2.getDefensiveStrength() * 2);
+                unitR2.setDefenses(ds);
+                //Archer cannot move
+                unitR2.setMoveCount(0);
+            }
         }
-        else {
-            return null;
-        }
-    }
-
-    public UnitImpl blueArcherFortify(Position p) {
         //Check if blue archer
-        if(p == redArcher) {
+        if (p == blueArcher) {
+            //Check if already fortified
+            int oldDS = unitB3.getDefensiveStrength() * 2;
+            if (oldDS == unitB2.getDefensiveStrength()) {
+                //Defensive strength stays same
+                unitB3.getDefensiveStrength();
+            }
             //Double defensive strength
-            int ds = (unitB1.getDefensiveStrength()) * 2;
-            unitB1.setDefenses(ds);
-            //Settler cannot move
-            unitB1.setMoveCount(0);
-            //Return new unit with red as owner
-            return new UnitImpl("archer", Player.BLUE, p);
-        }
-        else {
-            return null;
+            int ds = (unitB2.getDefensiveStrength()) * 2;
+            unitB2.setDefenses(ds);
+            //Archer cannot move
+            unitB2.setMoveCount(0);
         }
     }
 }
