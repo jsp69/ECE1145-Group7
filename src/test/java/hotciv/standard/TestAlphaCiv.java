@@ -160,11 +160,10 @@ public class TestAlphaCiv {
   public void gameStartsAt4000() {
     assertThat(game, is(notNullValue()));
     //Check if the game started
-    if((game.getPlayerInTurn() == Player.RED) && (game.getAge() > -4000)) {
-      //Check the year is 4000BC
-      assertThat(game.getAge(), is(-4000));
+    assertThat(game.getPlayerInTurn(), CoreMatchers.is(Player.RED));
+    //Check age is equal to 4000BC
+    assertThat(game.getAge(), is(-4000));
     }
-  }
 
   @Test
   public void unitsGetMaxMoveStart() {
@@ -182,11 +181,10 @@ public class TestAlphaCiv {
   @Test
   public void yearAdvances100() {
     assertThat(game, is(notNullValue()));
-    //Check if game age is divisible by 100
-    if (game.getAge() % 100 == 0) {
-      //Check that the game's age is equal to it
-      assertThat(game.getAge(), is(game.getAge()));
-    }
+    int advanceYear = game.getAge();
+    advanceYear += 100;
+      //Check that the game advances by 100
+      assertThat(game.getAge(), is(advanceYear));
   }
 
   /*@Test
