@@ -40,6 +40,7 @@ public class GameImpl implements Game {
   int age = -4000;
   Position rArcher = new Position(2, 0);
   Position rSettler = new Position(4, 3);
+  Position rLegion = new Position (2,3);
   Position bArcher = new Position(0,2);
   Position bSettler = new Position(3, 4);
   Position bLegion = new Position(3, 2);
@@ -50,11 +51,13 @@ public class GameImpl implements Game {
   // Set units
   Unit unitRed1 = new UnitImpl(GameConstants.ARCHER, Player.RED, rArcher);
   Unit unitRed2 = new UnitImpl(GameConstants.SETTLER, Player.RED, rSettler);
+  Unit unitRed3 = new UnitImpl(GameConstants.SETTLER, Player.RED, rLegion);
   Unit unitBlue1 = new UnitImpl(GameConstants.ARCHER, Player.BLUE, bArcher);
   Unit unitBlue2 = new UnitImpl(GameConstants.SETTLER, Player.BLUE, bSettler);
-  Unit unitBlue = new UnitImpl(GameConstants.LEGION, Player.BLUE, bLegion);
+  Unit unitBlue3 = new UnitImpl(GameConstants.LEGION, Player.BLUE, bLegion);
 
-  //public GameImpl(GammaCivImpl gammaCiv) {}
+  //Set position array
+  Position[] p = {new Position(2, 0), new Position(3, 2), new Position(4, 3)};
 
   public Tile getTileAt( Position p ) {
     if ((p.getColumn() == 0) && (p.getRow() == 1)) {
@@ -75,8 +78,8 @@ public class GameImpl implements Game {
     if (p.equals(((UnitImpl)(unitRed1)).getPosition())) {
       return unitRed1;
     }
-    else if (p.equals(((UnitImpl)(unitBlue)).getPosition())) {
-      return unitBlue;
+    else if (p.equals(((UnitImpl)(unitBlue3)).getPosition())) {
+      return unitBlue3;
     }
     else if (p.equals(((UnitImpl)(unitRed2)).getPosition())) {
       return unitRed2;
@@ -110,9 +113,24 @@ public class GameImpl implements Game {
     if (getAge() == -3000) {
       return Player.RED;
     }
-    //Red's unit wins if attacks
-    if (unitRed1.getAttackingStrength() > 0) {
-      return Player.RED;
+    //Attacking unit wins
+    if (unitRed1.getTypeString() == "archer" && unitAttacks() == true) {
+      return unitRed1.getOwner();
+    }
+    if (unitRed2.getTypeString() == "settler" && unitAttacks() == true) {
+      return unitRed2.getOwner();
+    }
+    if (unitRed3.getTypeString() == "legion" && unitAttacks() == true) {
+      return unitRed3.getOwner();
+    }
+    if (unitBlue1.getTypeString() == "archer" && unitAttacks() == true) {
+      return unitBlue1.getOwner();
+    }
+    if (unitBlue2.getTypeString() == "settler" && unitAttacks() == true) {
+      return unitBlue2.getOwner();
+    }
+    if (unitBlue3.getTypeString() == "archer" && unitAttacks() == true) {
+      return unitBlue3.getOwner();
     }
     else {
       return null;
@@ -122,6 +140,9 @@ public class GameImpl implements Game {
     //Set start year to 4000 BC
     if (this.turn == 0) {
       endOfTurn();
+      System.out.print("age is ");
+      System.out.print(age);
+      return age;
     }
     //Increment by 100 years
     if (this.turn > 0){
@@ -247,4 +268,21 @@ public class GameImpl implements Game {
       return false;
     }
   }
+
+  //Attacking unit is always true
+  public boolean unitAttacks() {
+    return true;
+  }
+
+  //Units get max move count at round start
+  public void unitsMaxMoveAtStart() {
+    //Check if round started
+    if (getPlayerInTurn() == Player.RED || getPlayerInTurn() == Player.BLUE) {
+      //Set max move count to 1
+      for (int i = 0; i < p.length; i++) {
+        getUnitAt(p[i]).setMoveCount(1);
+      }
+    }
+  }
+
 }
