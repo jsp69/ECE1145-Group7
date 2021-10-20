@@ -24,7 +24,7 @@ public class TestGammaCiv {
         assertThat(game, is(notNullValue()));
         if (redSettler.equals("settler")) {
             //Check if red settler is removed
-            assertNull(((GameImpl)(game)).unitRed1);
+            assertNull(((GameImpl)(game)).unitLoc[2][0]);
             //Check if red owns built city at p
             assertThat(game.getCityAt(redSettler).getOwner(), is(Player.RED));
             //Check if city population is size one
@@ -38,7 +38,7 @@ public class TestGammaCiv {
         assertThat(game, is(notNullValue()));
         if (blueSettler.equals("settler")) {
             //Check if blue settler is removed
-            assertNull(((GameImpl)(game)).unitBlue2);
+            assertNull(((GameImpl)(game)).unitLoc[3][4]);
             //Check if blue owns built city at p
             assertThat(game.getCityAt(blueSettler).getOwner(), is(Player.BLUE));
             //Check if city population is size one
