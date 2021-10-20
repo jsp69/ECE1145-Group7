@@ -36,31 +36,25 @@ public class BetaCivImpl extends GameImpl{
 
     //Variant World Aging for BetaCiv
     @Override
-    public int getAge(){
-        if(this.turn==0){
-            endOfTurn();
-        }else {
-            if (this.age >= -4000 && this.age < -100) {
-                this.age += 100;
-            }else if(this.age==-100){
-                this.age=-1;
-            }else if(this.age==-1){
-                this.age=1;
-            }else if(this.age==1){
-                this.age=50;
-            }else if(this.age>=50 && this.age<1750){
-                this.age+=50;
-            }else if(this.age>=1750 && this.age<1900){
-                this.age+=25;
-            }else if(this.age>=1900 && this.age<1970){
-                this.age+=5;
-            }else if(this.age>=1970){
-                this.age++;
-            }else{
-                this.age=-4000;
-            }
-            endOfTurn();
+    public void increaseAge() {
+        if (this.age >= -4000 && this.age < -100) {
+            this.age += 100;
+        } else if (this.age == -100) {
+            this.age = -1;
+        } else if (this.age == -1) {
+            this.age = 1;
+        } else if (this.age == 1) {
+            this.age = 50;
+        } else if (this.age >= 50 && this.age < 1750) {
+            this.age += 50;
+        } else if (this.age >= 1750 && this.age < 1900) {
+            this.age += 25;
+        } else if (this.age >= 1900 && this.age < 1970) {
+            this.age += 5;
+        } else if (this.age >= 1970) {
+            this.age++;
+        } else {
+            this.age = -4000;
         }
-        return this.age;
     }
 }

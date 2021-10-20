@@ -183,6 +183,8 @@ public class TestAlphaCiv {
     assertThat(game, is(notNullValue()));
     int advanceYear = game.getAge();
     advanceYear += 100;
+    game.endOfTurn();
+    game.endOfTurn();
       //Check that the game advances by 100
       assertThat(game.getAge(), is(advanceYear));
   }
@@ -208,7 +210,7 @@ public class TestAlphaCiv {
     Position p_interim = new Position(2, 1);
     if(game.getCityAt(p).getOwner() == (Player.RED)) {
       //Move Red unit to the city
-      game.moveUnit(((UnitImpl)(((GameImpl)(game)).unitRed1)).getPosition(), p_interim);
+      game.moveUnit(new Position(2,0), p_interim);
       game.moveUnit(p_interim, p);
       //Check that the red unit can defend its city
       assertThat(game.getUnitAt(p).getDefensiveStrength(), is(1));
