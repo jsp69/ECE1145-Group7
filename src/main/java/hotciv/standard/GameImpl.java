@@ -44,13 +44,13 @@ public class GameImpl implements Game {
   Position bArcher = new Position(0,2);
   Position bSettler = new Position(3, 4);
   Position bLegion = new Position(3, 2);
-  // Set tiles
-  Tile ocean = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
-  Tile hills = new TileImpl(GameConstants.HILLS, new Position(0, 1));
-  Tile mountains = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
+
   // Set array to use for units
   // Array index corresponds to unit position unitLoc[Position row][Position Column]
   Unit[][] unitLoc=new UnitImpl[16][16];
+
+  // Array index corresponds to tile position tileLoc[Position row][Position Column]
+  Tile [][] tileLoc = new TileImpl[16][16];
 
   //Set position array
   Position[] p = {new Position(2, 0), new Position(3, 2), new Position(4, 3)};
@@ -63,17 +63,22 @@ public class GameImpl implements Game {
     unitLoc[3][4] = new UnitImpl(GameConstants.SETTLER, Player.BLUE, bSettler);
     unitLoc[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE, bLegion);
     unitsMaxMoveAtStart();
+
+    tileLoc[1][0] = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
+    tileLoc[0][1] = new TileImpl(GameConstants.HILLS, new Position(0, 1));
+    tileLoc[2][2] = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
+
   }
 
   public Tile getTileAt( Position p ) {
     if ((p.getColumn() == 0) && (p.getRow() == 1)) {
-      return ocean;
+      return tileLoc[1][0];
     }
     else if ((p.getColumn() == 1) && (p.getRow() == 0)) {
-      return hills;
+      return tileLoc[0][1];
     }
     else if ((p.getColumn() == 2) && (p.getRow() == 2)) {
-      return mountains;
+      return tileLoc[2][2];
     }
     else {
       return new TileImpl(GameConstants.PLAINS, p);
@@ -144,10 +149,11 @@ public class GameImpl implements Game {
     System.out.print("moveUnit(): ");
     System.out.print(from);
     System.out.println(to);
-    if (getTileAt(to).equals(mountains) || getTileAt(to).equals(ocean)) {
+    if (getTileAt(to).equals(tileLoc[2][2]) || getTileAt(to).equals(tileLoc[1][0])) {
       return false;
     }
     // Ensure it is the correct player's unit
+    System.out.println("getUnitAt(from): ");
     System.out.println(getUnitAt(from));
     if (getPlayerInTurn() != getUnitAt(from).getOwner()) {
       return false;
