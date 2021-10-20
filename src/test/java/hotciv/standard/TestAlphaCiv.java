@@ -59,7 +59,7 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void oceanAt1_1(){
+  public void oceanAt1_0(){
     Position p = new Position(1,0);
     assertThat(game,is(notNullValue()));
     assertThat(game.getTileAt(p).getTypeString(),is(GameConstants.OCEANS));
