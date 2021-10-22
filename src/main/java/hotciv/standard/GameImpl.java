@@ -181,34 +181,35 @@ public class GameImpl implements Game {
     }
   }
 
-  public boolean moveUnitMore(Position p1, Position p2) {
-    Position oldP = new Position(p1);
-    while (!moveUnit(p1,p2)) {
+  public boolean moveUnitMore(Position from, Position to) {
+    Position oldP = new Position(from);
+    while (!moveUnit(from,to)) {
       System.out.print("while: \n");
       //Add one to row, move unit
-      if (p1.getRow() != p2.getRow()) {
-        p1.setRow(p1.getRow() + 1);
+      if (from.getRow() != to.getRow()) {
+        from.setRow(from.getRow() + 1);
         System.out.print("oldP: ");
         System.out.println(getUnitAt(oldP));
         System.out.print("p1: ");
-        System.out.println(getUnitAt(p1));
-        moveUnit(oldP, p1);
-        oldP.setRow(p1.getRow());
+        System.out.println(getUnitAt(from));
+        moveUnit(oldP, from);
+        oldP.setRow(from.getRow());
       }
       //Add one to column, move unit
-      if (p1.getColumn() != p2.getColumn()) {
-        p1.setColumn(p1.getColumn() + 1);
+      if (from.getColumn() != to.getColumn()) {
+        from.setColumn(from.getColumn() + 1);
         System.out.print("oldP: ");
         System.out.println(getUnitAt(oldP));
         System.out.print("p1: ");
-        System.out.println(getUnitAt(p1));
-        moveUnit(oldP, p1);
-        oldP.setColumn(p1.getColumn());
+        System.out.println(getUnitAt(from));
+        moveUnit(oldP, from);
+        oldP.setColumn(from.getColumn());
       }
     }
     System.out.print("outta");
     //Check if unit has been moved
-    return (p1.getColumn() == p2.getColumn()) && (p1.getRow() == p2.getRow());
+    boolean unitMoveCheck = (from.getColumn() == to.getColumn()) && (from.getRow() == to.getRow());
+    return unitMoveCheck;
   }
 
   public void endOfTurn() {
