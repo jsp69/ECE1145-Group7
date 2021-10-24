@@ -1,12 +1,10 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
-
+import org.hamcrest.CoreMatchers;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
-
-import java.util.*;
 
 /** Skeleton class for AlphaCiv test cases
 
@@ -42,15 +40,15 @@ public class TestAlphaCiv {
   /** Fixture for alphaciv testing. */
   @Before
   public void setUp() {
-    //game = new GameImpl();
-    game = new GameImpl(new GammaCivImpl());
+    game = new GameImpl();
+    //game = new GameImpl(new GammaCivImpl());
   }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
   @Test
   public void shouldBeRedAsStartingPlayer() {
     assertThat(game, is(notNullValue()));
-    assertThat(game.getPlayerInTurn(), is(Player.RED));
+    assertThat(game.getPlayerInTurn(), CoreMatchers.is(Player.RED));
   }
 
   @Test
@@ -61,7 +59,7 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void oceanAt1_1(){
+  public void oceanAt1_0(){
     Position p = new Position(1,0);
     assertThat(game,is(notNullValue()));
     assertThat(game.getTileAt(p).getTypeString(),is(GameConstants.OCEANS));
@@ -162,11 +160,10 @@ public class TestAlphaCiv {
   public void gameStartsAt4000() {
     assertThat(game, is(notNullValue()));
     //Check if the game started
-    if((game.getPlayerInTurn() == Player.RED) && (game.getAge() > -4000)) {
-      //Check the year is 4000BC
-      assertThat(game.getAge(), is(-4000));
+    assertThat(game.getPlayerInTurn(), CoreMatchers.is(Player.RED));
+    //Check age is equal to 4000BC
+    assertThat(game.getAge(), is(-4000));
     }
-  }
 
   @Test
   public void unitsGetMaxMoveStart() {
@@ -184,11 +181,12 @@ public class TestAlphaCiv {
   @Test
   public void yearAdvances100() {
     assertThat(game, is(notNullValue()));
-    //Check if game age is divisible by 100
-    if (game.getAge() % 100 == 0) {
-      //Check that the game's age is equal to it
-      assertThat(game.getAge(), is(game.getAge()));
-    }
+    int advanceYear = game.getAge();
+    advanceYear += 100;
+    game.endOfTurn();
+    game.endOfTurn();
+      //Check that the game advances by 100
+      assertThat(game.getAge(), is(advanceYear));
   }
 
   /*@Test
@@ -212,7 +210,7 @@ public class TestAlphaCiv {
     Position p_interim = new Position(2, 1);
     if(game.getCityAt(p).getOwner() == (Player.RED)) {
       //Move Red unit to the city
-      game.moveUnit(((UnitImpl)(((GameImpl)(game)).unitRed1)).getPosition(), p_interim);
+      game.moveUnit(new Position(2,0), p_interim);
       game.moveUnit(p_interim, p);
       //Check that the red unit can defend its city
       assertThat(game.getUnitAt(p).getDefensiveStrength(), is(1));
@@ -254,7 +252,7 @@ public class TestAlphaCiv {
     // Check settler disappears, new city created
     assertNull(((GameImpl)(game)).rSettler);
     assertEquals(redCity2.getOwner(), Player.RED);
-    assertEquals(((CityImpl)(redCity2)).getPosition(), newCity);
+    Assert.assertEquals(((CityImpl)(redCity2)).getPosition(), newCity);
   }
 
   @Test

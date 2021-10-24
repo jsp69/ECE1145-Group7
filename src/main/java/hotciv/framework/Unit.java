@@ -63,4 +63,9 @@ public interface Unit {
    * @return attack strength
    */
   public int getAttackingStrength();
+
+  public void setMoveCount(int m);
+
+  public void setDefenses(int d);
 }
+

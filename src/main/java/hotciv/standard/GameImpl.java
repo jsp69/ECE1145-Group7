@@ -37,47 +37,58 @@ public class GameImpl implements Game {
   City blueCity = new CityImpl(Player.BLUE);
   // Set turn count
   int turn = 0;
+  int age = -4000;
   Position rArcher = new Position(2, 0);
-  Position bLegion = new Position(3, 2);
   Position rSettler = new Position(4, 3);
-  // Set tiles
-  Tile ocean = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
-  Tile hills = new TileImpl(GameConstants.HILLS, new Position(0, 1));
-  Tile mountains = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
-  // Set units
-  Unit unitRed1 = new UnitImpl(GameConstants.ARCHER, Player.RED, rArcher);
-  Unit unitRed2 = new UnitImpl(GameConstants.SETTLER, Player.RED, rSettler);
-  Unit unitBlue = new UnitImpl(GameConstants.LEGION, Player.BLUE, bLegion);
+  Position rLegion = new Position (2,3);
+  Position bArcher = new Position(0,2);
+  Position bSettler = new Position(3, 4);
+  Position bLegion = new Position(3, 2);
 
-  //Preliminary set-up for GammaCiv
-  private GammaCiv gammaCiv;
+  // Set array to use for units
+  // Array index corresponds to unit position unitLoc[Position row][Position Column]
+  Unit[][] unitLoc=new UnitImpl[16][16];
+
+  // Array index corresponds to tile position tileLoc[Position row][Position Column]
+  Tile [][] tileLoc = new TileImpl[16][16];
+
+  //Set position array
+  Position[] p = {new Position(2, 0), new Position(3, 2), new Position(4, 3)};
+
+  public GameImpl(){
+    unitLoc[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED, rArcher);
+    unitLoc[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED, rSettler);
+    unitLoc[2][3] = new UnitImpl(GameConstants.SETTLER, Player.RED, rLegion);
+    unitLoc[0][2] = new UnitImpl(GameConstants.ARCHER, Player.BLUE, bArcher);
+    unitLoc[3][4] = new UnitImpl(GameConstants.SETTLER, Player.BLUE, bSettler);
+    unitLoc[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE, bLegion);
+    unitsMaxMoveAtStart();
+
+    tileLoc[1][0] = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
+    tileLoc[0][1] = new TileImpl(GameConstants.HILLS, new Position(0, 1));
+    tileLoc[2][2] = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
+
+  }
 
   public Tile getTileAt( Position p ) {
     if ((p.getColumn() == 0) && (p.getRow() == 1)) {
-      return ocean;
+      return tileLoc[1][0];
     }
     else if ((p.getColumn() == 1) && (p.getRow() == 0)) {
-      return hills;
+      return tileLoc[0][1];
     }
     else if ((p.getColumn() == 2) && (p.getRow() == 2)) {
-      return mountains;
+      return tileLoc[2][2];
     }
     else {
       return new TileImpl(GameConstants.PLAINS, p);
     }
   }
   public Unit getUnitAt( Position p ) {
-    // Return correct unit
-    if (p.equals(((UnitImpl)(unitRed1)).getPosition())) {
-      return unitRed1;
-    }
-    else if (p.equals(((UnitImpl)(unitBlue)).getPosition())) {
-      return unitBlue;
-    }
-    else if (p.equals(((UnitImpl)(unitRed2)).getPosition())) {
-      return unitRed2;
-    }
-    else {
+    //Check if a unit exists at position p and return if so
+    if(unitLoc[p.getRow()][p.getColumn()]!=null){
+      return unitLoc[p.getRow()][p.getColumn()];
+    }else{
       return null;
     }
   }
@@ -106,27 +117,31 @@ public class GameImpl implements Game {
     if (getAge() == -3000) {
       return Player.RED;
     }
-    //Red's unit wins if attacks
-    if (unitRed1.getAttackingStrength() > 0) {
-      return Player.RED;
+    //Attacking unit wins
+    if (unitLoc[2][0].getTypeString() == "archer" && unitAttacks() == true) {
+      return unitLoc[2][0].getOwner();
+    }
+    if (unitLoc[4][3].getTypeString() == "settler" && unitAttacks() == true) {
+      return unitLoc[4][3].getOwner();
+    }
+    if (unitLoc[2][3].getTypeString() == "legion" && unitAttacks() == true) {
+      return unitLoc[2][3].getOwner();
+    }
+    if (unitLoc[0][2].getTypeString() == "archer" && unitAttacks() == true) {
+      return unitLoc[0][2].getOwner();
+    }
+    if (unitLoc[3][4].getTypeString() == "settler" && unitAttacks() == true) {
+      return unitLoc[3][4].getOwner();
+    }
+    if (unitLoc[3][2].getTypeString() == "archer" && unitAttacks() == true) {
+      return unitLoc[3][2].getOwner();
     }
     else {
       return null;
     }
   }
   public int getAge() {
-    int age = 0;
-    //Set start year to 4000 BC
-    if (turn == 0) {
-      int start = -4000;
-      age = start;
-    }
-    //Increment by 100 years
-    if (turn > 0){
-      age = age + 100;
-      endOfRound();
-    }
-    return age;
+    return this.age;
   }
 
   public boolean moveUnit( Position from, Position to ) {
@@ -134,10 +149,11 @@ public class GameImpl implements Game {
     System.out.print("moveUnit(): ");
     System.out.print(from);
     System.out.println(to);
-    if (getTileAt(to).equals(mountains) || getTileAt(to).equals(ocean)) {
+    if (getTileAt(to).equals(tileLoc[2][2]) || getTileAt(to).equals(tileLoc[1][0])) {
       return false;
     }
     // Ensure it is the correct player's unit
+    System.out.println("getUnitAt(from): ");
     System.out.println(getUnitAt(from));
     if (getPlayerInTurn() != getUnitAt(from).getOwner()) {
       return false;
@@ -165,74 +181,62 @@ public class GameImpl implements Game {
     }
   }
 
-  public boolean moveUnitMore(Position p1, Position p2) {
-    Position oldP = new Position(p1);
-    while (!moveUnit(p1,p2)) {
+  public boolean moveUnitMore(Position from, Position to) {
+    Position oldP = new Position(from);
+    while (!moveUnit(from,to)) {
       System.out.print("while: \n");
       //Add one to row, move unit
-      if (p1.getRow() != p2.getRow()) {
-        p1.setRow(p1.getRow() + 1);
+      if (from.getRow() != to.getRow()) {
+        from.setRow(from.getRow() + 1);
         System.out.print("oldP: ");
         System.out.println(getUnitAt(oldP));
         System.out.print("p1: ");
-        System.out.println(getUnitAt(p1));
-        moveUnit(oldP, p1);
-        oldP.setRow(p1.getRow());
+        System.out.println(getUnitAt(from));
+        moveUnit(oldP, from);
+        oldP.setRow(from.getRow());
       }
       //Add one to column, move unit
-      if (p1.getColumn() != p2.getColumn()) {
-        p1.setColumn(p1.getColumn() + 1);
+      if (from.getColumn() != to.getColumn()) {
+        from.setColumn(from.getColumn() + 1);
         System.out.print("oldP: ");
         System.out.println(getUnitAt(oldP));
         System.out.print("p1: ");
-        System.out.println(getUnitAt(p1));
-        moveUnit(oldP, p1);
-        oldP.setColumn(p1.getColumn());
+        System.out.println(getUnitAt(from));
+        moveUnit(oldP, from);
+        oldP.setColumn(from.getColumn());
       }
     }
     System.out.print("outta");
     //Check if unit has been moved
-    return (p1.getColumn() == p2.getColumn()) && (p1.getRow() == p2.getRow());
+    boolean unitMoveCheck = (from.getColumn() == to.getColumn()) && (from.getRow() == to.getRow());
+    return unitMoveCheck;
   }
 
   public void endOfTurn() {
     // Increment turn count
-    turn = turn + 1;
+    this.turn++;
     // Check if round is over
-    if (turn > 1) {
+    if (this.turn > 1) {
       endOfRound();
     }
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
-  public void performUnitActionAt( Position p ) {
-    if(getUnitAt(p).equals("settler")){
-      //Build city at position
-      getCityAt(p);
-    }
-    if(getUnitAt(p).equals("archer")) {
-      //Fortify by doubling defensive strength
-      int twice = this.getUnitAt(p).getDefensiveStrength();
-      twice = twice * 2;
-      //Cannot be moved in UnitImpl
-      //If already fortified, action removes fortification
-      endOfTurn();
-    }
-    }
+  public void performUnitActionAt( Position p ) {}
   public void endOfRound() {
     // Add 6 production to each city
-    ((CityImpl)(redCity)).setTreasury(((CityImpl)(redCity)).getTreasury() + 6);
-    ((CityImpl)(blueCity)).setTreasury(((CityImpl)(blueCity)).getTreasury() + 6);
+    ((CityImpl)(redCity)).setTreasury(redCity.getTreasury() + 6);
+    ((CityImpl)(blueCity)).setTreasury(blueCity.getTreasury() + 6);
     // Reset turn counter
-    turn = 0;
+    this.turn = 0;
+    increaseAge();
   }
 
-<<<<<<< HEAD
-  public GameImpl(GammaCiv gammaCiv) {
-    this.gammaCiv = gammaCiv;
+  //Moves age forward
+  public void increaseAge() {
+    this.age=this.age+100;
   }
 
-=======
   // Establish new city
   public City settlerNewCity(Position p) {
     // Check position is a settler
@@ -252,11 +256,11 @@ public class GameImpl implements Game {
     //Check that unit is archers
     if (archers.getTypeString().equals(GameConstants.ARCHER)) {
       // Set attack to 0
-      ((UnitImpl)(archers)).setAttack(0);
+      ((UnitImpl) archers).setAttack(0);
       // Set defenses to 5
-      ((UnitImpl)(archers)).setDefenses(5);
+      archers.setDefenses(5);
       // Set max move count to 0
-      ((UnitImpl)(archers)).setMoveCount(0);
+      archers.setMoveCount(0);
       return true;
     }
     else {
@@ -265,6 +269,24 @@ public class GameImpl implements Game {
     }
   }
 
+  //Attacking unit is always true
+  public boolean unitAttacks() {
+    return true;
+  }
 
->>>>>>> 5bdffd7c633b41d61309fd62ebde96887b940242
+  //Units get max move count at round start
+  public void unitsMaxMoveAtStart() {
+    //Check if round started
+    if (getPlayerInTurn() == Player.RED || getPlayerInTurn() == Player.BLUE) {
+      //Set max move count to 1
+      for (int i = 0; i < 16; i++) {
+        for(int j=0;j<16;j++) {
+          if(unitLoc[i][j]!=null) {
+            unitLoc[i][j].setMoveCount(1);
+          }
+        }
+      }
+    }
+  }
+
 }
