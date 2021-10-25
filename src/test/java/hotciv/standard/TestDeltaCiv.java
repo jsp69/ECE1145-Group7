@@ -15,10 +15,10 @@ public class TestDeltaCiv {
     }
 
     @Test
-    public void TestTile_0_1() {
+    public void TestTile_4_8() {
         assertThat(game, is(notNullValue()));
-        //Check tile at (0,1)
-        Position t1 = new Position(0,1);
+        //Check tile at (4,8)
+        Position t1 = new Position(4,8);
         assertThat(game.getTileAt(t1).getTypeString(), is(GameConstants.HILLS));
     }
 
@@ -35,6 +35,22 @@ public class TestDeltaCiv {
         assertThat(game, is(notNullValue()));
         //Check tile at (0,1)
         Position t1 = new Position(2,2);
+            assertThat(game.getTileAt(t1).getTypeString(), is(GameConstants.PLAINS));
+    }
+
+    @Test
+    public void TestTile_0_5() {
+        assertThat(game, is(notNullValue()));
+        //Check tile at (0,5)
+        Position t1 = new Position(0,5);
         assertThat(game.getTileAt(t1).getTypeString(), is(GameConstants.MOUNTAINS));
+    }
+
+    @Test
+    public void TestTile_12_8() {
+        assertThat(game, is(notNullValue()));
+        //Check tile at (12,8)
+        Position t1 = new Position(12,8);
+        assertThat(game.getTileAt(t1).getTypeString(), is(GameConstants.FOREST));
     }
 }
