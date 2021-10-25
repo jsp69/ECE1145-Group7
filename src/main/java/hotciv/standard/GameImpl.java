@@ -2,6 +2,8 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import java.util.Objects;
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -32,9 +34,6 @@ import hotciv.framework.*;
 public class GameImpl implements Game {
 
   // Preliminary set-up for AlphaCiv
-  // Set cities
-  City redCity = new CityImpl(Player.RED);
-  City blueCity = new CityImpl(Player.BLUE);
   // Set turn count
   int turn = 0;
   int age = -4000;
@@ -52,6 +51,9 @@ public class GameImpl implements Game {
   // Array index corresponds to tile position tileLoc[Position row][Position Column]
   Tile [][] tileLoc = new TileImpl[16][16];
 
+  // Array index corresponds to city position cityLoc[Position row][Position Column]
+  City [][] cityLoc = new CityImpl[16][16];
+
   //Set position array
   Position[] p = {new Position(2, 0), new Position(3, 2), new Position(4, 3)};
 
@@ -68,6 +70,8 @@ public class GameImpl implements Game {
     tileLoc[0][1] = new TileImpl(GameConstants.HILLS, new Position(0, 1));
     tileLoc[2][2] = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
 
+    cityLoc[1][1] = new CityImpl(Player.RED, new Position(1, 1));
+    cityLoc[4][1] = new CityImpl(Player.BLUE, new Position(4, 1));
   }
 
   public Tile getTileAt( Position p ) {
@@ -81,7 +85,8 @@ public class GameImpl implements Game {
       return tileLoc[2][2];
     }
     else {
-      return new TileImpl(GameConstants.PLAINS, p);
+      tileLoc[p.getRow()][p.getColumn()] = new TileImpl(GameConstants.PLAINS, p);
+      return tileLoc[p.getRow()][p.getColumn()];
     }
   }
   public Unit getUnitAt( Position p ) {
@@ -93,14 +98,10 @@ public class GameImpl implements Game {
     }
   }
   public City getCityAt( Position p ) {
-    // Return correct city
-    if (p.equals(((CityImpl)(redCity)).getPosition())) {
-      return redCity;
-    }
-    else if (p.equals(((CityImpl)(blueCity)).getPosition())) {
-      return blueCity;
-    }
-    else {
+    //Check if a city exists at position p and return if so
+    if(cityLoc[p.getRow()][p.getColumn()]!=null){
+      return cityLoc[p.getRow()][p.getColumn()];
+    }else{
       return null;
     }
   }
@@ -118,22 +119,22 @@ public class GameImpl implements Game {
       return Player.RED;
     }
     //Attacking unit wins
-    if (unitLoc[2][0].getTypeString() == "archer" && unitAttacks() == true) {
+    if ((Objects.equals(unitLoc[2][0].getTypeString(), GameConstants.ARCHER)) && unitAttacks()) {
       return unitLoc[2][0].getOwner();
     }
-    if (unitLoc[4][3].getTypeString() == "settler" && unitAttacks() == true) {
+    if ((Objects.equals(unitLoc[4][3].getTypeString(), GameConstants.SETTLER)) && unitAttacks()) {
       return unitLoc[4][3].getOwner();
     }
-    if (unitLoc[2][3].getTypeString() == "legion" && unitAttacks() == true) {
+    if ((Objects.equals(unitLoc[2][3].getTypeString(), GameConstants.LEGION)) && unitAttacks()) {
       return unitLoc[2][3].getOwner();
     }
-    if (unitLoc[0][2].getTypeString() == "archer" && unitAttacks() == true) {
+    if ((Objects.equals(unitLoc[0][2].getTypeString(), GameConstants.ARCHER)) && unitAttacks()) {
       return unitLoc[0][2].getOwner();
     }
-    if (unitLoc[3][4].getTypeString() == "settler" && unitAttacks() == true) {
+    if ((Objects.equals(unitLoc[3][4].getTypeString(), GameConstants.SETTLER)) && unitAttacks()) {
       return unitLoc[3][4].getOwner();
     }
-    if (unitLoc[3][2].getTypeString() == "archer" && unitAttacks() == true) {
+    if ((unitLoc[3][2].getTypeString() == GameConstants.ARCHER) && unitAttacks()) {
       return unitLoc[3][2].getOwner();
     }
     else {
@@ -170,8 +171,8 @@ public class GameImpl implements Game {
         // Change position of unit
         ((UnitImpl)(getUnitAt(from))).changePosition(to);
         //Change city ownership
-        if ((to == ((CityImpl)(blueCity)).getPosition()) && (getUnitAt(to).getOwner() == Player.RED)) {
-          ((CityImpl)(blueCity)).setOwner(Player.RED);
+        if ((getCityAt(to).equals(cityLoc[4][1])) && (getUnitAt(to).getOwner() == Player.RED)) {
+          ((CityImpl)(cityLoc[4][1])).setOwner(Player.RED);
         }
         return true;
       }
@@ -225,8 +226,8 @@ public class GameImpl implements Game {
   public void performUnitActionAt( Position p ) {}
   public void endOfRound() {
     // Add 6 production to each city
-    ((CityImpl)(redCity)).setTreasury(redCity.getTreasury() + 6);
-    ((CityImpl)(blueCity)).setTreasury(blueCity.getTreasury() + 6);
+    ((CityImpl)(cityLoc[1][1])).setTreasury((cityLoc[1][1]).getTreasury() + 6);
+    ((CityImpl)(cityLoc[4][1])).setTreasury((cityLoc[4][1]).getTreasury() + 6);
     // Reset turn counter
     this.turn = 0;
     increaseAge();
@@ -243,7 +244,8 @@ public class GameImpl implements Game {
     if (p == rSettler) {
       // Create new city, delete settler
       rSettler = null;
-      return new CityImpl(Player.RED, p);
+      cityLoc[p.getRow()][p.getColumn()] = new CityImpl(Player.RED, p);
+      return cityLoc[p.getRow()][p.getColumn()];
     }
     else {
       return null;
