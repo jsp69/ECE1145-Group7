@@ -19,7 +19,7 @@ public class TestDeltaCiv {
         assertThat(game, is(notNullValue()));
         //Check tile at (0,1)
         Position t1 = new Position(0,1);
-        assertThat(game.getTileAt(t1), is(GameConstants.HILLS));
+        assertThat(game.getTileAt(t1).getTypeString(), is(GameConstants.HILLS));
     }
 
     @Test
@@ -27,7 +27,7 @@ public class TestDeltaCiv {
         assertThat(game, is(notNullValue()));
         //Check tile at (1,0)
         Position t1 = new Position(1,0);
-        assertThat(game.getTileAt(t1), is(GameConstants.OCEANS));
+        assertThat(game.getTileAt(t1).getTypeString(), is(GameConstants.OCEANS));
     }
 
     @Test
@@ -35,6 +35,6 @@ public class TestDeltaCiv {
         assertThat(game, is(notNullValue()));
         //Check tile at (0,1)
         Position t1 = new Position(2,2);
-        assertThat(game.getTileAt(t1), is(GameConstants.MOUNTAINS));
+        assertThat(game.getTileAt(t1).getTypeString(), is(GameConstants.MOUNTAINS));
     }
 }

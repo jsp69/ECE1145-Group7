@@ -7,7 +7,12 @@ import java.util.*;
 
 public class DeltaCivImpl extends GameImpl {
     /** Code copied from StubGame1.java and edited for the DeltaCiv */
-    public DeltaCivImpl() { world = defineWorld(); }
+    public DeltaCivImpl() {
+        world = defineWorld();
+        // Create cities at (8,12) and (4,5)
+        cityLoc[8][12] = new CityImpl(Player.RED, new Position(8,12));
+        cityLoc[4][5] = new CityImpl(Player.BLUE, new Position(4,5));
+    }
 
     // A simple implementation to draw the map of DeltaCiv
     protected Map<Position, Tile> world;
