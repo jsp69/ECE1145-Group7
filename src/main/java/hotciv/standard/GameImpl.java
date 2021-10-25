@@ -234,9 +234,7 @@ public class GameImpl implements Game {
   }
 
   //Moves age forward
-  public void increaseAge() {
-    this.age=this.age+100;
-  }
+  public void increaseAge() { this.age = this.age+100; }
 
   // Establish new city
   public City settlerNewCity(Position p) {
@@ -244,6 +242,7 @@ public class GameImpl implements Game {
     if (p == rSettler) {
       // Create new city, delete settler
       rSettler = null;
+      unitLoc[p.getRow()][p.getColumn()] = null;
       cityLoc[p.getRow()][p.getColumn()] = new CityImpl(Player.RED, p);
       return cityLoc[p.getRow()][p.getColumn()];
     }
