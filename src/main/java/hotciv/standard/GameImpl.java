@@ -119,27 +119,27 @@ public class GameImpl implements Game {
       return Player.RED;
     }
     //Attacking unit wins
-    if ((Objects.equals(unitLoc[2][0].getTypeString(), GameConstants.ARCHER)) && unitAttacks()) {
-      return unitLoc[2][0].getOwner();
+    if (unitAttacks()) {
+      if (Objects.equals(unitLoc[2][0].getTypeString(), GameConstants.ARCHER)) {
+        return unitLoc[2][0].getOwner();
+      }
+      if (Objects.equals(unitLoc[4][3].getTypeString(), GameConstants.SETTLER)) {
+        return unitLoc[4][3].getOwner();
+      }
+      if (Objects.equals(unitLoc[2][3].getTypeString(), GameConstants.LEGION)) {
+        return unitLoc[2][3].getOwner();
+      }
+      if (Objects.equals(unitLoc[0][2].getTypeString(), GameConstants.ARCHER)) {
+        return unitLoc[0][2].getOwner();
+      }
+      if (Objects.equals(unitLoc[3][4].getTypeString(), GameConstants.SETTLER)) {
+        return unitLoc[3][4].getOwner();
+      }
+      if (Objects.equals(unitLoc[3][2].getTypeString(), GameConstants.ARCHER)) {
+        return unitLoc[3][2].getOwner();
+      }
     }
-    if ((Objects.equals(unitLoc[4][3].getTypeString(), GameConstants.SETTLER)) && unitAttacks()) {
-      return unitLoc[4][3].getOwner();
-    }
-    if ((Objects.equals(unitLoc[2][3].getTypeString(), GameConstants.LEGION)) && unitAttacks()) {
-      return unitLoc[2][3].getOwner();
-    }
-    if ((Objects.equals(unitLoc[0][2].getTypeString(), GameConstants.ARCHER)) && unitAttacks()) {
-      return unitLoc[0][2].getOwner();
-    }
-    if ((Objects.equals(unitLoc[3][4].getTypeString(), GameConstants.SETTLER)) && unitAttacks()) {
-      return unitLoc[3][4].getOwner();
-    }
-    if ((unitLoc[3][2].getTypeString() == GameConstants.ARCHER) && unitAttacks()) {
-      return unitLoc[3][2].getOwner();
-    }
-    else {
-      return null;
-    }
+    return null;
   }
   public int getAge() {
     return this.age;
