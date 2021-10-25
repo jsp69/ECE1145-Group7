@@ -254,15 +254,16 @@ public class GameImpl implements Game {
 
   // Fortify the archers
   public boolean archersFortify(Position pos) {
-    Unit archers = getUnitAt(pos);
+    int r = pos.getRow();
+    int c = pos.getColumn();
     //Check that unit is archers
-    if (archers.getTypeString().equals(GameConstants.ARCHER)) {
+    if (unitLoc[r][c].getTypeString().equals(GameConstants.ARCHER)) {
       // Set attack to 0
-      ((UnitImpl) archers).setAttack(0);
+      ((UnitImpl)(unitLoc[r][c])).setAttack(0);
       // Set defenses to 5
-      archers.setDefenses(5);
+      unitLoc[r][c].setDefenses(5);
       // Set max move count to 0
-      archers.setMoveCount(0);
+      unitLoc[r][c].setMoveCount(0);
       return true;
     }
     else {
