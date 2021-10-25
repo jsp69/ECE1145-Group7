@@ -150,6 +150,10 @@ public class GameImpl implements Game {
     if (Objects.equals(getTileAt(to).getTypeString(), GameConstants.MOUNTAINS)) {
       return false;
     }
+    // Ensure new position isn't oceans
+    if (Objects.equals(getTileAt(to).getTypeString(), GameConstants.OCEANS)) {
+      return false;
+    }
     // Ensure it is the correct player's unit
     if (getPlayerInTurn() != getUnitAt(from).getOwner()) {
       return false;
