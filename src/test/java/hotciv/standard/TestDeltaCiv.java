@@ -53,4 +53,20 @@ public class TestDeltaCiv {
         Position t1 = new Position(12,8);
         assertThat(game.getTileAt(t1).getTypeString(), is(GameConstants.FOREST));
     }
+
+    @Test
+    public void TestRedCity() {
+        assertThat(game, is(notNullValue()));
+        //Check city at (8,12)
+        Position t1 = new Position(8,12);
+        assertThat(game.getCityAt(t1).getOwner(), is(Player.RED));
+    }
+
+    @Test
+    public void TestBlueCity() {
+        assertThat(game, is(notNullValue()));
+        //Check city at (4,5)
+        Position t1 = new Position(4,5);
+        assertThat(game.getCityAt(t1).getOwner(), is(Player.BLUE));
+    }
 }
