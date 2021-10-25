@@ -282,8 +282,8 @@ public class GameImpl implements Game {
     if (getPlayerInTurn() == Player.RED || getPlayerInTurn() == Player.BLUE) {
       //Set max move count to 1
       for (int i = 0; i < 16; i++) {
-        for(int j=0;j<16;j++) {
-          if(unitLoc[i][j]!=null) {
+        for(int j = 0; j < 16; j++) {
+          if(unitLoc[i][j] != null) {
             unitLoc[i][j].setMoveCount(1);
           }
         }
