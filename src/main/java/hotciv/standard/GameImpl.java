@@ -54,9 +54,6 @@ public class GameImpl implements Game {
   // Array index corresponds to city position cityLoc[Position row][Position Column]
   City [][] cityLoc = new CityImpl[16][16];
 
-  //Set position array
-  Position[] p = {new Position(2, 0), new Position(3, 2), new Position(4, 3)};
-
   public GameImpl(){
     unitLoc[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED, rArcher);
     unitLoc[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED, rSettler);
@@ -85,13 +82,14 @@ public class GameImpl implements Game {
       return tileLoc[2][2];
     }
     else {
+      // Every other tile is PLAINS
       tileLoc[p.getRow()][p.getColumn()] = new TileImpl(GameConstants.PLAINS, p);
       return tileLoc[p.getRow()][p.getColumn()];
     }
   }
   public Unit getUnitAt( Position p ) {
     //Check if a unit exists at position p and return if so
-    if(unitLoc[p.getRow()][p.getColumn()]!=null){
+    if(unitLoc[p.getRow()][p.getColumn()] != null){
       return unitLoc[p.getRow()][p.getColumn()];
     }else{
       return null;
@@ -99,7 +97,7 @@ public class GameImpl implements Game {
   }
   public City getCityAt( Position p ) {
     //Check if a city exists at position p and return if so
-    if(cityLoc[p.getRow()][p.getColumn()]!=null){
+    if(cityLoc[p.getRow()][p.getColumn()] != null){
       return cityLoc[p.getRow()][p.getColumn()];
     }else{
       return null;
@@ -150,7 +148,7 @@ public class GameImpl implements Game {
     System.out.print("moveUnit(): ");
     System.out.print(from);
     System.out.println(to);
-    if (getTileAt(to).equals(tileLoc[2][2]) || getTileAt(to).equals(tileLoc[1][0])) {
+    if (Objects.equals(getTileAt(to).getTypeString(), GameConstants.MOUNTAINS)) {
       return false;
     }
     // Ensure it is the correct player's unit
@@ -169,6 +167,8 @@ public class GameImpl implements Game {
       // Check that position is only a distance of 1 in any given direction
       if ((southNorth || eastWest) && zeros) {
         // Change position of unit
+        unitLoc[to.getRow()][to.getColumn()] = unitLoc[from.getRow()][from.getColumn()];
+        unitLoc[from.getRow()][from.getColumn()] = null;
         ((UnitImpl)(getUnitAt(from))).changePosition(to);
         //Change city ownership
         if ((getCityAt(to).equals(cityLoc[4][1])) && (getUnitAt(to).getOwner() == Player.RED)) {
