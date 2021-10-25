@@ -4,6 +4,8 @@ import hotciv.framework.*;
 
 import java.util.Objects;
 
+import java.lang.Math;
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -46,7 +48,7 @@ public class GameImpl implements Game {
 
   // Set array to use for units
   // Array index corresponds to unit position unitLoc[Position row][Position Column]
-  Unit[][] unitLoc=new UnitImpl[16][16];
+  Unit[][] unitLoc = new UnitImpl[16][16];
 
   // Array index corresponds to tile position tileLoc[Position row][Position Column]
   Tile [][] tileLoc = new TileImpl[16][16];
@@ -145,15 +147,10 @@ public class GameImpl implements Game {
 
   public boolean moveUnit( Position from, Position to ) {
     //Ensure new position isn't mountains
-    System.out.print("moveUnit(): ");
-    System.out.print(from);
-    System.out.println(to);
     if (Objects.equals(getTileAt(to).getTypeString(), GameConstants.MOUNTAINS)) {
       return false;
     }
     // Ensure it is the correct player's unit
-    System.out.println("getUnitAt(from): ");
-    System.out.println(getUnitAt(from));
     if (getPlayerInTurn() != getUnitAt(from).getOwner()) {
       return false;
     }
@@ -161,22 +158,25 @@ public class GameImpl implements Game {
       // Return true if unit was moved
       int disCol = from.getColumn() - to.getColumn();
       int disRow = from.getRow() - to.getRow();
-      boolean southNorth = (disCol == -1) || (disCol == 1);
-      boolean eastWest = (disRow == -1) || (disRow == 1);
+      boolean southNorth = (Math.abs(disCol) == 1);
+      boolean eastWest = (Math.abs(disRow) == 1);
       boolean zeros = (disCol == 0) || (disRow == 0);
       // Check that position is only a distance of 1 in any given direction
-      if ((southNorth || eastWest) && zeros) {
+      if ((southNorth ^ eastWest) && zeros) {
         // Change position of unit
         unitLoc[to.getRow()][to.getColumn()] = unitLoc[from.getRow()][from.getColumn()];
         unitLoc[from.getRow()][from.getColumn()] = null;
-        ((UnitImpl)(getUnitAt(from))).changePosition(to);
+        ((UnitImpl)unitLoc[to.getRow()][to.getColumn()]).changePosition(to);
         //Change city ownership
-        if ((getCityAt(to).equals(cityLoc[4][1])) && (getUnitAt(to).getOwner() == Player.RED)) {
-          ((CityImpl)(cityLoc[4][1])).setOwner(Player.RED);
+        if (getCityAt(to) != null) {
+          if (getCityAt(to).equals(cityLoc[4][1]) && (getUnitAt(to).getOwner() == Player.RED)){
+            ((CityImpl) (cityLoc[4][1])).setOwner(Player.RED);
+          }
         }
         return true;
       }
       else {
+        System.out.print("Positions not next to one another");
         return false;
       }
     }
