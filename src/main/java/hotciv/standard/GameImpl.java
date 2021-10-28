@@ -39,12 +39,6 @@ public class GameImpl implements Game {
   // Set turn count
   int turn = 0;
   int age = -4000;
-  Position rArcher = new Position(2, 0);
-  Position rSettler = new Position(4, 3);
-  Position rLegion = new Position (2,3);
-  Position bArcher = new Position(0,2);
-  Position bSettler = new Position(3, 4);
-  Position bLegion = new Position(3, 2);
 
   // Set array to use for units
   // Array index corresponds to unit position unitLoc[Position row][Position Column]
@@ -56,13 +50,19 @@ public class GameImpl implements Game {
   // Array index corresponds to city position cityLoc[Position row][Position Column]
   City [][] cityLoc = new CityImpl[16][16];
 
-  public GameImpl(){
-    unitLoc[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED, rArcher);
-    unitLoc[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED, rSettler);
-    unitLoc[2][3] = new UnitImpl(GameConstants.SETTLER, Player.RED, rLegion);
-    unitLoc[0][2] = new UnitImpl(GameConstants.ARCHER, Player.BLUE, bArcher);
-    unitLoc[3][4] = new UnitImpl(GameConstants.SETTLER, Player.BLUE, bSettler);
-    unitLoc[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE, bLegion);
+  //Factory object and strategies for variation control
+  CivFactory civFactory;
+  WinStrat winStrat;
+  AgingStrat ageStrat;
+
+  public GameImpl(CivFactory factory){
+    unitLoc[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED);
+    unitLoc[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
+    unitLoc[2][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
+    unitLoc[3][3] = new UnitImpl(GameConstants.LEGION, Player.RED);
+    unitLoc[0][2] = new UnitImpl(GameConstants.ARCHER, Player.BLUE);
+    unitLoc[3][4] = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
+    unitLoc[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
     unitsMaxMoveAtStart();
 
     tileLoc[1][0] = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
@@ -71,6 +71,11 @@ public class GameImpl implements Game {
 
     cityLoc[1][1] = new CityImpl(Player.RED, new Position(1, 1));
     cityLoc[4][1] = new CityImpl(Player.BLUE, new Position(4, 1));
+
+    //Use Abstract Factory object to generate variant method algorithms
+    civFactory=factory;
+    winStrat=factory.createWinStrat();
+    ageStrat=factory.createAgingStrat();
   }
 
   public Tile getTileAt( Position p ) {
@@ -114,32 +119,7 @@ public class GameImpl implements Game {
     }
   }
   public Player getWinner() {
-    //Red wins if 3000 BC
-    if (getAge() == -3000) {
-      return Player.RED;
-    }
-    //Attacking unit wins
-    if (unitAttacks()) {
-      if (Objects.equals(unitLoc[2][0].getTypeString(), GameConstants.ARCHER)) {
-        return unitLoc[2][0].getOwner();
-      }
-      if (Objects.equals(unitLoc[4][3].getTypeString(), GameConstants.SETTLER)) {
-        return unitLoc[4][3].getOwner();
-      }
-      if (Objects.equals(unitLoc[2][3].getTypeString(), GameConstants.LEGION)) {
-        return unitLoc[2][3].getOwner();
-      }
-      if (Objects.equals(unitLoc[0][2].getTypeString(), GameConstants.ARCHER)) {
-        return unitLoc[0][2].getOwner();
-      }
-      if (Objects.equals(unitLoc[3][4].getTypeString(), GameConstants.SETTLER)) {
-        return unitLoc[3][4].getOwner();
-      }
-      if (Objects.equals(unitLoc[3][2].getTypeString(), GameConstants.ARCHER)) {
-        return unitLoc[3][2].getOwner();
-      }
-    }
-    return null;
+    return winStrat.getWinner(this);
   }
   public int getAge() {
     return this.age;
@@ -170,7 +150,6 @@ public class GameImpl implements Game {
         // Change position of unit
         unitLoc[to.getRow()][to.getColumn()] = unitLoc[from.getRow()][from.getColumn()];
         unitLoc[from.getRow()][from.getColumn()] = null;
-        ((UnitImpl)unitLoc[to.getRow()][to.getColumn()]).changePosition(to);
         //Change city ownership
         if (getCityAt(to) != null) {
           if (getCityAt(to).equals(cityLoc[4][1]) && (getUnitAt(to).getOwner() == Player.RED)){
@@ -213,8 +192,7 @@ public class GameImpl implements Game {
     }
     System.out.print("outta");
     //Check if unit has been moved
-    boolean unitMoveCheck = (from.getColumn() == to.getColumn()) && (from.getRow() == to.getRow());
-    return unitMoveCheck;
+    return (from.getColumn() == to.getColumn()) && (from.getRow() == to.getRow());
   }
 
   public void endOfTurn() {
@@ -238,14 +216,15 @@ public class GameImpl implements Game {
   }
 
   //Moves age forward
-  public void increaseAge() { this.age = this.age+100; }
+  public void increaseAge() {
+    this.age=ageStrat.increaseAge(this.age);
+  }
 
   // Establish new city
   public City settlerNewCity(Position p) {
     // Check position is a settler
-    if (p == rSettler) {
+    if (p.getRow()==2 && p.getColumn()==3) {
       // Create new city, delete settler
-      rSettler = null;
       unitLoc[p.getRow()][p.getColumn()] = null;
       cityLoc[p.getRow()][p.getColumn()] = new CityImpl(Player.RED, p);
       return cityLoc[p.getRow()][p.getColumn()];
@@ -273,11 +252,6 @@ public class GameImpl implements Game {
       //Unit not archers
       return false;
     }
-  }
-
-  //Attacking unit is always true
-  public boolean unitAttacks() {
-    return true;
   }
 
   //Units get max move count at round start

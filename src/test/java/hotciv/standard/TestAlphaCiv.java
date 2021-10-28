@@ -40,7 +40,7 @@ public class TestAlphaCiv {
   /** Fixture for alphaciv testing. */
   @Before
   public void setUp() {
-    game = new GameImpl();
+    game = new GameImpl(new AlphaFactory());
     //game = new GameImpl(new GammaCivImpl());
   }
 
@@ -143,7 +143,7 @@ public class TestAlphaCiv {
     //Check unit attacking strength
     if(game.getUnitAt(pos).getAttackingStrength() > 0) {
       //Check the winner is red
-      assertThat(game.getWinner(), is(Player.RED));
+      assertThat(game.moveUnit(new Position(3,3),new Position(3,2)),is(true));
     }
   }
 
@@ -247,10 +247,10 @@ public class TestAlphaCiv {
   public void settlerEstablishCityAndDisappear() {
     assertThat(game, is(notNullValue()));
     // Position of settler/new city
-    Position newCity = ((GameImpl)(game)).rSettler;
+    Position newCity=new Position(2,3);
     City redCity2 = ((GameImpl)(game)).settlerNewCity(newCity);
     // Check settler disappears, new city created
-    assertNull(((GameImpl)(game)).rSettler);
+    assertNull(game.getUnitAt(newCity));
     assertEquals(redCity2.getOwner(), Player.RED);
     Assert.assertEquals(((CityImpl)(redCity2)).getPosition(), newCity);
   }

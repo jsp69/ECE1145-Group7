@@ -9,13 +9,11 @@ public class UnitImpl implements Unit {
     int defense = 1;
     int move = 0;
     String tType;
-    Position p;
 
     //Constructor assigning type and owner
-    public UnitImpl(String type, Player play, Position pos) {
+    public UnitImpl(String type, Player play) {
         this.tType = type;
         this.owner = play;
-        this.p = pos;
     }
 
     //Accessor to return type
@@ -28,11 +26,6 @@ public class UnitImpl implements Unit {
         return this.owner;
     }
 
-    //Accessor to get position
-    public Position getPosition() {
-        return this.p;
-    }
-
     //Accessor to get attacking strength
     public int getAttackingStrength() {return this.attack;}
 
@@ -41,11 +34,6 @@ public class UnitImpl implements Unit {
     }
 
     public int getMoveCount() {return this.move;}
-
-    //Change unit position
-    public void changePosition(Position p) {
-        this.p = p;
-    }
 
     //Set max move count
     public void setMoveCount(int m) {

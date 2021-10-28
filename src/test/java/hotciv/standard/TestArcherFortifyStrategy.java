@@ -12,7 +12,7 @@ public class TestArcherFortifyStrategy {
     /** Fixture for GammaCiv Strategy testing. */
     @Before
     public void setUp() {
-        game = new GammaCivImpl();
+        game = new GammaCivImpl(new AlphaFactory());
     }
 
     @Test

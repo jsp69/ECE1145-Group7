@@ -16,12 +16,17 @@ public class GammaCivImpl extends GameImpl {
     Position blueArcher = new Position(0, 2);
 
     // Set units
-    Unit unitR1 = new UnitImpl(GameConstants.ARCHER, Player.RED, redSettler);
-    Unit unitR2 = new UnitImpl(GameConstants.SETTLER, Player.RED, redArcher);
-    Unit unitR3 = new UnitImpl(GameConstants.SETTLER, Player.RED, redArcher);
-    Unit unitB1 = new UnitImpl(GameConstants.ARCHER, Player.BLUE, blueSettler);
-    Unit unitB2 = new UnitImpl(GameConstants.SETTLER, Player.BLUE, blueArcher);
-    Unit unitB3 = new UnitImpl(GameConstants.SETTLER, Player.BLUE, blueArcher);
+    Unit unitR1 = new UnitImpl(GameConstants.ARCHER, Player.RED);
+    Unit unitR2 = new UnitImpl(GameConstants.SETTLER, Player.RED );
+    Unit unitR3 = new UnitImpl(GameConstants.SETTLER, Player.RED );
+    Unit unitB1 = new UnitImpl(GameConstants.ARCHER, Player.BLUE );
+    Unit unitB2 = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
+    Unit unitB3 = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
+
+    public GammaCivImpl(CivFactory factory) {
+        super(factory);
+
+    }
 
     public void performUnitActionAt(Position p) {
         //Check if red settler

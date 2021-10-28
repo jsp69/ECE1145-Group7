@@ -11,7 +11,7 @@ public class TestDeltaCiv {
     /** Fixture for DeltaCiv testing. */
     @Before
     public void setUp() {
-        game = new VarCivImpl( new DeltaCivImpl());
+        game = new VarCivImpl( new DeltaCivImpl(new AlphaFactory()));
     }
 
     @Test

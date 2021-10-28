@@ -7,7 +7,8 @@ import java.util.*;
 
 public class DeltaCivImpl extends GameImpl {
     /** Code copied from StubGame1.java and edited for the DeltaCiv */
-    public DeltaCivImpl() {
+    public DeltaCivImpl(CivFactory factory) {
+        super(factory);
         world = defineWorld();
         // Create cities at (8,12) and (4,5)
         cityLoc[8][12] = new CityImpl(Player.RED, new Position(8,12));

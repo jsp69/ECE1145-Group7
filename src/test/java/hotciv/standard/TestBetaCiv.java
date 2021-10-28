@@ -13,7 +13,7 @@ public class TestBetaCiv {
 
     @Before
     public void setUp(){
-        game= new VarCivImpl(new BetaCivImpl());
+        game= new GameImpl(new BetaFactory());
     }
 
     //Test that RED will only win if they own all cities on map
