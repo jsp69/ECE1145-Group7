@@ -57,6 +57,7 @@ public class GameImpl implements Game {
   City [][] cityLoc = new CityImpl[16][16];
 
   public GameImpl(){
+
     unitLoc[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED, rArcher);
     unitLoc[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED, rSettler);
     unitLoc[2][3] = new UnitImpl(GameConstants.SETTLER, Player.RED, rLegion);
