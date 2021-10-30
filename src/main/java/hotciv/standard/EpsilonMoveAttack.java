@@ -6,6 +6,10 @@ import java.util.Objects;
 import java.util.Random;
 
 public class EpsilonMoveAttack implements MoveAttackStrat {
+    DiceRoll diceA, diceD;
+
+    public EpsilonMoveAttack(DiceRoll A, DiceRoll D){diceA=A;diceD=D;}
+
     @Override
     public boolean moveUnit(Position from, Position to, Game game, City[][] cityLoc, Unit[][] unitLoc) {
         //Ensure new position isn't mountains
@@ -34,8 +38,8 @@ public class EpsilonMoveAttack implements MoveAttackStrat {
                     if(unitLoc[to.getRow()][to.getColumn()].getOwner()==unitLoc[from.getRow()][from.getColumn()].getOwner()){
                         return false;
                     }else{
-                        int A=rollDice()*getTerrain(from,game,cityLoc)*getStrength(unitLoc[from.getRow()][from.getColumn()].getAttackingStrength(),unitLoc,from);
-                        int D=rollDice()*getTerrain(to,game,cityLoc)*getStrength(unitLoc[to.getRow()][to.getColumn()].getDefensiveStrength(),unitLoc,to);
+                        int A=diceA.rollDice()*getTerrain(from,game,cityLoc)*getStrength(unitLoc[from.getRow()][from.getColumn()].getAttackingStrength(),unitLoc,from);
+                        int D=diceD.rollDice()*getTerrain(to,game,cityLoc)*getStrength(unitLoc[to.getRow()][to.getColumn()].getDefensiveStrength(),unitLoc,to);
                         if(A>D){
                             unitLoc[to.getRow()][to.getColumn()]=unitLoc[from.getRow()][from.getColumn()];
                             unitLoc[from.getRow()][from.getColumn()]=null;
@@ -70,9 +74,12 @@ public class EpsilonMoveAttack implements MoveAttackStrat {
                     if(p.getColumn()+j>=0 && p.getColumn()+i<=16){
                         //Don't count current unit
                         if (j != 0 || i != 0) {
-                            //Iterate count if a unit exists at that position with the same owner as the base unit
-                            if(unitLoc[p.getRow()+i][p.getColumn()+j].getOwner()==unitLoc[p.getRow()][p.getColumn()].getOwner()){
-                                count++;
+                            //Check if a unit is at that location
+                            if(unitLoc[p.getRow()+i][p.getColumn()+j]!=null) {
+                                //Iterate count if a unit exists at that position with the same owner as the base unit
+                                if (unitLoc[p.getRow() + i][p.getColumn() + j].getOwner() == unitLoc[p.getRow()][p.getColumn()].getOwner()) {
+                                    count++;
+                                }
                             }
                         }
                     }
@@ -90,9 +97,5 @@ public class EpsilonMoveAttack implements MoveAttackStrat {
             return 3;
         }
         return 1;
-    }
-
-    private int rollDice(){
-        return new Random().nextInt(6)+1;
     }
 }

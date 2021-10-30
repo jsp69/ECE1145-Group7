@@ -62,6 +62,8 @@ public class GameImpl implements Game {
     unitLoc[0][2] = new UnitImpl(GameConstants.ARCHER, Player.BLUE);
     unitLoc[3][4] = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
     unitLoc[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
+    unitLoc[4][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
+    unitLoc[5][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
     unitsMaxMoveAtStart();
 
     tileLoc[1][0] = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
@@ -70,6 +72,7 @@ public class GameImpl implements Game {
 
     cityLoc[1][1] = new CityImpl(Player.RED);
     cityLoc[4][1] = new CityImpl(Player.BLUE);
+    cityLoc[3][2] = new CityImpl(Player.BLUE);
 
     //Use Abstract Factory object to generate variant method algorithms
     civFactory=factory;
@@ -127,12 +130,13 @@ public class GameImpl implements Game {
 
   public boolean moveUnit( Position from, Position to ) {
     //Store unit locations before movement
-    Unit[][] checkUnit=unitLoc;
+    Unit attacker=unitLoc[from.getRow()][from.getColumn()];
+    Unit defender=unitLoc[to.getRow()][to.getColumn()];
 
     boolean move= moveStrat.moveUnit(from,to,this,cityLoc,unitLoc);
 
     //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
-    boolean attack=(checkUnit[to.getRow()][to.getColumn()]!=null) && (checkUnit[to.getRow()][to.getColumn()].getOwner()!=getPlayerInTurn()) && (unitLoc[to.getRow()][to.getColumn()].getOwner()==getPlayerInTurn());
+    boolean attack=(defender!=null && defender.getOwner()!=attacker.getOwner() && attacker.getOwner()==unitLoc[to.getRow()][to.getColumn()].getOwner());
 
     //Increase attack count of current player if successful attack occurred
     if(attack){
