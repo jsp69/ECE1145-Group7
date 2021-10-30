@@ -2,7 +2,7 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-public class GammaFactory implements CivFactory {
+public class GammaFactory implements HotCivFactory {
 
     @Override
     public UnitActionStrat createUnitActionStrat() {return new GammaUnitAction();}
