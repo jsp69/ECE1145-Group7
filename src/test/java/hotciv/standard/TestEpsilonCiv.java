@@ -73,10 +73,12 @@ public class TestEpsilonCiv {
         assertThat(game.getUnitAt(defense3).getOwner(),is(Player.BLUE));
         assertThat(game.getUnitAt(defense3).getTypeString(),is(GameConstants.LEGION));
 
+        //Attack 3 times and ensure they all happen
         assertTrue(game.moveUnit(attack,defense1));
         assertTrue(game.moveUnit(defense1,defense2));
         assertTrue(game.moveUnit(defense2,defense3));
-
+    
+        //Check winner after 3 successful attacks
         assertThat(game.getWinner(),is(Player.RED));
     }
 }
