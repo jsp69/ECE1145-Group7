@@ -193,6 +193,7 @@ public class GameImpl implements Game {
     // Reset turn counter
     this.turn = 0;
     increaseAge();
+    winStrat.incrementRound();
   }
 
   //Moves age forward
@@ -248,5 +249,6 @@ public class GameImpl implements Game {
       }
     }
   }
+
 
 }

@@ -37,4 +37,6 @@ public class EpsilonWin implements WinStrat {
             yellowAttack++;
         }
     }
+
+    public void incrementRound() {}
 }
