@@ -25,22 +25,6 @@ public class GammaUnitAction implements UnitActionStrat {
         cityLoc[4][1] = new CityImpl(Player.BLUE);
         cityLoc[3][2] = new CityImpl(Player.BLUE);
 
-       /* //Set settler
-        Position redSettler = new Position(4, 3);
-        Position blueSettler = new Position(3, 4);
-
-        //Set archer
-        Position redArcher = new Position(2, 0);
-        Position blueArcher = new Position(0, 2);
-
-        // Set units
-        Unit unitR1 = new UnitImpl(GameConstants.ARCHER, Player.RED);
-        Unit unitR2 = new UnitImpl(GameConstants.SETTLER, Player.RED );
-        Unit unitR3 = new UnitImpl(GameConstants.SETTLER, Player.RED );
-        Unit unitB1 = new UnitImpl(GameConstants.ARCHER, Player.BLUE );
-        Unit unitB2 = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
-        Unit unitB3 = new UnitImpl(GameConstants.SETTLER, Player.BLUE);*/
-
             //Check if red settler
             if (p ==  unitLoc[4][3]) {
                 //Remove from world
