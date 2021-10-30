@@ -1,11 +1,8 @@
 package hotciv.standard;
 
 import hotciv.framework.Game;
-import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 import hotciv.framework.WinStrat;
-
-import java.util.Objects;
 
 public class AlphaWin implements WinStrat {
     @Override
@@ -21,5 +18,15 @@ public class AlphaWin implements WinStrat {
     @Override
     public void increaseAttack(Player p) {
 
+    }
+
+    @Override
+    public void incrementRound() {
+
+    }
+
+    @Override
+    public Player getWinner(WinnerStrategyContext context) {
+        return null;
     }
 }
