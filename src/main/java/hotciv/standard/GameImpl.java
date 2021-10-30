@@ -2,6 +2,9 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -122,11 +125,14 @@ public class GameImpl implements Game {
     }
   }
   public Player getWinner() {
-    return winStrat.getWinner(this);
+    return winStrat.getWinner(new WinnerStrategyContext());
   }
+
+  @Override
   public int getAge() {
-    return this.age;
+    return GameImpl.this.getAge();
   }
+
 
   public boolean moveUnit( Position from, Position to ) {
     //Store unit locations before movement
