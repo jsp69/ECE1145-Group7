@@ -4,20 +4,20 @@ import hotciv.framework.Game;
 import hotciv.framework.Player;
 import hotciv.framework.WinStrat;
 
-
 public class ZetaWin implements WinStrat {
 
     private WinStrat BetaWin, EpsilonWin, currentWinner;
+    int roundsPassed;
 
-    public ZetaWin(WinStrat BetaWin, WinStrat EpsilonWin) {
+    public ZetaWin(WinStrat BetaWin, WinStrat EpsilonWin, int roundsPassed) {
         this.BetaWin = BetaWin;
         this.EpsilonWin = EpsilonWin;
+        this.roundsPassed = roundsPassed;
         this.currentWinner = null;
     }
 
     @Override
     public Player getWinner(Game game) {
-        int roundsPassed = 0;
         if (roundsPassed < 20) {
             currentWinner = BetaWin;
         }
@@ -33,5 +33,10 @@ public class ZetaWin implements WinStrat {
 
     @Override
     public void incrementRound() {
+    }
+
+    @Override
+    public Player getWinner(WinnerStrategyContext context) {
+        return null;
     }
 }
