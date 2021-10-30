@@ -17,4 +17,9 @@ public class AlphaWin implements WinStrat {
             return null;
         }
     }
+
+    @Override
+    public void increaseAttack(Player p) {
+
+    }
 }

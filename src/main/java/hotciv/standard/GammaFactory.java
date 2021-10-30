@@ -1,9 +1,6 @@
 package hotciv.standard;
 
-import hotciv.framework.AgingStrat;
-import hotciv.framework.UnitActionStrat;
-import hotciv.framework.CivFactory;
-import hotciv.framework.WinStrat;
+import hotciv.framework.*;
 
 public class GammaFactory implements CivFactory {
 
@@ -11,13 +8,18 @@ public class GammaFactory implements CivFactory {
     public UnitActionStrat createUnitActionStrat() {return new GammaUnitAction();}
 
     @Override
+    public MoveAttackStrat createMoveAttackStrat() {
+        return new AlphaMoveAttack();
+    }
+
+    @Override
     public WinStrat createWinStrat() {
-        return null;
+        return new AlphaWin();
     }
 
     @Override
     public AgingStrat createAgingStrat() {
-        return null;
+        return new AlphaAging();
     }
 
 }

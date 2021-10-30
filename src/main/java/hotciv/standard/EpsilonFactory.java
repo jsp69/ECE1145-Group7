@@ -2,10 +2,10 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-public class AlphaFactory implements CivFactory {
+public class EpsilonFactory implements CivFactory {
     @Override
     public WinStrat createWinStrat() {
-        return new AlphaWin();
+        return new EpsilonWin();
     }
 
     @Override
@@ -14,11 +14,12 @@ public class AlphaFactory implements CivFactory {
     }
 
     @Override
-    public UnitActionStrat createUnitActionStrat() { return new AlphaUnitAction(); }
+    public UnitActionStrat createUnitActionStrat() {
+        return new AlphaUnitAction();
+    }
 
     @Override
     public MoveAttackStrat createMoveAttackStrat() {
-        return new AlphaMoveAttack();
+        return new EpsilonMoveAttack();
     }
-
 }

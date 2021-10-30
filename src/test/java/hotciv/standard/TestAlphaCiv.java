@@ -172,8 +172,8 @@ public class TestAlphaCiv {
     //check if round started
     if(game.getPlayerInTurn() == Player.RED || game.getPlayerInTurn() == Player.BLUE) {
       //Check that units have max move count
-      for (int i = 0; i < p.length; i++) {
-        assertThat(game.getUnitAt(p[i]).getMoveCount(), is(1));
+      for (Position position : p) {
+        assertThat(game.getUnitAt(position).getMoveCount(), is(1));
       }
     }
   }
@@ -252,7 +252,7 @@ public class TestAlphaCiv {
     // Check settler disappears, new city created
     assertNull(game.getUnitAt(newCity));
     assertEquals(redCity2.getOwner(), Player.RED);
-    Assert.assertEquals(((CityImpl)(redCity2)).getPosition(), newCity);
+    assertNotNull(game.getCityAt(newCity));
   }
 
   @Test

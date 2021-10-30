@@ -2,10 +2,6 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-import java.util.Objects;
-
-import java.lang.Math;
-
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -50,10 +46,13 @@ public class GameImpl implements Game {
   // Array index corresponds to city position cityLoc[Position row][Position Column]
   City [][] cityLoc = new CityImpl[16][16];
 
+  //Array to track successful attacks from players
+  int[] playerAttacks = {0,0,0,0};
   //Factory object and strategies for variation control
   CivFactory civFactory;
   WinStrat winStrat;
   AgingStrat ageStrat;
+  MoveAttackStrat moveStrat;
 
   public GameImpl(CivFactory factory){
     unitLoc[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED);
@@ -69,13 +68,14 @@ public class GameImpl implements Game {
     tileLoc[0][1] = new TileImpl(GameConstants.HILLS, new Position(0, 1));
     tileLoc[2][2] = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
 
-    cityLoc[1][1] = new CityImpl(Player.RED, new Position(1, 1));
-    cityLoc[4][1] = new CityImpl(Player.BLUE, new Position(4, 1));
+    cityLoc[1][1] = new CityImpl(Player.RED);
+    cityLoc[4][1] = new CityImpl(Player.BLUE);
 
     //Use Abstract Factory object to generate variant method algorithms
     civFactory=factory;
     winStrat=factory.createWinStrat();
     ageStrat=factory.createAgingStrat();
+    moveStrat=factory.createMoveAttackStrat();
   }
 
   public Tile getTileAt( Position p ) {
@@ -126,43 +126,19 @@ public class GameImpl implements Game {
   }
 
   public boolean moveUnit( Position from, Position to ) {
-    //Ensure new position isn't mountains
-    if (Objects.equals(getTileAt(to).getTypeString(), GameConstants.MOUNTAINS)) {
-      return false;
+    //Store unit locations before movement
+    Unit[][] checkUnit=unitLoc;
+
+    boolean move= moveStrat.moveUnit(from,to,this,cityLoc,unitLoc);
+
+    //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
+    boolean attack=(checkUnit[to.getRow()][to.getColumn()]!=null) && (checkUnit[to.getRow()][to.getColumn()].getOwner()!=getPlayerInTurn()) && (unitLoc[to.getRow()][to.getColumn()].getOwner()==getPlayerInTurn());
+
+    //Increase attack count of current player if successful attack occurred
+    if(attack){
+      winStrat.increaseAttack(getPlayerInTurn());
     }
-    // Ensure new position isn't oceans
-    if (Objects.equals(getTileAt(to).getTypeString(), GameConstants.OCEANS)) {
-      return false;
-    }
-    // Ensure it is the correct player's unit
-    if (getPlayerInTurn() != getUnitAt(from).getOwner()) {
-      return false;
-    }
-    else {
-      // Return true if unit was moved
-      int disCol = from.getColumn() - to.getColumn();
-      int disRow = from.getRow() - to.getRow();
-      boolean southNorth = (Math.abs(disCol) == 1);
-      boolean eastWest = (Math.abs(disRow) == 1);
-      boolean zeros = (disCol == 0) || (disRow == 0);
-      // Check that position is only a distance of 1 in any given direction
-      if ((southNorth ^ eastWest) && zeros) {
-        // Change position of unit
-        unitLoc[to.getRow()][to.getColumn()] = unitLoc[from.getRow()][from.getColumn()];
-        unitLoc[from.getRow()][from.getColumn()] = null;
-        //Change city ownership
-        if (getCityAt(to) != null) {
-          if (getCityAt(to).equals(cityLoc[4][1]) && (getUnitAt(to).getOwner() == Player.RED)){
-            ((CityImpl) (cityLoc[4][1])).setOwner(Player.RED);
-          }
-        }
-        return true;
-      }
-      else {
-        System.out.print("Positions not next to one another");
-        return false;
-      }
-    }
+    return move;
   }
 
   public boolean moveUnitMore(Position from, Position to) {
@@ -226,7 +202,7 @@ public class GameImpl implements Game {
     if (p.getRow()==2 && p.getColumn()==3) {
       // Create new city, delete settler
       unitLoc[p.getRow()][p.getColumn()] = null;
-      cityLoc[p.getRow()][p.getColumn()] = new CityImpl(Player.RED, p);
+      cityLoc[p.getRow()][p.getColumn()] = new CityImpl(getPlayerInTurn());
       return cityLoc[p.getRow()][p.getColumn()];
     }
     else {

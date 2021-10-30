@@ -34,4 +34,9 @@ public class BetaWin implements WinStrat {
             return null;
         }
     }
+
+    @Override
+    public void increaseAttack(Player p) {
+
+    }
 }

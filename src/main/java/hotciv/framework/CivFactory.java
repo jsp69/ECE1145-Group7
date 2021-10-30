@@ -4,4 +4,5 @@ public interface CivFactory {
     WinStrat createWinStrat();
     AgingStrat createAgingStrat();
     UnitActionStrat createUnitActionStrat();
+    MoveAttackStrat createMoveAttackStrat();
 }

@@ -1,9 +1,6 @@
 package hotciv.standard;
 
-import hotciv.framework.AgingStrat;
-import hotciv.framework.CivFactory;
-import hotciv.framework.UnitActionStrat;
-import hotciv.framework.WinStrat;
+import hotciv.framework.*;
 
 public class BetaFactory implements CivFactory {
     @Override
@@ -18,6 +15,11 @@ public class BetaFactory implements CivFactory {
 
     @Override
     public UnitActionStrat createUnitActionStrat() {
-        return null;
+        return new AlphaUnitAction();
+    }
+
+    @Override
+    public MoveAttackStrat createMoveAttackStrat() {
+        return new AlphaMoveAttack();
     }
 }
