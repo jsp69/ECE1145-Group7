@@ -1,8 +1,21 @@
 package hotciv.standard;
 
 import hotciv.framework.AgingStrat;
+import hotciv.framework.Player;
 
 public class BetaAging implements AgingStrat {
+
+    @Override
+    public Player getWinner(WinnerStrategyContext context) {
+        Player candidate = null;
+        for(Player owner: context.getOwners()) {
+            if(candidate == null)
+                candidate = owner;
+            if(owner!= candidate)
+                return null;
+        }
+        return candidate;
+    }
 
     @Override
     public int increaseAge(int age) {
