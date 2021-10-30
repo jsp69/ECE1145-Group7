@@ -2,7 +2,7 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-public class EpsilonFactory implements CivFactory {
+public class EpsilonFactory implements HotCivFactory {
     DiceRoll diceA,diceD;
 
     //Base constructor for normal use

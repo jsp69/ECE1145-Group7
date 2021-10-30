@@ -49,12 +49,12 @@ public class GameImpl implements Game {
   //Array to track successful attacks from players
   int[] playerAttacks = {0,0,0,0};
   //Factory object and strategies for variation control
-  CivFactory civFactory;
+  HotCivFactory civFactory;
   WinStrat winStrat;
   AgingStrat ageStrat;
   MoveAttackStrat moveStrat;
 
-  public GameImpl(CivFactory factory){
+  public GameImpl(HotCivFactory factory){
     unitLoc[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED);
     unitLoc[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
     unitLoc[2][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);

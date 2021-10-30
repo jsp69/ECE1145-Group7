@@ -23,7 +23,7 @@ public class GammaCivImpl extends GameImpl {
     Unit unitB2 = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
     Unit unitB3 = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
 
-    public GammaCivImpl(CivFactory factory) {
+    public GammaCivImpl(HotCivFactory factory) {
         super(factory);
 
     }
@@ -34,14 +34,14 @@ public class GammaCivImpl extends GameImpl {
             //Remove from world
             redSettler = null;
             //Build city with red as owner
-            new CityImpl(Player.RED, p);
+            new CityImpl(Player.RED);
         }
         //Check if blue settler
         if (p == blueSettler) {
             //Remove from world
             blueSettler = null;
             //Build city with red as owner
-            new CityImpl(Player.BLUE, p);
+            new CityImpl(Player.BLUE);
         }
         //Check if red archer
         if (p == redArcher) {

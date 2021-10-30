@@ -2,7 +2,7 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-public class AlphaFactory implements CivFactory {
+public class AlphaFactory implements HotCivFactory {
     @Override
     public WinStrat createWinStrat() {
         return new AlphaWin();

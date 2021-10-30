@@ -1,6 +1,6 @@
 package hotciv.framework;
 
-public interface CivFactory {
+public interface HotCivFactory {
     WinStrat createWinStrat();
     AgingStrat createAgingStrat();
     UnitActionStrat createUnitActionStrat();
