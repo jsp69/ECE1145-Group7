@@ -39,4 +39,14 @@ public class BetaWin implements WinStrat {
     public void increaseAttack(Player p) {
 
     }
+
+    @Override
+    public void incrementRound() {
+
+    }
+
+    @Override
+    public Player getWinner(WinnerStrategyContext context) {
+        return null;
+    }
 }
