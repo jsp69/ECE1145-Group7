@@ -1,12 +1,31 @@
 package hotciv.standard;
 
+import hotciv.framework.Player;
 import hotciv.framework.*;
 
 public class GammaUnitAction implements UnitActionStrat {
     @Override
-    public void performUnitActionAt(Position p) {
+    public City performUnitActionAt(Position p) {
 
-        //Set settler
+        Unit[][] unitLoc = new UnitImpl[16][16];
+
+        City [][] cityLoc = new CityImpl[16][16];
+
+        unitLoc[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED);
+        unitLoc[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
+        unitLoc[2][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
+        unitLoc[3][3] = new UnitImpl(GameConstants.LEGION, Player.RED);
+        unitLoc[0][2] = new UnitImpl(GameConstants.ARCHER, Player.BLUE);
+        unitLoc[3][4] = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
+        unitLoc[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
+        unitLoc[4][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
+        unitLoc[5][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
+
+        cityLoc[1][1] = new CityImpl(Player.RED);
+        cityLoc[4][1] = new CityImpl(Player.BLUE);
+        cityLoc[3][2] = new CityImpl(Player.BLUE);
+
+       /* //Set settler
         Position redSettler = new Position(4, 3);
         Position blueSettler = new Position(3, 4);
 
@@ -20,51 +39,54 @@ public class GammaUnitAction implements UnitActionStrat {
         Unit unitR3 = new UnitImpl(GameConstants.SETTLER, Player.RED );
         Unit unitB1 = new UnitImpl(GameConstants.ARCHER, Player.BLUE );
         Unit unitB2 = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
-        Unit unitB3 = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
+        Unit unitB3 = new UnitImpl(GameConstants.SETTLER, Player.BLUE);*/
 
             //Check if red settler
-            if (p == redSettler) {
+            if (p ==  unitLoc[4][3]) {
                 //Remove from world
-                redSettler = null;
+                unitLoc[4][3] = null;
                 //Build city with red as owner
-                new CityImpl(Player.RED, p);
+                cityLoc[p.getRow()][p.getColumn()] = new CityImpl(Player.RED);
+                return cityLoc[p.getRow()][p.getColumn()];
             }
             //Check if blue settler
-            if (p == blueSettler) {
+            if (p == unitLoc[3][4]) {
                 //Remove from world
-                blueSettler = null;
-                //Build city with red as owner
-                new CityImpl(Player.BLUE, p);
+                unitLoc[3][4] = null;
+                //Build city with blue as owner
+                cityLoc[p.getRow()][p.getColumn()] = new CityImpl(Player.BLUE);
+                return cityLoc[p.getRow()][p.getColumn()];
             }
             //Check if red archer
-            if (p == redArcher) {
+            if (p == unitLoc[2][0]) {
                 //Check if already fortified
-                int oldDS = unitR3.getDefensiveStrength()*2;
-                if(oldDS == unitR2.getDefensiveStrength()) {
+                int oldDS = unitLoc[1][0].getDefensiveStrength()*2;
+                if(oldDS == unitLoc[2][0].getDefensiveStrength()) {
                     //Defensive strength stays same
-                    unitR3.getDefensiveStrength();
+                    unitLoc[1][0].getDefensiveStrength();
                 }
                 else {
                     //Double defensive strength
-                    int ds = (unitR2.getDefensiveStrength() * 2);
-                    unitR2.setDefenses(ds);
+                    int ds = (unitLoc[2][0].getDefensiveStrength() * 2);
+                    unitLoc[2][0].setDefenses(ds);
                     //Archer cannot move
-                    unitR2.setMoveCount(0);
+                    unitLoc[2][0].setMoveCount(0);
                 }
             }
             //Check if blue archer
-            if (p == blueArcher) {
+            if (p == unitLoc[0][2]) {
                 //Check if already fortified
-                int oldDS = unitB3.getDefensiveStrength() * 2;
-                if (oldDS == unitB2.getDefensiveStrength()) {
+                int oldDS = unitLoc[1][1].getDefensiveStrength() * 2;
+                if (oldDS == unitLoc[0][2].getDefensiveStrength()) {
                     //Defensive strength stays same
-                    unitB3.getDefensiveStrength();
+                    unitLoc[1][1].getDefensiveStrength();
                 }
                 //Double defensive strength
-                int ds = (unitB2.getDefensiveStrength()) * 2;
-                unitB2.setDefenses(ds);
+                int ds = (unitLoc[0][2].getDefensiveStrength()) * 2;
+                unitLoc[0][2].setDefenses(ds);
                 //Archer cannot move
-                unitB2.setMoveCount(0);
+                unitLoc[0][2].setMoveCount(0);
             }
-        }
+        return null;
+    }
     }

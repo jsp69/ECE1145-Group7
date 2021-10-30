@@ -1,6 +1,6 @@
 package hotciv.framework;
 
 public interface UnitActionStrat {
-    void performUnitActionAt(Position p);
+    City performUnitActionAt(Position p);
 }
 
