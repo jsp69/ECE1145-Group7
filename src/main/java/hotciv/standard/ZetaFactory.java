@@ -31,7 +31,7 @@ public class ZetaFactory implements HotCivFactory {
 
     @Override
     public MoveAttackStrat createMoveAttackStrat() {
-        return null;
+        return new AlphaMoveAttack();
     }
 
 }
