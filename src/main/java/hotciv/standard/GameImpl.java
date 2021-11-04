@@ -49,8 +49,6 @@ public class GameImpl implements Game {
   // Array index corresponds to city position cityLoc[Position row][Position Column]
   City [][] cityLoc = new CityImpl[16][16];
 
-  //Array to track successful attacks from players
-  int[] playerAttacks = {0,0,0,0};
   //Factory object and strategies for variation control
   HotCivFactory civFactory;
   WinStrat winStrat;
@@ -130,7 +128,7 @@ public class GameImpl implements Game {
 
   @Override
   public int getAge() {
-    return GameImpl.this.getAge();
+    return age;
   }
 
 
@@ -189,8 +187,8 @@ public class GameImpl implements Game {
       endOfRound();
     }
   }
-  public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
-  public void changeProductionInCityAt( Position p, String unitType ) {}
+  public void changeWorkForceFocusInCityAt( Position p, String balance ) {((CityImpl)(getCityAt(p))).setWorkforeFocus(balance);}
+  public void changeProductionInCityAt( Position p, String unitType ) {((CityImpl)(getCityAt(p))).setProduction(unitType);}
   public void performUnitActionAt( Position p ) {}
   public void endOfRound() {
     // Add 6 production to each city
