@@ -132,6 +132,7 @@ public interface Game {
    * Precondition: there is a unit at location 'p'.
    * @param p the position of a unit that must perform its action.
    * Nothing happens in case the unit has no associated action.
+   * @return
    */
-  public void performUnitActionAt( Position p );  
+  public void performUnitActionAt(Position p );
 }
