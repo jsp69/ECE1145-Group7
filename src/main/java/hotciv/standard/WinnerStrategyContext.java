@@ -57,9 +57,7 @@ public class WinnerStrategyContext implements Game {
     }
 
     @Override
-    public void performUnitActionAt(Position p) {
-
-    }
+    public void performUnitActionAt(Position p) {}
 
     public Collection<Player> getOwners() {
         City[][] cityLoc = new CityImpl[16][16];
