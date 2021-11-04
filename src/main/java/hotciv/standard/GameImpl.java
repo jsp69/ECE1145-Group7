@@ -2,9 +2,6 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -189,7 +186,29 @@ public class GameImpl implements Game {
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {((CityImpl)(getCityAt(p))).setWorkforeFocus(balance);}
   public void changeProductionInCityAt( Position p, String unitType ) {((CityImpl)(getCityAt(p))).setProduction(unitType);}
-  public void performUnitActionAt( Position p ) {}
+  public void performUnitActionAt(Position p ) {
+    int r = p.getRow();
+    System.out.print(r);
+    int c = p.getColumn();
+    System.out.print(c);
+    // Check position is a settler
+    if (p.getRow()==2 && p.getColumn()==3) {
+      // Create new city, delete settler
+      unitLoc[p.getRow()][p.getColumn()] = null;
+      cityLoc[p.getRow()][p.getColumn()] = new CityImpl(getPlayerInTurn());
+      return;
+    }
+    //Check that unit is archers
+    if (unitLoc[r][c].getTypeString().equals(GameConstants.ARCHER)) {
+      // Set attack to 0
+      ((UnitImpl)(unitLoc[r][c])).setAttack(0);
+      // Set defenses to 5
+      unitLoc[r][c].setDefenses(5);
+      // Set max move count to 0
+      unitLoc[r][c].setMoveCount(0);
+      return;
+    }
+  }
   public void endOfRound() {
     // Add 6 production to each city
     ((CityImpl)(cityLoc[1][1])).setTreasury((cityLoc[1][1]).getTreasury() + 6);
@@ -203,40 +222,6 @@ public class GameImpl implements Game {
   //Moves age forward
   public void increaseAge() {
     this.age=ageStrat.increaseAge(this.age);
-  }
-
-  // Establish new city
-  public City settlerNewCity(Position p) {
-    // Check position is a settler
-    if (p.getRow()==2 && p.getColumn()==3) {
-      // Create new city, delete settler
-      unitLoc[p.getRow()][p.getColumn()] = null;
-      cityLoc[p.getRow()][p.getColumn()] = new CityImpl(getPlayerInTurn());
-      return cityLoc[p.getRow()][p.getColumn()];
-    }
-    else {
-      return null;
-    }
-  }
-
-  // Fortify the archers
-  public boolean archersFortify(Position pos) {
-    int r = pos.getRow();
-    int c = pos.getColumn();
-    //Check that unit is archers
-    if (unitLoc[r][c].getTypeString().equals(GameConstants.ARCHER)) {
-      // Set attack to 0
-      ((UnitImpl)(unitLoc[r][c])).setAttack(0);
-      // Set defenses to 5
-      unitLoc[r][c].setDefenses(5);
-      // Set max move count to 0
-      unitLoc[r][c].setMoveCount(0);
-      return true;
-    }
-    else {
-      //Unit not archers
-      return false;
-    }
   }
 
   //Units get max move count at round start
