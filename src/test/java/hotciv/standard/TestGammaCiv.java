@@ -15,7 +15,7 @@ public class TestGammaCiv {
      */
     @Before
     public void setUp() {
-        game = new VarCivImpl( new GammaCivImpl(new AlphaFactory()));
+        game = new GameImpl(new GammaFactory());
     }
 
     @Test
