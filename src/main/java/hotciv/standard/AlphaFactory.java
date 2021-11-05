@@ -21,4 +21,7 @@ public class AlphaFactory implements HotCivFactory {
         return new AlphaMoveAttack();
     }
 
+    @Override
+    public CityStrat createCityStrat() { return new AlphaCity(); }
+
 }

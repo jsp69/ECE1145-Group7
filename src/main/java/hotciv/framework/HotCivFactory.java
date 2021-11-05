@@ -5,4 +5,5 @@ public interface HotCivFactory {
     AgingStrat createAgingStrat();
     UnitActionStrat createUnitActionStrat();
     MoveAttackStrat createMoveAttackStrat();
+    CityStrat createCityStrat();
 }

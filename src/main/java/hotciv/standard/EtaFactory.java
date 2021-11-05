@@ -2,21 +2,10 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-public class ZetaFactory implements HotCivFactory {
-
-    WinStrat wB, wE;
-    WinStrat ws;
-    int roundsPassed;
-
-    //Constructor for use with test stubs
-    public ZetaFactory(int roundsPassed, WinStrat ws){
-        this.roundsPassed = roundsPassed;
-        this.ws = ws;
-    }
-
+public class EtaFactory implements HotCivFactory {
     @Override
     public WinStrat createWinStrat() {
-        return new ZetaWin(wB, wE, roundsPassed);
+        return new AlphaWin();
     }
 
     @Override
@@ -35,6 +24,7 @@ public class ZetaFactory implements HotCivFactory {
     }
 
     @Override
-    public CityStrat createCityStrat() { return new AlphaCity(); }
+    public CityStrat createCityStrat() {
+        return new EtaCity();
+    }
 }
-

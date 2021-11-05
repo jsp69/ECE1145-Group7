@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class WinnerStrategyContext implements Game {
+    int age=-4000;
 
     @Override
     public Tile getTileAt(Position p) {
@@ -33,7 +34,7 @@ public class WinnerStrategyContext implements Game {
     }
 
     public int getAge() {
-        return this.getAge();
+        return age;
     }
 
     @Override
@@ -57,7 +58,9 @@ public class WinnerStrategyContext implements Game {
     }
 
     @Override
-    public void performUnitActionAt(Position p) {}
+    public void performUnitActionAt(Position p) {
+
+    }
 
     public Collection<Player> getOwners() {
         City[][] cityLoc = new CityImpl[16][16];
@@ -65,7 +68,7 @@ public class WinnerStrategyContext implements Game {
         cityLoc[4][1] = new CityImpl(Player.BLUE);
         cityLoc[3][2] = new CityImpl(Player.BLUE);
 
-        ArrayList<Player> result = new ArrayList<Player>();
+        ArrayList<Player> result = new ArrayList<>();
         result.add(cityLoc[1][1].getOwner());
         result.add(cityLoc[4][1].getOwner());
         result.add(cityLoc[3][2].getOwner());

@@ -22,5 +22,7 @@ public class GammaFactory implements HotCivFactory {
         return new AlphaAging();
     }
 
+    @Override
+    public CityStrat createCityStrat() { return new AlphaCity(); }
 }
 

@@ -4,10 +4,11 @@ import hotciv.framework.*;
 
 public class CityImpl implements City {
     Player owner;
-    static int size = 1;
-    int treasure;
-    public String focus;
-    public String unit;
+    int size = 1;
+    int treasure=0;
+    String focus=GameConstants.foodFocus;
+    String unit;
+    int food;
 
     //Constructor assigning Owner
     public CityImpl(Player p) {
@@ -34,7 +35,13 @@ public class CityImpl implements City {
     //Method to change owner of city
     public void setOwner(Player p){owner=p;}
 
-    public void setWorkforeFocus(String f){focus=f;}
+    public void setWorkforceFocus(String f){focus=f;}
 
     public void setProduction(String p){unit=p;}
+
+    public void setSize(int s){size=s;}
+
+    public int getFood(){return food;}
+
+    public void setFood(int f){food=f;}
 }

@@ -22,4 +22,7 @@ public class BetaFactory implements HotCivFactory {
     public MoveAttackStrat createMoveAttackStrat() {
         return new AlphaMoveAttack();
     }
+
+    @Override
+    public CityStrat createCityStrat() { return new AlphaCity(); }
 }

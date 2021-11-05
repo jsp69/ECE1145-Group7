@@ -247,13 +247,11 @@ public class TestAlphaCiv {
     assertThat(game, is(notNullValue()));
     // Position of settler/new city
     Position newCity=new Position(2,3);
-    game.performUnitActionAt(newCity);
-    // Check settler disappears
+    City redCity2 = ((GameImpl)(game)).settlerNewCity(newCity);
+    // Check settler disappears, new city created
     assertNull(game.getUnitAt(newCity));
-    //Check new city created
+    assertEquals(redCity2.getOwner(), Player.RED);
     assertNotNull(game.getCityAt(newCity));
-    //Check new city created is owned by red
-    assertEquals(game.getCityAt(newCity).getOwner(), Player.RED);
   }
 
   @Test
@@ -262,13 +260,11 @@ public class TestAlphaCiv {
     // Set archer, legion position
     Position archer = new Position(2, 0);
     Position legion = new Position(3, 2);
-    game.performUnitActionAt(archer);
+    assertTrue(((GameImpl)(game)).archersFortify(archer));
+    assertFalse(((GameImpl)(game)).archersFortify(legion));
     //Check defense and move values
     assertEquals((game.getUnitAt(archer)).getMoveCount(), 0);
     assertEquals((game.getUnitAt(archer)).getDefensiveStrength(), 5);
-    game.performUnitActionAt(legion);
-    //Check move count not equal to zero since not archer
-    assertEquals(game.getUnitAt(legion).getMoveCount(), 1);
   }
 
   @Test

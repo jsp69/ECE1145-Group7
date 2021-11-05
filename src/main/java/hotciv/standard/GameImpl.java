@@ -2,6 +2,10 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -51,6 +55,7 @@ public class GameImpl implements Game {
   WinStrat winStrat;
   AgingStrat ageStrat;
   MoveAttackStrat moveStrat;
+  CityStrat cityStrat;
 
   public GameImpl(HotCivFactory factory){
     unitLoc[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED);
@@ -67,6 +72,13 @@ public class GameImpl implements Game {
     tileLoc[1][0] = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
     tileLoc[0][1] = new TileImpl(GameConstants.HILLS, new Position(0, 1));
     tileLoc[2][2] = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
+    for(int i=0;i<16;i++){
+      for(int j=0;j<16;j++){
+        if(tileLoc[i][j]==null){
+          tileLoc[i][j]=new TileImpl(GameConstants.PLAINS,new Position(i,j));
+        }
+      }
+    }
 
     cityLoc[1][1] = new CityImpl(Player.RED);
     cityLoc[4][1] = new CityImpl(Player.BLUE);
@@ -77,6 +89,7 @@ public class GameImpl implements Game {
     winStrat=factory.createWinStrat();
     ageStrat=factory.createAgingStrat();
     moveStrat=factory.createMoveAttackStrat();
+    cityStrat=factory.createCityStrat();
   }
 
   public Tile getTileAt( Position p ) {
@@ -184,35 +197,39 @@ public class GameImpl implements Game {
       endOfRound();
     }
   }
-  public void changeWorkForceFocusInCityAt( Position p, String balance ) {((CityImpl)(getCityAt(p))).setWorkforeFocus(balance);}
+  public void changeWorkForceFocusInCityAt( Position p, String balance ) {((CityImpl)(getCityAt(p))).setWorkforceFocus(balance);}
   public void changeProductionInCityAt( Position p, String unitType ) {((CityImpl)(getCityAt(p))).setProduction(unitType);}
-  public void performUnitActionAt(Position p ) {
-    int r = p.getRow();
-    System.out.print(r);
-    int c = p.getColumn();
-    System.out.print(c);
-    // Check position is a settler
-    if (p.getRow()==2 && p.getColumn()==3) {
-      // Create new city, delete settler
-      unitLoc[p.getRow()][p.getColumn()] = null;
-      cityLoc[p.getRow()][p.getColumn()] = new CityImpl(getPlayerInTurn());
-      return;
-    }
-    //Check that unit is archers
-    if (unitLoc[r][c].getTypeString().equals(GameConstants.ARCHER)) {
-      // Set attack to 0
-      ((UnitImpl)(unitLoc[r][c])).setAttack(0);
-      // Set defenses to 5
-      unitLoc[r][c].setDefenses(5);
-      // Set max move count to 0
-      unitLoc[r][c].setMoveCount(0);
-      return;
-    }
-  }
+  public void performUnitActionAt( Position p ) {}
   public void endOfRound() {
-    // Add 6 production to each city
-    ((CityImpl)(cityLoc[1][1])).setTreasury((cityLoc[1][1]).getTreasury() + 6);
-    ((CityImpl)(cityLoc[4][1])).setTreasury((cityLoc[4][1]).getTreasury() + 6);
+    //Grow all cities that meet conditions and increase food/production for each city
+    cityStrat.cityGrow(this);
+    cityStrat.cityProduce(this);
+
+    //Go through all cities and see if they have finished production of their units
+    //If so, place them in/around the city in the first available spot
+    Position p=new Position(0,0);
+    for(int i=0;i<16;i++){
+      p.setRow(i);
+      for(int j=0;j<16;j++){
+        p.setColumn(j);
+        if(cityLoc[i][j]!=null){
+          if(Objects.equals(cityLoc[i][j].getProduction(), GameConstants.ARCHER) && cityLoc[i][j].getTreasury()>=10){
+            if(placeUnitAround(p,GameConstants.ARCHER,getCityAt(p).getOwner())){
+              ((CityImpl)(cityLoc[i][j])).setTreasury(cityLoc[i][j].getTreasury()-10);
+            }
+          }else if(Objects.equals(cityLoc[i][j].getProduction(), GameConstants.LEGION) && cityLoc[i][j].getTreasury()>=15){
+            if(placeUnitAround(p,GameConstants.LEGION,getCityAt(p).getOwner())){
+              ((CityImpl)(cityLoc[i][j])).setTreasury(cityLoc[i][j].getTreasury()-15);
+            }
+          }else if(Objects.equals(cityLoc[i][j].getProduction(), GameConstants.SETTLER) && cityLoc[i][j].getTreasury()>=20){
+            if(placeUnitAround(p,GameConstants.SETTLER,getCityAt(p).getOwner())){
+              ((CityImpl)(cityLoc[i][j])).setTreasury(cityLoc[i][j].getTreasury()-20);
+            }
+          }
+        }
+      }
+    }
+
     // Reset turn counter
     this.turn = 0;
     increaseAge();
@@ -222,6 +239,40 @@ public class GameImpl implements Game {
   //Moves age forward
   public void increaseAge() {
     this.age=ageStrat.increaseAge(this.age);
+  }
+
+  // Establish new city
+  public City settlerNewCity(Position p) {
+    // Check position is a settler
+    if (p.getRow()==2 && p.getColumn()==3) {
+      // Create new city, delete settler
+      unitLoc[p.getRow()][p.getColumn()] = null;
+      cityLoc[p.getRow()][p.getColumn()] = new CityImpl(getPlayerInTurn());
+      return cityLoc[p.getRow()][p.getColumn()];
+    }
+    else {
+      return null;
+    }
+  }
+
+  // Fortify the archers
+  public boolean archersFortify(Position pos) {
+    int r = pos.getRow();
+    int c = pos.getColumn();
+    //Check that unit is archers
+    if (unitLoc[r][c].getTypeString().equals(GameConstants.ARCHER)) {
+      // Set attack to 0
+      ((UnitImpl)(unitLoc[r][c])).setAttack(0);
+      // Set defenses to 5
+      unitLoc[r][c].setDefenses(5);
+      // Set max move count to 0
+      unitLoc[r][c].setMoveCount(0);
+      return true;
+    }
+    else {
+      //Unit not archers
+      return false;
+    }
   }
 
   //Units get max move count at round start
@@ -239,5 +290,55 @@ public class GameImpl implements Game {
     }
   }
 
+  private boolean placeUnitAround(Position p, String type, Player o){
+    if(unitLoc[p.getRow()][p.getColumn()]==null){
+      unitLoc[p.getRow()][p.getColumn()]=new UnitImpl(type,o);
+      return true;
+    }else if(p.getRow()>0 && checkSafeUnitTile(new Position(p.getRow()-1,p.getColumn()))) {
+      if (unitLoc[p.getRow() - 1][p.getColumn()] == null) {
+        unitLoc[p.getRow() - 1][p.getColumn()] = new UnitImpl(type, o);
+        return true;
+      }
+    }else if(p.getRow()>0 && p.getColumn()<15 && checkSafeUnitTile(new Position(p.getRow()-1,p.getColumn()+1))){
+      if (unitLoc[p.getRow() - 1][p.getColumn()+1] == null) {
+        unitLoc[p.getRow() - 1][p.getColumn()+1] = new UnitImpl(type, o);
+        return true;
+      }
+    }else if(p.getColumn()<15 && checkSafeUnitTile(new Position(p.getRow(),p.getColumn()+1))){
+      if (unitLoc[p.getRow()][p.getColumn()+1] == null) {
+        unitLoc[p.getRow()][p.getColumn()+1] = new UnitImpl(type, o);
+        return true;
+      }
+    }else if(p.getRow()<15 && p.getColumn()<15 && checkSafeUnitTile(new Position(p.getRow()+1,p.getColumn()+1))){
+      if (unitLoc[p.getRow() + 1][p.getColumn() + 1] == null) {
+        unitLoc[p.getRow() + 1][p.getColumn() + 1] = new UnitImpl(type, o);
+        return true;
+      }
+    }else if(p.getRow()<15 && checkSafeUnitTile(new Position(p.getRow()+1,p.getColumn()))){
+      if (unitLoc[p.getRow() + 1][p.getColumn()] == null) {
+        unitLoc[p.getRow() + 1][p.getColumn()] = new UnitImpl(type, o);
+        return true;
+      }
+    }else if(p.getRow()<15 && p.getColumn()>0 && checkSafeUnitTile(new Position(p.getRow()+1,p.getColumn()-1))){
+      if (unitLoc[p.getRow() + 1][p.getColumn()-1] == null) {
+        unitLoc[p.getRow() + 1][p.getColumn()-1] = new UnitImpl(type, o);
+        return true;
+      }
+    }else if(p.getColumn()>0 && checkSafeUnitTile(new Position(p.getRow(),p.getColumn()-1))){
+      if (unitLoc[p.getRow()][p.getColumn()-1] == null) {
+        unitLoc[p.getRow()][p.getColumn()-1] = new UnitImpl(type, o);
+        return true;
+      }
+    }else if(p.getRow()>0 && p.getColumn()>0 && checkSafeUnitTile(new Position(p.getRow()-1,p.getColumn()-1))){
+      if (unitLoc[p.getRow() - 1][p.getColumn()-1] == null) {
+        unitLoc[p.getRow() - 1][p.getColumn()-1] = new UnitImpl(type, o);
+        return true;
+      }
+    }
+    return false;
+  }
 
+  private boolean checkSafeUnitTile(Position p){
+    return !tileLoc[p.getRow()][p.getColumn()].getTypeString().equals(GameConstants.OCEANS) && !tileLoc[p.getRow()][p.getColumn()].getTypeString().equals(GameConstants.MOUNTAINS);
+  }
 }

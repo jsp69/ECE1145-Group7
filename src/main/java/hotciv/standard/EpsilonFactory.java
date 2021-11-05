@@ -36,4 +36,7 @@ public class EpsilonFactory implements HotCivFactory {
     public MoveAttackStrat createMoveAttackStrat() {
         return new EpsilonMoveAttack(diceA,diceD);
     }
+
+    @Override
+    public CityStrat createCityStrat() { return new AlphaCity(); }
 }
