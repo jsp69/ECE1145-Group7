@@ -9,6 +9,7 @@ public class EpsilonMoveAttack implements MoveAttackStrat {
     DiceRoll diceA, diceD;
 
     public EpsilonMoveAttack(DiceRoll A, DiceRoll D){diceA=A;diceD=D;}
+    public EpsilonMoveAttack(){diceA=new RandomRoll();diceD=new RandomRoll();}
 
     @Override
     public boolean moveUnit(Position from, Position to, Game game, City[][] cityLoc, Unit[][] unitLoc) {
