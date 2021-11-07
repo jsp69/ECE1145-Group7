@@ -11,7 +11,9 @@ public class TestDeltaCiv {
     /** Fixture for DeltaCiv testing. */
     @Before
     public void setUp() {
-        game = new VarCivImpl( new DeltaCivImpl(new AlphaFactory()));
+        game = new GameImpl(new DeltaFactory());
+        ((GameImpl)game).createNewCity(8, 12, Player.RED);
+        ((GameImpl)game).createNewCity(4, 5, Player.BLUE);
     }
 
     @Test

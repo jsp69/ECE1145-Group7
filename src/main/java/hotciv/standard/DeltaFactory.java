@@ -1,18 +1,37 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
-
 import java.util.*;
-/** DeltaCiv implementation of HotCiv */
 
-public class DeltaCivImpl extends GameImpl {
-    /** Code copied from StubGame1.java and edited for the DeltaCiv */
-    public DeltaCivImpl(HotCivFactory factory) {
-        super(factory);
+public class DeltaFactory implements HotCivFactory {
+    // Constructor for use with test stubs
+    public DeltaFactory() {
         world = defineWorld();
-        // Create cities at (8,12) and (4,5)
-        cityLoc[8][12] = new CityImpl(Player.RED);
-        cityLoc[4][5] = new CityImpl(Player.BLUE);
+    }
+
+    @Override
+    public WinStrat createWinStrat() {
+        return new AlphaWin();
+    }
+
+    @Override
+    public AgingStrat createAgingStrat() {
+        return new AlphaAging();
+    }
+
+    @Override
+    public UnitActionStrat createUnitActionStrat() {
+        return new AlphaUnitAction();
+    }
+
+    @Override
+    public MoveAttackStrat createMoveAttackStrat() {
+        return new AlphaMoveAttack();
+    }
+
+    @Override
+    public CityStrat createCityStrat() {
+        return new AlphaCity();
     }
 
     // A simple implementation to draw the map of DeltaCiv
@@ -61,5 +80,5 @@ public class DeltaCivImpl extends GameImpl {
             }
         }
         return theWorld;
-        }
+    }
 }

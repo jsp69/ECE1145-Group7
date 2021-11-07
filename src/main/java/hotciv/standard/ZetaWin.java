@@ -4,6 +4,8 @@ import hotciv.framework.Game;
 import hotciv.framework.Player;
 import hotciv.framework.WinStrat;
 
+import java.util.*;
+
 public class ZetaWin implements WinStrat {
 
     private WinStrat BetaWin, EpsilonWin, currentWinner;

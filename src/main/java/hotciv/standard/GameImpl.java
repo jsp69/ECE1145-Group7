@@ -341,4 +341,8 @@ public class GameImpl implements Game {
   private boolean checkSafeUnitTile(Position p){
     return !tileLoc[p.getRow()][p.getColumn()].getTypeString().equals(GameConstants.OCEANS) && !tileLoc[p.getRow()][p.getColumn()].getTypeString().equals(GameConstants.MOUNTAINS);
   }
+
+  public void createNewCity(int x, int y, Player player) {
+    cityLoc[x][y] = new CityImpl(player);
+  }
 }
