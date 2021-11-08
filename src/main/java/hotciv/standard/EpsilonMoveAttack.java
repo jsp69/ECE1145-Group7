@@ -55,6 +55,9 @@ public class EpsilonMoveAttack implements MoveAttackStrat {
                 }else{
                     unitLoc[to.getRow()][to.getColumn()]=unitLoc[from.getRow()][from.getColumn()];
                     unitLoc[from.getRow()][from.getColumn()]=null;
+                    if(cityLoc[to.getRow()][to.getColumn()]!=null){
+                        ((CityImpl)(cityLoc[to.getRow()][to.getColumn()])).setOwner(unitLoc[to.getRow()][to.getColumn()].getOwner());
+                    }
                     return true;
                 }
             } else {
