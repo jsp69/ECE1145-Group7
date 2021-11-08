@@ -82,7 +82,7 @@ public class ThetaUnitAction implements UnitActionStrat {
 
         //Check if forest
         if (Objects.equals(t[p.getRow()][p.getColumn()].getTypeString(), GameConstants.FOREST)) {
-            ((TileImpl)t[p.getRow()][p.getColumn()]).setTypeString(GameConstants.FOREST);
+            ((TileImpl)t[p.getRow()][p.getColumn()]).setTypeString(GameConstants.PLAINS);
         }
     }
 }

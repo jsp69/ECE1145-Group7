@@ -75,20 +75,7 @@ public class GameImpl implements Game {
   }
 
   public Tile getTileAt( Position p ) {
-    if ((p.getColumn() == 0) && (p.getRow() == 1)) {
-      return tileLoc[1][0];
-    }
-    else if ((p.getColumn() == 1) && (p.getRow() == 0)) {
-      return tileLoc[0][1];
-    }
-    else if ((p.getColumn() == 2) && (p.getRow() == 2)) {
-      return tileLoc[2][2];
-    }
-    else {
-      // Every other tile is PLAINS
-      tileLoc[p.getRow()][p.getColumn()] = new TileImpl(GameConstants.PLAINS, p);
-      return tileLoc[p.getRow()][p.getColumn()];
-    }
+    return tileLoc[p.getRow()][p.getColumn()];
   }
   public Unit getUnitAt( Position p ) {
     //Check if a unit exists at position p and return if so

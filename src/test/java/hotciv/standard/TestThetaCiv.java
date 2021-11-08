@@ -51,6 +51,10 @@ public class TestThetaCiv {
 
     @Test public void forestChangesToPlains() {
         assertThat(game, is(notNullValue()));
+        Position trees = new Position(2,1);
+        assertEquals(game.getTileAt(trees).getTypeString(), GameConstants.FOREST);
+        game.performUnitActionAt(redUFO);
+        assertEquals(game.getTileAt(trees).getTypeString(), GameConstants.PLAINS);
     }
     /*@Test public void ufoActionDestroysCity() {
         assertThat(game, is(notNullValue()));

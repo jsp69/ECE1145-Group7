@@ -33,6 +33,8 @@ public class ThetaGame implements GameStrat {
         t[1][0] = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
         t[0][1] = new TileImpl(GameConstants.HILLS, new Position(0, 1));
         t[2][2] = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
+        t[2][1] = new TileImpl(GameConstants.FOREST, new Position(2,1));
+
         for(int i=0;i<16;i++){
             for(int j=0;j<16;j++){
                 if(t[i][j]==null){
