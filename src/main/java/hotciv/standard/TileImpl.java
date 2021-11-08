@@ -15,5 +15,7 @@ public class TileImpl implements Tile {
     }
 
     public String getTypeString() { return this.tType; }
+
+    public void setTypeString(String type) { this.tType = type; }
     
 }
