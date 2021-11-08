@@ -2,10 +2,16 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-public class AlphaFactory implements HotCivFactory {
+public class ThetaFactory implements HotCivFactory {
     @Override
-    public GameStrat createGameStrat() {
-        return new AlphaGame();
+    public GameStrat createGameStrat() { return new ThetaGame(); }
+
+    @Override
+    public UnitActionStrat createUnitActionStrat() {return new AlphaUnitAction();}
+
+    @Override
+    public MoveAttackStrat createMoveAttackStrat() {
+        return new ThetaMoveAttack();
     }
 
     @Override
@@ -19,14 +25,5 @@ public class AlphaFactory implements HotCivFactory {
     }
 
     @Override
-    public UnitActionStrat createUnitActionStrat() { return new AlphaUnitAction(); }
-
-    @Override
-    public MoveAttackStrat createMoveAttackStrat() {
-        return new AlphaMoveAttack();
-    }
-
-    @Override
     public CityStrat createCityStrat() { return new AlphaCity(); }
-
 }

@@ -18,6 +18,9 @@ public class EpsilonFactory implements HotCivFactory {
     }
 
     @Override
+    public GameStrat createGameStrat() { return new AlphaGame(); }
+
+    @Override
     public WinStrat createWinStrat() {
         return new EpsilonWin();
     }

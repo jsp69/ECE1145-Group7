@@ -6,7 +6,7 @@ import hotciv.framework.UnitActionStrat;
 
 public class AlphaUnitAction implements UnitActionStrat {
     @Override
-    public City performUnitActionAt(Position p) {
-        return null;
+    public void performUnitActionAt(Position p) {
+        //return null;
     }
 }

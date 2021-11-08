@@ -1,11 +1,10 @@
 package hotciv.standard;
 
-import hotciv.framework.Player;
 import hotciv.framework.*;
 
 public class GammaUnitAction implements UnitActionStrat {
     @Override
-    public City performUnitActionAt(Position p) {
+    public void performUnitActionAt(Position p) {
 
         Unit[][] unitLoc = new UnitImpl[16][16];
 
@@ -26,7 +25,7 @@ public class GammaUnitAction implements UnitActionStrat {
         cityLoc[3][2] = new CityImpl(Player.BLUE);
 
             //Check if red settler
-            if (p ==  unitLoc[4][3]) {
+            /*if (p ==  unitLoc[4][3]) {
                 //Remove from world
                 unitLoc[4][3] = null;
                 //Build city with red as owner
@@ -71,6 +70,6 @@ public class GammaUnitAction implements UnitActionStrat {
                 //Archer cannot move
                 unitLoc[0][2].setMoveCount(0);
             }
-        return null;
+        return null;*/
     }
-    }
+}

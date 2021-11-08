@@ -13,6 +13,9 @@ public class UnitImpl implements Unit {
     //Constructor assigning type and owner
     public UnitImpl(String type, Player play) {
         this.tType = type;
+        if (type == GameConstants.UFO) {
+            this.defense = 8;
+        }
         this.owner = play;
     }
 

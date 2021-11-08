@@ -56,40 +56,23 @@ public class GameImpl implements Game {
   AgingStrat ageStrat;
   MoveAttackStrat moveStrat;
   CityStrat cityStrat;
+  GameStrat gameStrat;
+  UnitActionStrat unitStrat;
 
   public GameImpl(HotCivFactory factory){
-    unitLoc[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED);
-    unitLoc[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
-    unitLoc[2][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
-    unitLoc[3][3] = new UnitImpl(GameConstants.LEGION, Player.RED);
-    unitLoc[0][2] = new UnitImpl(GameConstants.ARCHER, Player.BLUE);
-    unitLoc[3][4] = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
-    unitLoc[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
-    unitLoc[4][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
-    unitLoc[5][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
-    unitsMaxMoveAtStart();
-
-    tileLoc[1][0] = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
-    tileLoc[0][1] = new TileImpl(GameConstants.HILLS, new Position(0, 1));
-    tileLoc[2][2] = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
-    for(int i=0;i<16;i++){
-      for(int j=0;j<16;j++){
-        if(tileLoc[i][j]==null){
-          tileLoc[i][j]=new TileImpl(GameConstants.PLAINS,new Position(i,j));
-        }
-      }
-    }
-
-    cityLoc[1][1] = new CityImpl(Player.RED);
-    cityLoc[4][1] = new CityImpl(Player.BLUE);
-    cityLoc[3][2] = new CityImpl(Player.BLUE);
-
     //Use Abstract Factory object to generate variant method algorithms
     civFactory=factory;
     winStrat=factory.createWinStrat();
     ageStrat=factory.createAgingStrat();
     moveStrat=factory.createMoveAttackStrat();
     cityStrat=factory.createCityStrat();
+    gameStrat=factory.createGameStrat();
+    unitStrat=factory.createUnitActionStrat();
+
+    unitLoc = gameStrat.getUnitsArray();
+    tileLoc = gameStrat.getTilesArray();
+    cityLoc = gameStrat.getCitiesArray();
+    unitsMaxMoveAtStart();
   }
 
   public Tile getTileAt( Position p ) {
@@ -199,7 +182,10 @@ public class GameImpl implements Game {
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {((CityImpl)(getCityAt(p))).setWorkforceFocus(balance);}
   public void changeProductionInCityAt( Position p, String unitType ) {((CityImpl)(getCityAt(p))).setProduction(unitType);}
-  public void performUnitActionAt( Position p ) {}
+  public void performUnitActionAt( Position p ) {
+    System.out.print("hey");
+    unitStrat.performUnitActionAt(p);
+  }
   public void endOfRound() {
     //Grow all cities that meet conditions and increase food/production for each city
     cityStrat.cityGrow(this);

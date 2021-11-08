@@ -3,6 +3,8 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 public class GammaFactory implements HotCivFactory {
+    @Override
+    public GameStrat createGameStrat() { return new AlphaGame(); }
 
     @Override
     public UnitActionStrat createUnitActionStrat() {return new GammaUnitAction();}

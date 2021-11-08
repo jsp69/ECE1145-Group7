@@ -6,4 +6,5 @@ public interface HotCivFactory {
     UnitActionStrat createUnitActionStrat();
     MoveAttackStrat createMoveAttackStrat();
     CityStrat createCityStrat();
+    GameStrat createGameStrat();
 }

@@ -2,9 +2,7 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-import java.util.Objects;
-
-public class AlphaGame implements GameStrat {
+public class ThetaGame implements GameStrat {
     // Array index corresponds to unit position unitLoc[Position row][Position Column]
     Unit[][] u = new UnitImpl[16][16];
 
@@ -14,7 +12,7 @@ public class AlphaGame implements GameStrat {
     // Array index corresponds to city position cityLoc[Position row][Position Column]
     City [][] c = new CityImpl[16][16];
 
-    public AlphaGame(){
+    public ThetaGame(){
         gameBoard();
     }
 
@@ -29,6 +27,7 @@ public class AlphaGame implements GameStrat {
         u[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
         u[4][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
         u[5][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
+        u[2][1] = new UnitImpl(GameConstants.UFO, Player.RED);
 
         t[1][0] = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
         t[0][1] = new TileImpl(GameConstants.HILLS, new Position(0, 1));
