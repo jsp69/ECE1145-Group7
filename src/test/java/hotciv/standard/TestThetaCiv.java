@@ -49,6 +49,16 @@ public class TestThetaCiv {
         assertEquals(game.getCityAt(redCity).getSize(), 0);
     }
 
+    @Test public void forestChangesToPlains() {
+        assertThat(game, is(notNullValue()));
+    }
+    /*@Test public void ufoActionDestroysCity() {
+        assertThat(game, is(notNullValue()));
+        Position redCity = new Position(1,1);
+        game.performUnitActionAt(blueUFO);
+
+    }*/
+
     /*@Test public void produceUFO() {
         assertThat(game, is(notNullValue()));
         Position r = new Position(1, 1);

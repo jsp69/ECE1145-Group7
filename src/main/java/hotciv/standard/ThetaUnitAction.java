@@ -2,6 +2,8 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import java.util.Objects;
+
 public class ThetaUnitAction implements UnitActionStrat {
     Unit[][] u;
     City[][] c;
@@ -78,6 +80,9 @@ public class ThetaUnitAction implements UnitActionStrat {
             ((CityImpl)c[1][1]).setSize(c[1][1].getSize() - 1);
         }
 
-        //return null;
+        //Check if forest
+        if (Objects.equals(t[p.getRow()][p.getColumn()].getTypeString(), GameConstants.FOREST)) {
+            ((TileImpl)t[p.getRow()][p.getColumn()]).setTypeString(GameConstants.FOREST);
+        }
     }
 }
