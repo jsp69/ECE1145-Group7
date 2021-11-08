@@ -40,15 +40,14 @@ public class GameImpl implements Game {
   int turn = 0;
   int age = -4000;
 
-  // Set array to use for units
   // Array index corresponds to unit position unitLoc[Position row][Position Column]
-  Unit[][] unitLoc = new UnitImpl[16][16];
+  static Unit[][] unitLoc;
 
   // Array index corresponds to tile position tileLoc[Position row][Position Column]
-  Tile [][] tileLoc = new TileImpl[16][16];
+  static Tile [][] tileLoc;
 
   // Array index corresponds to city position cityLoc[Position row][Position Column]
-  City [][] cityLoc = new CityImpl[16][16];
+  static City [][] cityLoc;
 
   //Factory object and strategies for variation control
   HotCivFactory civFactory;
@@ -185,6 +184,9 @@ public class GameImpl implements Game {
   public void performUnitActionAt( Position p ) {
     System.out.print("hey");
     unitStrat.performUnitActionAt(p);
+    unitLoc = unitStrat.getUnitsArray();
+    tileLoc = unitStrat.getTilesArray();
+    cityLoc = unitStrat.getCitiesArray();
   }
   public void endOfRound() {
     //Grow all cities that meet conditions and increase food/production for each city
@@ -330,5 +332,15 @@ public class GameImpl implements Game {
 
   public void createNewCity(int x, int y, Player player) {
     cityLoc[x][y] = new CityImpl(player);
+  }
+
+  static public Unit[][] getUnitLoc() {
+    return unitLoc;
+  }
+  static public City[][] getCityLoc() {
+    return cityLoc;
+  }
+  static public Tile[][] getTileLoc() {
+    return tileLoc;
   }
 }

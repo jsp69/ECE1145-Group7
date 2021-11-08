@@ -7,7 +7,7 @@ public class ThetaFactory implements HotCivFactory {
     public GameStrat createGameStrat() { return new ThetaGame(); }
 
     @Override
-    public UnitActionStrat createUnitActionStrat() {return new AlphaUnitAction();}
+    public UnitActionStrat createUnitActionStrat() { return new ThetaUnitAction(); }
 
     @Override
     public MoveAttackStrat createMoveAttackStrat() {

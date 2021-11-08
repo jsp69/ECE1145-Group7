@@ -3,27 +3,28 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 public class ThetaUnitAction implements UnitActionStrat {
+    Unit[][] u;
+    City[][] c;
+    Tile[][] t;
+
+    public ThetaUnitAction() {
+        u = GameImpl.getUnitLoc();
+        c = GameImpl.getCityLoc();
+        t = GameImpl.getTileLoc();
+    }
+
+    @Override
+    public City[][] getCitiesArray() { return c; }
+
+    @Override
+    public Tile[][] getTilesArray() { return t; }
+
+    @Override
+    public Unit[][] getUnitsArray() { return u; }
+
     @Override
     public void performUnitActionAt(Position p) {
         System.out.print("innit");
-        Unit[][] unitLoc = new UnitImpl[16][16];
-
-        City [][] cityLoc = new CityImpl[16][16];
-
-        unitLoc[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED);
-        unitLoc[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
-        unitLoc[2][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
-        unitLoc[3][3] = new UnitImpl(GameConstants.LEGION, Player.RED);
-        unitLoc[0][2] = new UnitImpl(GameConstants.ARCHER, Player.BLUE);
-        unitLoc[3][4] = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
-        unitLoc[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
-        unitLoc[4][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
-        unitLoc[5][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
-        unitLoc[2][1] = new UnitImpl(GameConstants.UFO, Player.RED);
-
-        cityLoc[1][1] = new CityImpl(Player.RED);
-        cityLoc[4][1] = new CityImpl(Player.BLUE);
-        cityLoc[3][2] = new CityImpl(Player.BLUE);
 
         /*//Check if red settler
         if (p ==  unitLoc[4][3]) {
@@ -72,9 +73,9 @@ public class ThetaUnitAction implements UnitActionStrat {
             unitLoc[0][2].setMoveCount(0);
         }*/
         //Check if ufo
-        if (p.getRow() == 2 && p.getColumn() == 1) {
+        if (p.getRow() == 1 && p.getColumn() == 1) {
             //Decrease city population by 1
-            ((CityImpl)cityLoc[1][1]).setSize(cityLoc[1][1].getSize() - 1);
+            ((CityImpl)c[1][1]).setSize(c[1][1].getSize() - 1);
         }
 
         //return null;

@@ -72,4 +72,17 @@ public class GammaUnitAction implements UnitActionStrat {
             }
         return null;*/
     }
+
+    @Override
+    public City[][] getCitiesArray() { return null; }
+
+    @Override
+    public Tile[][] getTilesArray() {
+        return null;
+    }
+
+    @Override
+    public Unit[][] getUnitsArray() {
+        return null;
+    }
 }

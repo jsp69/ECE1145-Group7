@@ -9,6 +9,7 @@ public class TestThetaCiv {
 
     private Game game;
     Position redUFO = new Position(2, 1);
+    Position blueUFO = new Position(1,1);
 
     /** Fixture for ThetaCiv testing. */
     @Before
@@ -24,6 +25,13 @@ public class TestThetaCiv {
         assertTrue(game.moveUnit(redUFO, m));
     }
 
+    @Test public void moveOverOceans() {
+        assertThat(game, is(notNullValue()));
+        game.endOfTurn();   //Change player to BLUE
+        Position o = new Position(1, 0);
+        assertTrue(game.moveUnit(blueUFO, o));
+    }
+
     @Test public void defenseStrength8() {
         assertThat(game, is(notNullValue()));
         assertEquals(game.getUnitAt(redUFO).getDefensiveStrength(), 8);
@@ -37,10 +45,8 @@ public class TestThetaCiv {
     @Test public void ufoActionDecreaseCityPopBy1() {
         assertThat(game, is(notNullValue()));
         Position redCity = new Position(1,1);
-        int pop1 = game.getCityAt(redCity).getSize();
-        game.performUnitActionAt(redUFO);
-        int pop2 = game.getCityAt(redCity).getSize();
-        assertEquals(pop2, pop1 - 1);
+        game.performUnitActionAt(blueUFO);
+        assertEquals(game.getCityAt(redCity).getSize(), 0);
     }
 
     /*@Test public void produceUFO() {

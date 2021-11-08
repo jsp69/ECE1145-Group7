@@ -1,12 +1,21 @@
 package hotciv.standard;
 
-import hotciv.framework.City;
-import hotciv.framework.Position;
-import hotciv.framework.UnitActionStrat;
+import hotciv.framework.*;
 
 public class AlphaUnitAction implements UnitActionStrat {
     @Override
-    public void performUnitActionAt(Position p) {
-        //return null;
+    public void performUnitActionAt(Position p) {}
+
+    @Override
+    public City[][] getCitiesArray() { return null; }
+
+    @Override
+    public Tile[][] getTilesArray() {
+        return null;
+    }
+
+    @Override
+    public Unit[][] getUnitsArray() {
+        return null;
     }
 }
