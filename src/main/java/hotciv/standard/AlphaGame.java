@@ -5,14 +5,7 @@ import hotciv.framework.*;
 import java.util.Objects;
 
 public class AlphaGame implements GameStrat {
-    // Array index corresponds to unit position unitLoc[Position row][Position Column]
-    Unit[][] u = new UnitImpl[16][16];
 
-    // Array index corresponds to tile position tileLoc[Position row][Position Column]
-    Tile [][] t = new TileImpl[16][16];
-
-    // Array index corresponds to city position cityLoc[Position row][Position Column]
-    City [][] c = new CityImpl[16][16];
 
     public AlphaGame(){
         gameBoard();
