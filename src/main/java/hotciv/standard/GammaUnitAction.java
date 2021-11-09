@@ -2,87 +2,79 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import java.util.Objects;
+
 public class GammaUnitAction implements UnitActionStrat {
+    Unit[][] u;
+    City[][] c;
+    Tile[][] t;
+
+    @Override
+    public City[][] getCitiesArray() { return c; }
+
+    @Override
+    public Tile[][] getTilesArray() { return t; }
+
+    @Override
+    public Unit[][] getUnitsArray() { return u; }
+
     @Override
     public void performUnitActionAt(Position p) {
+        //Update arrays
+        u = GameImpl.getUnitLoc();
+        c = GameImpl.getCityLoc();
+        t = GameImpl.getTileLoc();
 
-        Unit[][] unitLoc = new UnitImpl[16][16];
+        //Get row, column, and unit
+        int r = p.getRow();
+        int col = p.getColumn();
+        Unit unit = u[r][col];
 
-        City [][] cityLoc = new CityImpl[16][16];
-
-        unitLoc[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED);
-        unitLoc[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
-        unitLoc[2][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
-        unitLoc[3][3] = new UnitImpl(GameConstants.LEGION, Player.RED);
-        unitLoc[0][2] = new UnitImpl(GameConstants.ARCHER, Player.BLUE);
-        unitLoc[3][4] = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
-        unitLoc[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
-        unitLoc[4][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
-        unitLoc[5][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
-
-        cityLoc[1][1] = new CityImpl(Player.RED);
-        cityLoc[4][1] = new CityImpl(Player.BLUE);
-        cityLoc[3][2] = new CityImpl(Player.BLUE);
-
-            //Check if red settler
-            /*if (p ==  unitLoc[4][3]) {
+        //Check if unit is null
+        if (unit != null) {
+            //Check if settler
+            if (Objects.equals(u[r][col].getTypeString(), GameConstants.SETTLER)) {
+                Player player = u[r][col].getOwner();
                 //Remove from world
-                unitLoc[4][3] = null;
-                //Build city with red as owner
-                cityLoc[p.getRow()][p.getColumn()] = new CityImpl(Player.RED);
-                return cityLoc[p.getRow()][p.getColumn()];
+                u[r][col] = null;
+                //Build city with same owner
+                c[r][col] = new CityImpl(player);
             }
-            //Check if blue settler
-            if (p == unitLoc[3][4]) {
-                //Remove from world
-                unitLoc[3][4] = null;
-                //Build city with blue as owner
-                cityLoc[p.getRow()][p.getColumn()] = new CityImpl(Player.BLUE);
-                return cityLoc[p.getRow()][p.getColumn()];
-            }
-            //Check if red archer
-            if (p == unitLoc[2][0]) {
-                //Check if already fortified
-                int oldDS = unitLoc[1][0].getDefensiveStrength()*2;
-                if(oldDS == unitLoc[2][0].getDefensiveStrength()) {
-                    //Defensive strength stays same
-                    unitLoc[1][0].getDefensiveStrength();
-                }
-                else {
-                    //Double defensive strength
-                    int ds = (unitLoc[2][0].getDefensiveStrength() * 2);
-                    unitLoc[2][0].setDefenses(ds);
-                    //Archer cannot move
-                    unitLoc[2][0].setMoveCount(0);
-                }
-            }
-            //Check if blue archer
-            if (p == unitLoc[0][2]) {
-                //Check if already fortified
-                int oldDS = unitLoc[1][1].getDefensiveStrength() * 2;
-                if (oldDS == unitLoc[0][2].getDefensiveStrength()) {
-                    //Defensive strength stays same
-                    unitLoc[1][1].getDefensiveStrength();
-                }
-                //Double defensive strength
-                int ds = (unitLoc[0][2].getDefensiveStrength()) * 2;
-                unitLoc[0][2].setDefenses(ds);
-                //Archer cannot move
-                unitLoc[0][2].setMoveCount(0);
-            }
-        return null;*/
-    }
 
-    @Override
-    public City[][] getCitiesArray() { return null; }
+            //Check if archer
+            if (Objects.equals(u[r][col].getTypeString(), GameConstants.ARCHER)) {
+                //Check if red
+                if (Objects.equals(u[r][col].getOwner(), Player.RED)) {
+                    //Check if already fortified
+                    int oldDS = u[1][0].getDefensiveStrength() * 2;
+                    if (oldDS == u[2][0].getDefensiveStrength()) {
+                        //Defensive strength stays same
+                        u[1][0].getDefensiveStrength();
+                    } else {
+                        //Double defensive strength
+                        int ds = (u[2][0].getDefensiveStrength() * 2);
+                        u[2][0].setDefenses(ds);
+                        //Archer cannot move
+                        u[2][0].setMoveCount(0);
+                    }
+                }
 
-    @Override
-    public Tile[][] getTilesArray() {
-        return null;
-    }
-
-    @Override
-    public Unit[][] getUnitsArray() {
-        return null;
+                //Check if blue
+                else if (Objects.equals(u[r][col].getOwner(), Player.BLUE)) {
+                    //Check if already fortified
+                    int oldDS = u[1][1].getDefensiveStrength() * 2;
+                    if (oldDS == u[0][2].getDefensiveStrength()) {
+                        //Defensive strength stays same
+                        u[1][1].getDefensiveStrength();
+                    } else {
+                        //Double defensive strength
+                        int ds = (u[0][2].getDefensiveStrength()) * 2;
+                        u[0][2].setDefenses(ds);
+                        //Archer cannot move
+                        u[0][2].setMoveCount(0);
+                    }
+                }
+            }
+        }
     }
 }
