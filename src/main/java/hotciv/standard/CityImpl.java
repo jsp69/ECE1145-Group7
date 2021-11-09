@@ -6,7 +6,7 @@ public class CityImpl implements City {
     Player owner;
     int size = 1;
     int treasure=0;
-    String focus=GameConstants.foodFocus;
+    String focus = GameConstants.foodFocus;
     String unit;
     int food;
 

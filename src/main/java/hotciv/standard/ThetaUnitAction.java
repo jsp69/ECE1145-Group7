@@ -29,7 +29,6 @@ public class ThetaUnitAction implements UnitActionStrat {
         int r = p.getRow();
         int col = p.getColumn();
         Unit unit = u[r][col];
-        System.out.print("Tile type (1): " + t[r][col].getTypeString() + "\n");
 
         //Check if unit is null
         if (unit != null) {
@@ -90,6 +89,5 @@ public class ThetaUnitAction implements UnitActionStrat {
                 ((TileImpl)t[p.getRow()][p.getColumn()]).setTypeString(GameConstants.PLAINS);
             }
         }
-        System.out.print("Tile type (2): " + t[r][col].getTypeString() + "\n");
     }
 }

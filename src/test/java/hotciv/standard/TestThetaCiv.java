@@ -10,6 +10,7 @@ public class TestThetaCiv {
     private Game game;
     Position redUFO = new Position(2, 1);
     Position blueUFO = new Position(1,1);
+    Position blueCity = new Position(3,2);
 
     /** Fixture for ThetaCiv testing. */
     @Before
@@ -61,11 +62,11 @@ public class TestThetaCiv {
 
     }*/
 
-    /*@Test public void produceUFO() {
+    @Test public void changeProductionAtCityToUFO() {
         assertThat(game, is(notNullValue()));
-        Position r = new Position(1, 1);
-
-    }*/
+        game.changeProductionInCityAt(blueCity, GameConstants.UFO);
+        assertEquals(game.getCityAt(blueCity).getProduction(), GameConstants.UFO);
+    }
 
     /*@Test public void flyOverCityWithNoUnits() {
         assertThat(game, is(notNullValue()));
