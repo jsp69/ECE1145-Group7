@@ -22,12 +22,12 @@ public class TestThetaCiv {
 
     }*/
 
-    /*@Test public void moveOverMountains() {
+    @Test public void moveOverMountains() {
         assertThat(game, is(notNullValue()));
         // Tile (0,3) is mountains
         Position m = new Position(0, 3);
         assertTrue(game.moveUnit(redUFO, m));
-    }*/
+    }
 
     @Test public void moveOverOceans() {
         assertThat(game, is(notNullValue()));

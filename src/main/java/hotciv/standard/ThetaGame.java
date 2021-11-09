@@ -20,6 +20,7 @@ public class ThetaGame implements GameStrat {
         u[5][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
         u[2][1] = new UnitImpl(GameConstants.UFO, Player.RED);
         u[1][1] = new UnitImpl(GameConstants.UFO, Player.BLUE);
+        u[1][2] = new UnitImpl(GameConstants.UFO, Player.BLUE);
 
         t[1][0] = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
         t[0][1] = new TileImpl(GameConstants.HILLS, new Position(0, 1));

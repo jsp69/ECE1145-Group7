@@ -54,7 +54,7 @@ public class ThetaMoveAttack implements MoveAttackStrat {
         int disRow = from.getRow() - to.getRow();
         int absDisCol = Math.abs(disCol);
         int absDisRow = Math.abs(disRow);
-        System.out.print("disRow: " + absDisRow + "\n" + "disCol: " + absDisCol + "\n");
+        System.out.print("disRow: " + disRow + "\n" + "disCol: " + disCol + "\n");
 
         // Type of move: vertical (v), horizontal (h), diagonal (d)
         String moveType = null;
@@ -63,12 +63,12 @@ public class ThetaMoveAttack implements MoveAttackStrat {
             else if (absDisCol == 1) { if (!Objects.equals(unitType, GameConstants.UFO)) { moveType = "d"; } }
             else { return false; }
         }
-        else if (from.getColumn() == to.getColumn()) {
+        else if (from.getRow() == to.getRow()) {
             if (absDisCol == 2) { if (Objects.equals(unitType, GameConstants.UFO)) { moveType = "v"; } }
             else if (absDisCol == 1) { if (!Objects.equals(unitType, GameConstants.UFO)) { moveType = "v"; } }
             else { return false; }
         }
-        else if (from.getRow() == to.getRow()){
+        else if (from.getColumn() == to.getColumn()){
             if (absDisRow == 2) { if (Objects.equals(unitType, GameConstants.UFO)) { moveType = "h"; } }
             else if (absDisRow == 1) { if (!Objects.equals(unitType, GameConstants.UFO)) { moveType = "h"; } }
             else { return false; }
@@ -104,13 +104,13 @@ public class ThetaMoveAttack implements MoveAttackStrat {
             else if (moveType.equals("v")) {
                 //up
                 if (disCol > 0) {
-                    moveUnit1(x1, y1, x2, y2-1);
-                    moveUnit1(x2,y2-1,x2,y2);
+                    moveUnit1(x1, y1, x2, y2+1);
+                    moveUnit1(x2,y2+1,x2,y2);
                 }
                 //down
                 else {
-                    moveUnit1(x1, y1, x2, y2+1);
-                    moveUnit1(x2, y2+1, x2, y2);
+                    moveUnit1(x1, y1, x2, y2-1);
+                    moveUnit1(x2, y2-1, x2, y2);
                 }
             }
             else {
