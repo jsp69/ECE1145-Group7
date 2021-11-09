@@ -44,17 +44,15 @@ public class TestThetaCiv {
 
     @Test public void ufoActionDecreaseCityPopBy1() {
         assertThat(game, is(notNullValue()));
-        Position redCity = new Position(1,1);
         game.performUnitActionAt(blueUFO);
-        assertEquals(game.getCityAt(redCity).getSize(), 0);
+        assertEquals(game.getCityAt(blueUFO).getSize(), 0);
     }
 
     @Test public void forestChangesToPlains() {
         assertThat(game, is(notNullValue()));
-        Position trees = new Position(2,1);
-        assertEquals(game.getTileAt(trees).getTypeString(), GameConstants.FOREST);
+        assertEquals(game.getTileAt(redUFO).getTypeString(), GameConstants.FOREST);
         game.performUnitActionAt(redUFO);
-        assertEquals(game.getTileAt(trees).getTypeString(), GameConstants.PLAINS);
+        assertEquals(game.getTileAt(redUFO).getTypeString(), GameConstants.PLAINS);
     }
     /*@Test public void ufoActionDestroysCity() {
         assertThat(game, is(notNullValue()));

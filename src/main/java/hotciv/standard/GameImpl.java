@@ -169,7 +169,6 @@ public class GameImpl implements Game {
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {((CityImpl)(getCityAt(p))).setWorkforceFocus(balance);}
   public void changeProductionInCityAt( Position p, String unitType ) {((CityImpl)(getCityAt(p))).setProduction(unitType);}
   public void performUnitActionAt( Position p ) {
-    System.out.print("hey");
     unitStrat.performUnitActionAt(p);
     unitLoc = unitStrat.getUnitsArray();
     tileLoc = unitStrat.getTilesArray();
