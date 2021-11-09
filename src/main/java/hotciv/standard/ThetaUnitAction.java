@@ -10,9 +10,9 @@ public class ThetaUnitAction implements UnitActionStrat {
     Tile[][] t;
 
     public ThetaUnitAction() {
-        u = GameImpl.getUnitLoc();
-        c = GameImpl.getCityLoc();
-        t = GameImpl.getTileLoc();
+       // u = GameImpl.getUnitLoc();
+       // c = GameImpl.getCityLoc();
+       // t = GameImpl.getTileLoc();
     }
 
     @Override
@@ -26,7 +26,10 @@ public class ThetaUnitAction implements UnitActionStrat {
 
     @Override
     public void performUnitActionAt(Position p, Game game) {
-        System.out.print("innit");
+        //System.out.print("innit");
+        c=((GameImpl)(game)).getCityLoc();
+        u=((GameImpl)(game)).getUnitLoc();
+        t=((GameImpl)(game)).getTileLoc();
 
         /*//Check if red settler
         if (p ==  unitLoc[4][3]) {

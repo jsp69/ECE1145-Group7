@@ -2,8 +2,6 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Objects;
 
 /** Skeleton implementation of HotCiv.
@@ -41,13 +39,13 @@ public class GameImpl implements Game {
   int age = -4000;
 
   // Array index corresponds to unit position unitLoc[Position row][Position Column]
-  static Unit[][] unitLoc;
+  public Unit[][] unitLoc;
 
   // Array index corresponds to tile position tileLoc[Position row][Position Column]
-  static Tile [][] tileLoc;
+  public Tile [][] tileLoc;
 
   // Array index corresponds to city position cityLoc[Position row][Position Column]
-  static City [][] cityLoc;
+  public City [][] cityLoc;
 
   //Factory object and strategies for variation control
   HotCivFactory civFactory;
@@ -55,7 +53,7 @@ public class GameImpl implements Game {
   AgingStrat ageStrat;
   MoveAttackStrat moveStrat;
   CityStrat cityStrat;
-  GameStrat gameStrat;
+  WorldStrat worldStrat;
   UnitActionStrat unitStrat;
 
   public GameImpl(HotCivFactory factory){
@@ -65,12 +63,12 @@ public class GameImpl implements Game {
     ageStrat=factory.createAgingStrat();
     moveStrat=factory.createMoveAttackStrat();
     cityStrat=factory.createCityStrat();
-    gameStrat=factory.createGameStrat();
+    worldStrat =factory.createWorldStrat();
     unitStrat=factory.createUnitActionStrat();
 
-    unitLoc = gameStrat.getUnitsArray();
-    tileLoc = gameStrat.getTilesArray();
-    cityLoc = gameStrat.getCitiesArray();
+    unitLoc = worldStrat.getUnitsArray();
+    tileLoc = worldStrat.getTilesArray();
+    cityLoc = worldStrat.getCitiesArray();
     unitsMaxMoveAtStart();
   }
 
@@ -174,9 +172,9 @@ public class GameImpl implements Game {
     }else if(getUnitAt(p).getTypeString().equals(GameConstants.ARCHER)) {
       unitStrat.performUnitActionAt(p, this);
     }else if(getUnitAt(p).getTypeString().equals(GameConstants.LEGION)){
-      return;
+
     }else{
-      System.out.print("hey");
+      //System.out.print("hey");
       unitStrat.performUnitActionAt(p,this);
       unitLoc = unitStrat.getUnitsArray();
       tileLoc = unitStrat.getTilesArray();
@@ -295,13 +293,13 @@ public class GameImpl implements Game {
     cityLoc[x][y] = new CityImpl(player);
   }
 
-  static public Unit[][] getUnitLoc() {
+  public Unit[][] getUnitLoc() {
     return unitLoc;
   }
-  static public City[][] getCityLoc() {
+  public City[][] getCityLoc() {
     return cityLoc;
   }
-  static public Tile[][] getTileLoc() {
+  public Tile[][] getTileLoc() {
     return tileLoc;
   }
 }

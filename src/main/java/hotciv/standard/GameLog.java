@@ -48,7 +48,8 @@ public class GameLog implements Game {
     public boolean moveUnit(Position from, Position to) {
         Unit def=getUnitAt(to);
         Unit att=getUnitAt(from);
-        City cap=getCityAt(to);
+        Player cap=null;
+        if(getCityAt(to)!=null) cap=getCityAt(to).getOwner();
         boolean check=game.moveUnit(from,to);
 
         //Log movement
@@ -64,10 +65,10 @@ public class GameLog implements Game {
             }
             //Log capture
             if(cap!=null) {
-                if (cap.getOwner() != getCityAt(to).getOwner()) {
-                    if (logActive) System.out.print(getPlayerInTurn().toString() + " successfully captured " + cap.getOwner().toString() + "city at " + to.toString() + "\n");
+                if (cap != getCityAt(to).getOwner()) {
+                    if (logActive) System.out.print(getPlayerInTurn().toString() + " successfully captured " + cap + " city at " + to.toString() + "\n");
                 }else{
-                    if (logActive) System.out.print(getPlayerInTurn().toString() + " did not capture " + cap.getOwner().toString() + "city at " + to.toString() + "\n");
+                    if (logActive) System.out.print(getPlayerInTurn().toString() + " did not capture " + cap + " city at " + to.toString() + "\n");
                 }
             }
         }else{

@@ -4,7 +4,7 @@ import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
 
-public interface GameStrat {
+public interface WorldStrat {
     // Array index corresponds to unit position unitLoc[Position row][Position Column]
     Unit[][] u = new UnitImpl[16][16];
 

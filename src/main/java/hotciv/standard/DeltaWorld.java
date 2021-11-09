@@ -5,11 +5,11 @@ import hotciv.framework.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeltaGame implements GameStrat {
+public class DeltaWorld implements WorldStrat {
 
     Map<Position,Tile> world;
 
-    DeltaGame(){
+    DeltaWorld(){
         world=defineWorld();
         gameBoard();
     }

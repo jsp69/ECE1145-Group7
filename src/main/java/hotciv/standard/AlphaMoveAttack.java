@@ -31,10 +31,8 @@ public class AlphaMoveAttack implements MoveAttackStrat {
                 unitLoc[to.getRow()][to.getColumn()] = unitLoc[from.getRow()][from.getColumn()];
                 unitLoc[from.getRow()][from.getColumn()]= null;
                 //Change city ownership
-                if (game.getCityAt(to) != null) {
-                    if (game.getCityAt(to).equals(cityLoc[4][1]) && (game.getUnitAt(to).getOwner() == Player.RED)){
-                        ((CityImpl) (cityLoc[4][1])).setOwner(game.getUnitAt(to).getOwner());
-                    }
+                if (cityLoc[to.getRow()][to.getColumn()] != null) {
+                    ((CityImpl)(cityLoc[to.getRow()][to.getColumn()])).setOwner(unitLoc[to.getRow()][to.getColumn()].getOwner());
                 }
                 return true;
             } else {

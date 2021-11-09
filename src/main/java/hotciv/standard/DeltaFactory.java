@@ -1,12 +1,11 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
-import java.util.*;
 
 public class DeltaFactory implements HotCivFactory {
 
     @Override
-    public GameStrat createGameStrat() { return new DeltaGame(); }
+    public WorldStrat createWorldStrat() { return new DeltaWorld(); }
 
     @Override
     public WinStrat createWinStrat() {

@@ -4,7 +4,7 @@ import hotciv.framework.*;
 
 public class GammaFactory implements HotCivFactory {
     @Override
-    public GameStrat createGameStrat() { return new AlphaGame(); }
+    public WorldStrat createWorldStrat() { return new AlphaWorld(); }
 
     @Override
     public UnitActionStrat createUnitActionStrat() {return new GammaUnitAction();}
