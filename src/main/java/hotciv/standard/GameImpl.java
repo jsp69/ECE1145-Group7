@@ -102,7 +102,7 @@ public class GameImpl implements Game {
     }
   }
   public Player getWinner() {
-    return winStrat.getWinner(new WinnerStrategyContext());
+    return winStrat.getWinner(new WinnerStrategyContext(),this);
   }
 
   @Override
@@ -169,11 +169,19 @@ public class GameImpl implements Game {
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {((CityImpl)(getCityAt(p))).setWorkforceFocus(balance);}
   public void changeProductionInCityAt( Position p, String unitType ) {((CityImpl)(getCityAt(p))).setProduction(unitType);}
   public void performUnitActionAt( Position p ) {
-    System.out.print("hey");
-    unitStrat.performUnitActionAt(p);
-    unitLoc = unitStrat.getUnitsArray();
-    tileLoc = unitStrat.getTilesArray();
-    cityLoc = unitStrat.getCitiesArray();
+    if(getUnitAt(p).getTypeString().equals(GameConstants.SETTLER)) {
+      unitStrat.performUnitActionAt(p,this);
+    }else if(getUnitAt(p).getTypeString().equals(GameConstants.ARCHER)) {
+      unitStrat.performUnitActionAt(p, this);
+    }else if(getUnitAt(p).getTypeString().equals(GameConstants.LEGION)){
+      return;
+    }else{
+      System.out.print("hey");
+      unitStrat.performUnitActionAt(p,this);
+      unitLoc = unitStrat.getUnitsArray();
+      tileLoc = unitStrat.getTilesArray();
+      cityLoc = unitStrat.getCitiesArray();
+    }
   }
   public void endOfRound() {
     //Grow all cities that meet conditions and increase food/production for each city
@@ -214,40 +222,6 @@ public class GameImpl implements Game {
   //Moves age forward
   public void increaseAge() {
     this.age=ageStrat.increaseAge(this.age);
-  }
-
-  // Establish new city
-  public City settlerNewCity(Position p) {
-    // Check position is a settler
-    if (p.getRow()==2 && p.getColumn()==3) {
-      // Create new city, delete settler
-      unitLoc[p.getRow()][p.getColumn()] = null;
-      cityLoc[p.getRow()][p.getColumn()] = new CityImpl(getPlayerInTurn());
-      return cityLoc[p.getRow()][p.getColumn()];
-    }
-    else {
-      return null;
-    }
-  }
-
-  // Fortify the archers
-  public boolean archersFortify(Position pos) {
-    int r = pos.getRow();
-    int c = pos.getColumn();
-    //Check that unit is archers
-    if (unitLoc[r][c].getTypeString().equals(GameConstants.ARCHER)) {
-      // Set attack to 0
-      ((UnitImpl)(unitLoc[r][c])).setAttack(0);
-      // Set defenses to 5
-      unitLoc[r][c].setDefenses(5);
-      // Set max move count to 0
-      unitLoc[r][c].setMoveCount(0);
-      return true;
-    }
-    else {
-      //Unit not archers
-      return false;
-    }
   }
 
   //Units get max move count at round start

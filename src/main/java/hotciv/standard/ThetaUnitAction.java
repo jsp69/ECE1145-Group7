@@ -25,7 +25,7 @@ public class ThetaUnitAction implements UnitActionStrat {
     public Unit[][] getUnitsArray() { return u; }
 
     @Override
-    public void performUnitActionAt(Position p) {
+    public void performUnitActionAt(Position p, Game game) {
         System.out.print("innit");
 
         /*//Check if red settler

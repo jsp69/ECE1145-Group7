@@ -41,7 +41,7 @@ public class EpsilonWin implements WinStrat {
     public void incrementRound() {}
 
     @Override
-    public Player getWinner(WinnerStrategyContext context) {
-        return null;
+    public Player getWinner(WinnerStrategyContext context, Game game) {
+        return getWinner(game);
     }
 }

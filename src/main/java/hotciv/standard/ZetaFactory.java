@@ -10,6 +10,8 @@ public class ZetaFactory implements HotCivFactory {
 
     //Constructor for use with test stubs
     public ZetaFactory(int roundsPassed, WinStrat ws){
+        wB=new BetaWin();
+        wE=new EpsilonWin();
         this.roundsPassed = roundsPassed;
         this.ws = ws;
     }

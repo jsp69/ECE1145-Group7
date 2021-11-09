@@ -14,9 +14,9 @@ public class BetaWin implements WinStrat {
 
         //Count number of cities owned by RED and BLUE
         for(int i=0;i<16;i++){
-            p.setColumn(i);
+            p.setRow(i);
             for(int j=0;j<16;j++) {
-                p.setRow(j);
+                p.setColumn(j);
                 if(game.getCityAt(p)!=null) {
                     if (game.getCityAt(p).getOwner() == Player.RED) {
                         redCount++;
@@ -46,7 +46,7 @@ public class BetaWin implements WinStrat {
     }
 
     @Override
-    public Player getWinner(WinnerStrategyContext context) {
-        return null;
+    public Player getWinner(WinnerStrategyContext context, Game game) {
+        return getWinner(game);
     }
 }

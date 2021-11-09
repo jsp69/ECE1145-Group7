@@ -26,7 +26,7 @@ public class AlphaWin implements WinStrat {
     }
 
     @Override
-    public Player getWinner(WinnerStrategyContext context) {
-        return null;
+    public Player getWinner(WinnerStrategyContext context, Game game) {
+        return getWinner(game);
     }
 }

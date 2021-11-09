@@ -19,6 +19,6 @@ public interface WinStrat {
     void incrementRound();
 
     //add context object
-    public Player getWinner(WinnerStrategyContext context);
+    public Player getWinner(WinnerStrategyContext context, Game game);
 
 }

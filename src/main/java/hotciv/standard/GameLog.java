@@ -53,12 +53,14 @@ public class GameLog implements Game {
 
         //Log movement
         if(check){
-            if(logActive) System.out.print(getPlayerInTurn().toString()+" moved "+getUnitAt(from).getTypeString()+" at "+from.toString()+" to "+to.toString()+"\n");
-            //Log attack
-            if(def.getOwner()!=getUnitAt(to).getOwner()){
-                if(logActive) System.out.print(getPlayerInTurn().toString()+" successfully attacked "+def.getOwner().toString()+" "+def.getTypeString()+" at "+to.toString()+"\n");
-            }else{
-                if(logActive) System.out.print(getPlayerInTurn().toString()+" failed to attack "+def.getOwner().toString()+" "+def.getTypeString()+" at "+to.toString()+"\n");
+            if(logActive) System.out.print(getPlayerInTurn().toString()+" moved "+att.getTypeString()+" at "+from.toString()+" to "+to.toString()+"\n");
+            if(def!=null) {
+                //Log attack
+                if (def.getOwner() != getUnitAt(to).getOwner()) {
+                    if (logActive) System.out.print(getPlayerInTurn().toString() + " successfully attacked " + def.getOwner().toString() + " " + def.getTypeString() + " at " + to.toString() + "\n");
+                } else {
+                    if (logActive) System.out.print(getPlayerInTurn().toString() + " failed to attack " + def.getOwner().toString() + " " + def.getTypeString() + " at " + to.toString() + "\n");
+                }
             }
             //Log capture
             if(cap!=null) {

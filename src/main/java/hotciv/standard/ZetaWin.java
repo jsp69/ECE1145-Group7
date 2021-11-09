@@ -15,7 +15,7 @@ public class ZetaWin implements WinStrat {
         this.BetaWin = BetaWin;
         this.EpsilonWin = EpsilonWin;
         this.roundsPassed = roundsPassed;
-        this.currentWinner = null;
+        this.currentWinner = BetaWin;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ZetaWin implements WinStrat {
     }
 
     @Override
-    public Player getWinner(WinnerStrategyContext context) {
-        return null;
+    public Player getWinner(WinnerStrategyContext context, Game game) {
+        return getWinner(game);
     }
 }

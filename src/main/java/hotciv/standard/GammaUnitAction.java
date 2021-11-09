@@ -4,7 +4,7 @@ import hotciv.framework.*;
 
 public class GammaUnitAction implements UnitActionStrat {
     @Override
-    public void performUnitActionAt(Position p) {
+    public void performUnitActionAt(Position p, Game game) {
 
         Unit[][] unitLoc = new UnitImpl[16][16];
 
@@ -23,6 +23,12 @@ public class GammaUnitAction implements UnitActionStrat {
         cityLoc[1][1] = new CityImpl(Player.RED);
         cityLoc[4][1] = new CityImpl(Player.BLUE);
         cityLoc[3][2] = new CityImpl(Player.BLUE);
+
+        if(game.getUnitAt(p).getTypeString().equals(GameConstants.SETTLER)) {
+            settlerNewCity(p,game);
+        }else if(game.getUnitAt(p).getTypeString().equals(GameConstants.ARCHER)){
+            archersFortify(p,game);
+        }
 
             //Check if red settler
             /*if (p ==  unitLoc[4][3]) {
@@ -84,5 +90,33 @@ public class GammaUnitAction implements UnitActionStrat {
     @Override
     public Unit[][] getUnitsArray() {
         return null;
+    }
+
+    // Establish new city
+    public City settlerNewCity(Position p, Game game) {
+        // Create new city, delete settler
+        ((GameImpl)(game)).unitLoc[p.getRow()][p.getColumn()] = null;
+        ((GameImpl)(game)).cityLoc[p.getRow()][p.getColumn()] = new CityImpl(game.getPlayerInTurn());
+        return ((GameImpl)(game)).cityLoc[p.getRow()][p.getColumn()];
+    }
+
+    // Fortify the archers
+    public boolean archersFortify(Position pos, Game game) {
+        int r = pos.getRow();
+        int c = pos.getColumn();
+        //Check that unit is archers
+        if (((GameImpl)(game)).unitLoc[r][c].getTypeString().equals(GameConstants.ARCHER)) {
+            // Set attack to 0
+            ((UnitImpl)(((GameImpl)(game)).unitLoc[r][c])).setAttack(0);
+            // Set defenses to 5
+            ((GameImpl)(game)).unitLoc[r][c].setDefenses(5);
+            // Set max move count to 0
+            ((GameImpl)(game)).unitLoc[r][c].setMoveCount(0);
+            return true;
+        }
+        else {
+            //Unit not archers
+            return false;
+        }
     }
 }

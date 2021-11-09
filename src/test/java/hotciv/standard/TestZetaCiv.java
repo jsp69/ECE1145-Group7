@@ -32,6 +32,6 @@ public class TestZetaCiv {
            Position rC=new Position(1,1);
            Position bC=new Position(4,1);
            WinStrat ws = new ZetaWin(new BetaWin(), new EpsilonWin(), roundCount);
-           assertThat(game.getWinner(), is(ws.getWinner(game)));
+           assertThat(game.getWinner(), is(ws.getWinner(context,game)));
         }
     }

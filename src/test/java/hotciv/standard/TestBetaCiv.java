@@ -27,6 +27,15 @@ public class TestBetaCiv {
         assertNull(game.getWinner());
         ((CityImpl)(game.getCityAt(bC))).setOwner(Player.RED);
         assertThat(game.getCityAt(bC).getOwner(),is(Player.RED));
+
+        //Set all city ownership to RED
+        for(int i=0;i<16;i++){
+            for(int j=0;j<16;j++){
+                if(game.getCityAt(new Position(i,j))!=null){
+                    ((CityImpl)(((GameImpl)(game)).cityLoc[i][j])).setOwner(Player.RED);
+                }
+            }
+        }
         assertThat(game.getWinner(),is(Player.RED));
     }
 }
