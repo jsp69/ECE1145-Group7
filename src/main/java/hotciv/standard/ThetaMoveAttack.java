@@ -54,7 +54,6 @@ public class ThetaMoveAttack implements MoveAttackStrat {
         int disRow = from.getRow() - to.getRow();
         int absDisCol = Math.abs(disCol);
         int absDisRow = Math.abs(disRow);
-        System.out.print("disRow: " + disRow + "\n" + "disCol: " + disCol + "\n");
 
         // Type of move: vertical (v), horizontal (h), diagonal (d)
         String moveType = null;
@@ -74,7 +73,6 @@ public class ThetaMoveAttack implements MoveAttackStrat {
             else { return false; }
         }
         else { return false; }
-        System.out.print("moveType: " + moveType + "\n\n");
 
         int moveCount = u[x1][y1].getMoveCount();
         if (moveCount == 2) {

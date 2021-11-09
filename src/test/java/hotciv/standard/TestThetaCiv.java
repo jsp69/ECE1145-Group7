@@ -71,9 +71,9 @@ public class TestThetaCiv {
         assertEquals(game.getCityAt(blueCity).getProduction(), GameConstants.UFO);
     }
 
-    /*@Test public void flyOverCityWithNoUnits() {
+    @Test public void flyOverCityWithNoUnits() {
         assertThat(game, is(notNullValue()));
-        assertTrue(game.moveUnit(redUFO, new Position(4,1)));
-
-    }*/
+        assertTrue(game.moveUnit(redUFO, blueCity1));
+        assertEquals(game.getCityAt(blueCity1).getOwner(), Player.BLUE);
+    }
 }

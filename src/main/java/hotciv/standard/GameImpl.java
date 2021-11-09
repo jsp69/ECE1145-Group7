@@ -113,10 +113,10 @@ public class GameImpl implements Game {
 
   public boolean moveUnit( Position from, Position to ) {
     //Store unit locations before movement
-    Unit attacker=unitLoc[from.getRow()][from.getColumn()];
-    Unit defender=unitLoc[to.getRow()][to.getColumn()];
+    Unit attacker = unitLoc[from.getRow()][from.getColumn()];
+    Unit defender = unitLoc[to.getRow()][to.getColumn()];
 
-    boolean move= moveStrat.moveUnit(from,to,this,cityLoc,unitLoc);
+    boolean move = moveStrat.moveUnit(from,to,this,cityLoc,unitLoc);
 
     //Update arrays
     unitLoc = moveStrat.getUnitsArray();
@@ -124,43 +124,16 @@ public class GameImpl implements Game {
     cityLoc = moveStrat.getCitiesArray();
 
     //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
-    boolean attack=(defender!=null && defender.getOwner()!=attacker.getOwner() && attacker.getOwner()==unitLoc[to.getRow()][to.getColumn()].getOwner());
+    boolean attack =
+            (defender != null) &&
+            (defender.getOwner() != attacker.getOwner()) &&
+            (attacker.getOwner() == unitLoc[to.getRow()][to.getColumn()].getOwner());
 
     //Increase attack count of current player if successful attack occurred
-    if(attack){
+    if (attack) {
       winStrat.increaseAttack(getPlayerInTurn());
     }
     return move;
-  }
-
-  public boolean moveUnitMore(Position from, Position to) {
-    Position oldP = new Position(from);
-    while (!moveUnit(from,to)) {
-      System.out.print("while: \n");
-      //Add one to row, move unit
-      if (from.getRow() != to.getRow()) {
-        from.setRow(from.getRow() + 1);
-        System.out.print("oldP: ");
-        System.out.println(getUnitAt(oldP));
-        System.out.print("p1: ");
-        System.out.println(getUnitAt(from));
-        moveUnit(oldP, from);
-        oldP.setRow(from.getRow());
-      }
-      //Add one to column, move unit
-      if (from.getColumn() != to.getColumn()) {
-        from.setColumn(from.getColumn() + 1);
-        System.out.print("oldP: ");
-        System.out.println(getUnitAt(oldP));
-        System.out.print("p1: ");
-        System.out.println(getUnitAt(from));
-        moveUnit(oldP, from);
-        oldP.setColumn(from.getColumn());
-      }
-    }
-    System.out.print("outta");
-    //Check if unit has been moved
-    return (from.getColumn() == to.getColumn()) && (from.getRow() == to.getRow());
   }
 
   public void endOfTurn() {

@@ -14,14 +14,10 @@ public class AlphaWin implements WinStrat {
     }
 
     @Override
-    public void increaseAttack(Player p) {
-
-    }
+    public void increaseAttack(Player p) {}
 
     @Override
-    public void incrementRound() {
-
-    }
+    public void incrementRound() {}
 
     @Override
     public Player getWinner(WinnerStrategyContext context) {
