@@ -1,5 +1,8 @@
 package hotciv.framework;
 
+import hotciv.standard.CityImpl;
+import hotciv.standard.TileImpl;
+import hotciv.standard.UnitImpl;
 import hotciv.standard.WinnerStrategyContext;
 
 public interface WinStrat {
@@ -10,7 +13,7 @@ public interface WinStrat {
     int roundsPassed = 0;
 
     //Determine winner from conditions
-   Player getWinner(Game game);
+    Player getWinner(Game game);
 
     //Increase attack count for player
     void increaseAttack(Player p);
@@ -19,6 +22,6 @@ public interface WinStrat {
     void incrementRound();
 
     //add context object
-    public Player getWinner(WinnerStrategyContext context);
+    Player getWinner(WinnerStrategyContext context);
 
 }

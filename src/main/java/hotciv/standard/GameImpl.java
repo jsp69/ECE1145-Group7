@@ -118,6 +118,11 @@ public class GameImpl implements Game {
 
     boolean move= moveStrat.moveUnit(from,to,this,cityLoc,unitLoc);
 
+    //Update arrays
+    unitLoc = moveStrat.getUnitsArray();
+    tileLoc = moveStrat.getTilesArray();
+    cityLoc = moveStrat.getCitiesArray();
+
     //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
     boolean attack=(defender!=null && defender.getOwner()!=attacker.getOwner() && attacker.getOwner()==unitLoc[to.getRow()][to.getColumn()].getOwner());
 
@@ -258,6 +263,9 @@ public class GameImpl implements Game {
         for(int j = 0; j < 16; j++) {
           if(unitLoc[i][j] != null) {
             unitLoc[i][j].setMoveCount(1);
+            if (Objects.equals(unitLoc[i][j].getTypeString(), GameConstants.UFO)) {
+              unitLoc[i][j].setMoveCount(2);
+            }
           }
         }
       }

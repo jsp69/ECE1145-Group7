@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public class AlphaGame implements GameStrat {
 
-
     public AlphaGame(){
         gameBoard();
     }
@@ -37,31 +36,6 @@ public class AlphaGame implements GameStrat {
         c[1][1] = new CityImpl(Player.RED);
         c[4][1] = new CityImpl(Player.BLUE);
         c[3][2] = new CityImpl(Player.BLUE);
-    }
-
-    @Override
-    public Tile getTileAt( Position p ) {
-        return t[p.getRow()][p.getColumn()];
-    }
-
-    @Override
-    public Unit getUnitAt( Position p ) {
-        //Check if a unit exists at position p and return if so
-        if(u[p.getRow()][p.getColumn()] != null){
-            return u[p.getRow()][p.getColumn()];
-        }else{
-            return null;
-        }
-    }
-
-    @Override
-    public City getCityAt( Position p ) {
-        //Check if a city exists at position p and return if so
-        if(c[p.getRow()][p.getColumn()] != null){
-            return c[p.getRow()][p.getColumn()];
-        }else{
-            return null;
-        }
     }
 
     @Override

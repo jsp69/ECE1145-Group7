@@ -51,7 +51,7 @@ public class ThetaUnitAction implements UnitActionStrat {
                         //Defensive strength stays same
                         u[1][0].getDefensiveStrength();
                     }
-                    if (oldDS != u[2][0].getDefensiveStrength()) {
+                    else {
                         //Double defensive strength
                         int ds = (u[2][0].getDefensiveStrength() * 2);
                         u[2][0].setDefenses(ds);
@@ -61,14 +61,14 @@ public class ThetaUnitAction implements UnitActionStrat {
                 }
 
                 //Check if blue
-                if (Objects.equals(u[r][col].getOwner(), Player.BLUE)) {
+                else if (Objects.equals(u[r][col].getOwner(), Player.BLUE)) {
                     //Check if already fortified
                     int oldDS = u[1][1].getDefensiveStrength() * 2;
                     if (oldDS == u[0][2].getDefensiveStrength()) {
                         //Defensive strength stays same
                         u[1][1].getDefensiveStrength();
                     }
-                    if (oldDS != u[0][2].getDefensiveStrength()) {
+                    else {
                         //Double defensive strength
                         int ds = (u[0][2].getDefensiveStrength()) * 2;
                         u[0][2].setDefenses(ds);

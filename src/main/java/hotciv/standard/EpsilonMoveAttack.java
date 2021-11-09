@@ -99,4 +99,17 @@ public class EpsilonMoveAttack implements MoveAttackStrat {
         }
         return 1;
     }
+
+    @Override
+    public City[][] getCitiesArray() { return c; }
+
+    @Override
+    public Tile[][] getTilesArray() {
+        return t;
+    }
+
+    @Override
+    public Unit[][] getUnitsArray() {
+        return u;
+    }
 }

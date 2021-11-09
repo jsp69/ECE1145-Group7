@@ -1,8 +1,6 @@
 package hotciv.standard;
 
-import hotciv.framework.Game;
-import hotciv.framework.Player;
-import hotciv.framework.WinStrat;
+import hotciv.framework.*;
 
 public class AlphaWin implements WinStrat {
     @Override

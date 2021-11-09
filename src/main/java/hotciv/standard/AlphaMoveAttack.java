@@ -42,4 +42,17 @@ public class AlphaMoveAttack implements MoveAttackStrat {
             }
         }
     }
+
+    @Override
+    public City[][] getCitiesArray() { return c; }
+
+    @Override
+    public Tile[][] getTilesArray() {
+        return t;
+    }
+
+    @Override
+    public Unit[][] getUnitsArray() {
+        return u;
+    }
 }
