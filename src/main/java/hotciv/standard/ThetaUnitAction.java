@@ -28,10 +28,9 @@ public class ThetaUnitAction implements UnitActionStrat {
         //Get row, column, and unit
         int r = p.getRow();
         int col = p.getColumn();
-        Unit unit = u[r][col];
 
         //Check if unit is null
-        if (unit != null) {
+        if (u[r][col] != null) {
             //Check if settler
             if (Objects.equals(u[r][col].getTypeString(), GameConstants.SETTLER)) {
                 Player player = u[r][col].getOwner();
@@ -42,16 +41,18 @@ public class ThetaUnitAction implements UnitActionStrat {
             }
 
             //Check if archer
-            if (Objects.equals(u[r][col].getTypeString(), GameConstants.ARCHER)) {
+            else if (Objects.equals(u[r][col].getTypeString(), GameConstants.ARCHER)) {
                 //Check if red
                 if (Objects.equals(u[r][col].getOwner(), Player.RED)) {
                     //Check if already fortified
-                    int oldDS = u[1][0].getDefensiveStrength()*2;
+                    int oldDS = 0;
+                    if ((r == 1) && (col == 0)) {
+                        oldDS = u[r][col].getDefensiveStrength() * 2;
+                    }
                     if (oldDS == u[2][0].getDefensiveStrength()) {
                         //Defensive strength stays same
                         u[1][0].getDefensiveStrength();
-                    }
-                    else {
+                    } else {
                         //Double defensive strength
                         int ds = (u[2][0].getDefensiveStrength() * 2);
                         u[2][0].setDefenses(ds);
@@ -63,12 +64,14 @@ public class ThetaUnitAction implements UnitActionStrat {
                 //Check if blue
                 else if (Objects.equals(u[r][col].getOwner(), Player.BLUE)) {
                     //Check if already fortified
-                    int oldDS = u[1][1].getDefensiveStrength() * 2;
+                    int oldDS = 0;
+                    if ((r == 1) && (col == 1)) {
+                        oldDS = u[1][1].getDefensiveStrength() * 2;
+                    }
                     if (oldDS == u[0][2].getDefensiveStrength()) {
                         //Defensive strength stays same
                         u[1][1].getDefensiveStrength();
-                    }
-                    else {
+                    } else {
                         //Double defensive strength
                         int ds = (u[0][2].getDefensiveStrength()) * 2;
                         u[0][2].setDefenses(ds);
@@ -81,12 +84,12 @@ public class ThetaUnitAction implements UnitActionStrat {
             //Check if ufo
             if (Objects.equals(u[r][col].getTypeString(), GameConstants.UFO)) {
                 //Decrease city population by 1
-                ((CityImpl)c[1][1]).setSize(c[1][1].getSize() - 1);
+                ((CityImpl) c[1][1]).setSize(c[1][1].getSize() - 1);
             }
 
             //Check if forest
             if (Objects.equals(t[p.getRow()][p.getColumn()].getTypeString(), GameConstants.FOREST)) {
-                ((TileImpl)t[p.getRow()][p.getColumn()]).setTypeString(GameConstants.PLAINS);
+                ((TileImpl) t[p.getRow()][p.getColumn()]).setTypeString(GameConstants.PLAINS);
             }
         }
     }

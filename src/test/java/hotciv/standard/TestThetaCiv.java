@@ -58,12 +58,11 @@ public class TestThetaCiv {
         game.performUnitActionAt(redUFO);
         assertEquals(game.getTileAt(redUFO).getTypeString(), GameConstants.PLAINS);
     }
-    /*@Test public void ufoActionDestroysCity() {
-        assertThat(game, is(notNullValue()));
-        Position redCity = new Position(1,1);
-        game.performUnitActionAt(blueUFO);
 
-    }*/
+    @Test public void ufoActionDestroysCity() {
+        assertThat(game, is(notNullValue()));
+        // game.moveUnit(redUFO, blueCity);
+    }
 
     @Test public void changeProductionAtCityToUFO() {
         assertThat(game, is(notNullValue()));

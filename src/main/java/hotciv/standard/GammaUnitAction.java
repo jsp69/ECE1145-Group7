@@ -25,13 +25,12 @@ public class GammaUnitAction implements UnitActionStrat {
         c = GameImpl.getCityLoc();
         t = GameImpl.getTileLoc();
 
-        //Get row, column, and unit
+        //Get row, column
         int r = p.getRow();
         int col = p.getColumn();
-        Unit unit = u[r][col];
 
         //Check if unit is null
-        if (unit != null) {
+        if (u[r][col] != null) {
             //Check if settler
             if (Objects.equals(u[r][col].getTypeString(), GameConstants.SETTLER)) {
                 Player player = u[r][col].getOwner();
@@ -42,11 +41,12 @@ public class GammaUnitAction implements UnitActionStrat {
             }
 
             //Check if archer
-            if (Objects.equals(u[r][col].getTypeString(), GameConstants.ARCHER)) {
+            else if (Objects.equals(u[r][col].getTypeString(), GameConstants.ARCHER)) {
                 //Check if red
                 if (Objects.equals(u[r][col].getOwner(), Player.RED)) {
                     //Check if already fortified
-                    int oldDS = u[1][0].getDefensiveStrength() * 2;
+                    int oldDS = 0;
+                    if ((r == 1) && (col == 0)) { oldDS = u[r][col].getDefensiveStrength() * 2; }
                     if (oldDS == u[2][0].getDefensiveStrength()) {
                         //Defensive strength stays same
                         u[1][0].getDefensiveStrength();
@@ -62,7 +62,8 @@ public class GammaUnitAction implements UnitActionStrat {
                 //Check if blue
                 else if (Objects.equals(u[r][col].getOwner(), Player.BLUE)) {
                     //Check if already fortified
-                    int oldDS = u[1][1].getDefensiveStrength() * 2;
+                    int oldDS = 0;
+                    if ((r == 1) && (col == 1)) { oldDS = u[1][1].getDefensiveStrength() * 2; }
                     if (oldDS == u[0][2].getDefensiveStrength()) {
                         //Defensive strength stays same
                         u[1][1].getDefensiveStrength();
