@@ -4,7 +4,7 @@ import hotciv.framework.*;
 
 public class SemiFactory implements HotCivFactory {
     @Override
-    public WorldStrat createWorldStrat() { return new AlphaWorld(); }
+    public WorldStrat createWorldStrat() { return new DeltaWorld(); }
 
     @Override
     public WinStrat createWinStrat() {
