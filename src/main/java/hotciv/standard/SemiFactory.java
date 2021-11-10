@@ -30,6 +30,4 @@ public class SemiFactory implements HotCivFactory {
     public CityStrat createCityStrat() {
         return new EtaCity();
     }
-
-    //TODO: DeltaWorld
 }
