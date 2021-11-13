@@ -110,20 +110,26 @@ public class GameImpl implements Game {
 
 
   public boolean moveUnit( Position from, Position to ) {
-    //Store unit locations before movement
-    Unit attacker=unitLoc[from.getRow()][from.getColumn()];
-    Unit defender=unitLoc[to.getRow()][to.getColumn()];
 
-    boolean move= moveStrat.moveUnit(from,to,this,cityLoc,unitLoc);
+    //Check from and to are not negative
+    if (from.getRow() > 0 && to.getColumn() > 0 && getUnitAt(to)!=null) {
+      //Store unit locations before movement
+      Unit attacker = unitLoc[from.getRow()][from.getColumn()];
+      Unit defender = unitLoc[to.getRow()][to.getColumn()];
 
-    //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
-    boolean attack=(defender!=null && defender.getOwner()!=attacker.getOwner() && attacker.getOwner()==unitLoc[to.getRow()][to.getColumn()].getOwner());
+      boolean move = moveStrat.moveUnit(from, to, this, cityLoc, unitLoc);
 
-    //Increase attack count of current player if successful attack occurred
-    if(attack){
-      winStrat.increaseAttack(getPlayerInTurn());
+      //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
+      boolean attack = (defender != null && defender.getOwner() != attacker.getOwner() && attacker.getOwner() == unitLoc[to.getRow()][to.getColumn()].getOwner());
+
+      //Increase attack count of current player if successful attack occurred
+      if (attack) {
+        winStrat.increaseAttack(getPlayerInTurn());
+      }
+      return move;
+    } else {
+      return false;
     }
-    return move;
   }
 
   public boolean moveUnitMore(Position from, Position to) {

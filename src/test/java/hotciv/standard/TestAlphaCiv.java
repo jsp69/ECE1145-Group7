@@ -234,12 +234,28 @@ public class TestAlphaCiv {
   public void unitsCanMove1() {
     assertThat(game, is(notNullValue()));
     //Set unit position
+    Position old_neg = new Position(-2, 3);
+    Position new_neg = new Position(-2,4);
     Position pos = new Position(2, 0);
     Position new1 = new Position(2, 1);
     Position new2 = new Position(3, 4);
     //Check movement
+    assertFalse(game.moveUnit(old_neg, new_neg));
     assertTrue(game.moveUnit(pos, new1));
     assertFalse(game.moveUnit(new1, new2));
+  }
+
+  @Test
+  public void unitsCannotStack() {
+    assertThat(game, is(notNullValue()));
+    //Set unit position
+    Position unit_red_archer = new Position(3, 2);
+    Position unit_red_legion = new Position(3,3);
+    //Check the positions have units
+    assertNotNull(unit_red_archer);
+    assertNotNull(unit_red_legion);
+    //Check movement
+    assertFalse(game.moveUnit(unit_red_archer, unit_red_legion));
   }
 
   @Test
