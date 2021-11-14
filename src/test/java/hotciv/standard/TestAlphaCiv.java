@@ -247,6 +247,7 @@ public class TestAlphaCiv {
     Position new2 = new Position(3, 4);
     Position new3 = new Position (3,0);
     Position new4 = new Position (3,1);
+    Position new5 = new Position (2,0);
     //Check movement
     if (pos.getRow() == new1.getRow() && Math.abs(pos.getColumn() - new1.getColumn()) == 1) {
       assertTrue(game.moveUnit(pos, new1));
@@ -271,6 +272,12 @@ public class TestAlphaCiv {
     }
     else {
       assertFalse(game.moveUnit(pos, new4));
+    }
+    if (pos.getRow() == new5.getRow() && pos.getColumn() == new5.getColumn()) {
+      assertTrue(game.moveUnit(pos, new5));
+    }
+    else {
+      assertFalse(game.moveUnit(pos, new5));
     }
   }
 
