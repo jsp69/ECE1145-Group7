@@ -2,12 +2,17 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-import java.util.Objects;
+public class ThetaWorld implements WorldStrat {
+    // Array index corresponds to unit position unitLoc[Position row][Position Column]
+    Unit[][] u = new UnitImpl[16][16];
 
-public class AlphaGame implements GameStrat {
+    // Array index corresponds to tile position tileLoc[Position row][Position Column]
+    Tile [][] t = new TileImpl[16][16];
 
+    // Array index corresponds to city position cityLoc[Position row][Position Column]
+    City [][] c = new CityImpl[16][16];
 
-    public AlphaGame(){
+    public ThetaWorld(){
         gameBoard();
     }
 
@@ -22,10 +27,14 @@ public class AlphaGame implements GameStrat {
         u[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
         u[4][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
         u[5][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
+        u[2][1] = new UnitImpl(GameConstants.UFO, Player.RED);
+        u[1][1] = new UnitImpl(GameConstants.UFO, Player.BLUE);
 
         t[1][0] = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
         t[0][1] = new TileImpl(GameConstants.HILLS, new Position(0, 1));
         t[2][2] = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
+        t[2][1] = new TileImpl(GameConstants.FOREST, new Position(2,1));
+
         for(int i=0;i<16;i++){
             for(int j=0;j<16;j++){
                 if(t[i][j]==null){

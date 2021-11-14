@@ -2,8 +2,6 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Objects;
 
 /** Skeleton implementation of HotCiv.
@@ -41,13 +39,13 @@ public class GameImpl implements Game {
   int age = -4000;
 
   // Array index corresponds to unit position unitLoc[Position row][Position Column]
-  static Unit[][] unitLoc;
+  public Unit[][] unitLoc;
 
   // Array index corresponds to tile position tileLoc[Position row][Position Column]
-  static Tile [][] tileLoc;
+  public Tile [][] tileLoc;
 
   // Array index corresponds to city position cityLoc[Position row][Position Column]
-  static City [][] cityLoc;
+  public City [][] cityLoc;
 
   //Factory object and strategies for variation control
   HotCivFactory civFactory;
@@ -55,7 +53,7 @@ public class GameImpl implements Game {
   AgingStrat ageStrat;
   MoveAttackStrat moveStrat;
   CityStrat cityStrat;
-  GameStrat gameStrat;
+  WorldStrat worldStrat;
   UnitActionStrat unitStrat;
 
   public GameImpl(HotCivFactory factory){
@@ -65,12 +63,12 @@ public class GameImpl implements Game {
     ageStrat=factory.createAgingStrat();
     moveStrat=factory.createMoveAttackStrat();
     cityStrat=factory.createCityStrat();
-    gameStrat=factory.createGameStrat();
+    worldStrat =factory.createWorldStrat();
     unitStrat=factory.createUnitActionStrat();
 
-    unitLoc = gameStrat.getUnitsArray();
-    tileLoc = gameStrat.getTilesArray();
-    cityLoc = gameStrat.getCitiesArray();
+    unitLoc = worldStrat.getUnitsArray();
+    tileLoc = worldStrat.getTilesArray();
+    cityLoc = worldStrat.getCitiesArray();
     unitsMaxMoveAtStart();
   }
 
@@ -112,20 +110,26 @@ public class GameImpl implements Game {
 
 
   public boolean moveUnit( Position from, Position to ) {
-    //Store unit locations before movement
-    Unit attacker=unitLoc[from.getRow()][from.getColumn()];
-    Unit defender=unitLoc[to.getRow()][to.getColumn()];
 
-    boolean move= moveStrat.moveUnit(from,to,this,cityLoc,unitLoc);
+    //Check from and to are not negative
+    if (from.getRow() > 0 && to.getColumn() > 0 && getUnitAt(to)!=null) {
+      //Store unit locations before movement
+      Unit attacker = unitLoc[from.getRow()][from.getColumn()];
+      Unit defender = unitLoc[to.getRow()][to.getColumn()];
 
-    //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
-    boolean attack=(defender!=null && defender.getOwner()!=attacker.getOwner() && attacker.getOwner()==unitLoc[to.getRow()][to.getColumn()].getOwner());
+      boolean move = moveStrat.moveUnit(from, to, this, cityLoc, unitLoc);
 
-    //Increase attack count of current player if successful attack occurred
-    if(attack){
-      winStrat.increaseAttack(getPlayerInTurn());
+      //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
+      boolean attack = (defender != null && defender.getOwner() != attacker.getOwner() && attacker.getOwner() == unitLoc[to.getRow()][to.getColumn()].getOwner());
+
+      //Increase attack count of current player if successful attack occurred
+      if (attack) {
+        winStrat.increaseAttack(getPlayerInTurn());
+      }
+      return move;
+    } else {
+      return false;
     }
-    return move;
   }
 
   public void endOfTurn() {
@@ -144,9 +148,9 @@ public class GameImpl implements Game {
     }else if(getUnitAt(p).getTypeString().equals(GameConstants.ARCHER)) {
       unitStrat.performUnitActionAt(p, this);
     }else if(getUnitAt(p).getTypeString().equals(GameConstants.LEGION)){
-      return;
+
     }else{
-      System.out.print("hey");
+      //System.out.print("hey");
       unitStrat.performUnitActionAt(p,this);
       unitLoc = unitStrat.getUnitsArray();
       tileLoc = unitStrat.getTilesArray();
@@ -265,13 +269,13 @@ public class GameImpl implements Game {
     cityLoc[x][y] = new CityImpl(player);
   }
 
-  static public Unit[][] getUnitLoc() {
+  public Unit[][] getUnitLoc() {
     return unitLoc;
   }
-  static public City[][] getCityLoc() {
+  public City[][] getCityLoc() {
     return cityLoc;
   }
-  static public Tile[][] getTileLoc() {
+  public Tile[][] getTileLoc() {
     return tileLoc;
   }
 }

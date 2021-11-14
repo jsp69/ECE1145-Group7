@@ -4,7 +4,7 @@ import hotciv.framework.*;
 
 public class ThetaFactory implements HotCivFactory {
     @Override
-    public GameStrat createGameStrat() { return new ThetaGame(); }
+    public WorldStrat createWorldStrat() { return new ThetaWorld(); }
 
     @Override
     public UnitActionStrat createUnitActionStrat() { return new ThetaUnitAction(); }
