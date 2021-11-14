@@ -32,7 +32,7 @@ public class TestBetaCiv {
         for(int i=0;i<16;i++){
             for(int j=0;j<16;j++){
                 if(game.getCityAt(new Position(i,j))!=null){
-                    ((CityImpl)(((GameImpl)(game)).cityLoc[i][j])).setOwner(Player.RED);
+                    ((CityImpl)(GameImpl.cityLoc[i][j])).setOwner(Player.RED);
                 }
             }
         }
