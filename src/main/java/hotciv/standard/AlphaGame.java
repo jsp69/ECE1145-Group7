@@ -27,8 +27,8 @@ public class AlphaGame implements GameStrat {
         t[2][2] = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
         for(int i=0;i<16;i++){
             for(int j=0;j<16;j++){
-                if(t[i][j]==null){
-                    t[i][j]=new TileImpl(GameConstants.PLAINS,new Position(i,j));
+                if(t[i][j] == null){
+                    t[i][j] = new TileImpl(GameConstants.PLAINS,new Position(i,j));
                 }
             }
         }

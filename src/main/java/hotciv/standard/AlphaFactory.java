@@ -4,9 +4,7 @@ import hotciv.framework.*;
 
 public class AlphaFactory implements HotCivFactory {
     @Override
-    public GameStrat createGameStrat() {
-        return new AlphaGame();
-    }
+    public GameStrat createGameStrat() { return new AlphaGame(); }
 
     @Override
     public WinStrat createWinStrat() {
