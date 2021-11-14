@@ -37,7 +37,9 @@ import static org.hamcrest.CoreMatchers.*;
 public class TestAlphaCiv {
   private Game game;
 
-  /** Fixture for AlphaCiv testing. */
+  /**
+   * Fixture for AlphaCiv testing.
+   */
   @Before
   public void setUp() {
     game = new GameImpl(new AlphaFactory());
@@ -51,25 +53,25 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void redCityAt1_1(){
-    Position p = new Position(1,1);
+  public void redCityAt1_1() {
+    Position p = new Position(1, 1);
     assertThat(game, is(notNullValue()));
     //assertThat((game.getCityAt(p)).getOwner(), is(Player.RED));
   }
 
   @Test
-  public void oceanAt1_0(){
-    Position p = new Position(1,0);
-    assertThat(game,is(notNullValue()));
-    assertThat(game.getTileAt(p).getTypeString(),is(GameConstants.OCEANS));
+  public void oceanAt1_0() {
+    Position p = new Position(1, 0);
+    assertThat(game, is(notNullValue()));
+    assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.OCEANS));
   }
 
   @Test
   public void cannotMoveOverMountain() {
-    assertThat(game,is(notNullValue()));
+    assertThat(game, is(notNullValue()));
     // Set new and old positions
-    Position mountain = new Position(2,2);
-    Position pFrom = new Position(3,2);
+    Position mountain = new Position(2, 2);
+    Position pFrom = new Position(3, 2);
     assertFalse(game.moveUnit(pFrom, mountain));
   }
 
@@ -128,7 +130,7 @@ public class TestAlphaCiv {
   public void redWinsIn3000() {
     assertThat(game, is(notNullValue()));
     //Check year of game
-    if(game.getAge() == -3000) {
+    if (game.getAge() == -3000) {
       //Check the winner is red
       assertThat(game.getWinner(), is(Player.RED));
     }
@@ -140,19 +142,19 @@ public class TestAlphaCiv {
     Position pos = new Position(2, 0);
     assertThat(game, is(notNullValue()));
     //Check unit attacking strength
-    if(game.getUnitAt(pos).getAttackingStrength() > 0) {
+    if (game.getUnitAt(pos).getAttackingStrength() > 0) {
       //Check the winner is red
-      assertThat(game.moveUnit(new Position(3,3),new Position(3,2)),is(true));
+      assertThat(game.moveUnit(new Position(3, 3), new Position(3, 2)), is(true));
     }
   }
 
   @Test
-  public void redArcher2_0(){
+  public void redArcher2_0() {
     //Set unit position
-    Position p = new Position(2,0);
-    assertThat(game,is(notNullValue()));
+    Position p = new Position(2, 0);
+    assertThat(game, is(notNullValue()));
     //Check the unit type
-    assertThat(game.getUnitAt(p).getTypeString(),is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
   }
 
   @Test
@@ -162,14 +164,14 @@ public class TestAlphaCiv {
     assertThat(game.getPlayerInTurn(), CoreMatchers.is(Player.RED));
     //Check age is equal to 4000BC
     assertThat(game.getAge(), is(-4000));
-    }
+  }
 
   @Test
   public void unitsGetMaxMoveStart() {
     Position[] p = {new Position(2, 0), new Position(3, 2), new Position(4, 3)};
     assertThat(game, is(notNullValue()));
     //check if round started
-    if(game.getPlayerInTurn() == Player.RED || game.getPlayerInTurn() == Player.BLUE) {
+    if (game.getPlayerInTurn() == Player.RED || game.getPlayerInTurn() == Player.BLUE) {
       //Check that units have max move count
       for (Position position : p) {
         assertThat(game.getUnitAt(position).getMoveCount(), is(1));
@@ -184,8 +186,8 @@ public class TestAlphaCiv {
     advanceYear += 100;
     game.endOfTurn();
     game.endOfTurn();
-      //Check that the game advances by 100
-      assertThat(game.getAge(), is(advanceYear));
+    //Check that the game advances by 100
+    assertThat(game.getAge(), is(advanceYear));
   }
 
   /*@Test
@@ -207,9 +209,9 @@ public class TestAlphaCiv {
     //Check if position has red city
     Position p = new Position(1, 1);
     Position p_interim = new Position(2, 1);
-    if(game.getCityAt(p).getOwner() == (Player.RED)) {
+    if (game.getCityAt(p).getOwner() == (Player.RED)) {
       //Move Red unit to the city
-      game.moveUnit(new Position(2,0), p_interim);
+      game.moveUnit(new Position(2, 0), p_interim);
       game.moveUnit(p_interim, p);
       //Check that the red unit can defend its city
       assertThat(game.getUnitAt(p).getDefensiveStrength(), is(1));
@@ -237,9 +239,33 @@ public class TestAlphaCiv {
     Position pos = new Position(2, 0);
     Position new1 = new Position(2, 1);
     Position new2 = new Position(3, 4);
+    Position new3 = new Position (3,0);
+    Position new4 = new Position (3,1);
     //Check movement
-    assertTrue(game.moveUnit(pos, new1));
-    assertFalse(game.moveUnit(new1, new2));
+    if (pos.getRow() == new1.getRow() && Math.abs(pos.getColumn() - new1.getColumn()) == 1) {
+      assertTrue(game.moveUnit(pos, new1));
+    }
+    else {
+      assertFalse(game.moveUnit(pos, new1));
+    }
+    if ((Math.abs(new1.getRow() - new2.getRow()) == 1) && Math.abs(new1.getColumn() - new2.getColumn()) == 1) {
+      assertTrue(game.moveUnit(new1, new2));
+    }
+    else {
+      assertFalse(game.moveUnit(new1, new2));
+    }
+    if ((Math.abs(pos.getRow() - new3.getRow()) == 1) && (pos.getColumn() == new3.getColumn())) {
+      assertTrue(game.moveUnit(pos, new3));
+    }
+    else {
+      assertFalse(game.moveUnit(pos, new3));
+    }
+    if ((Math.abs(pos.getRow() - new4.getColumn()) == 1) && Math.abs(pos.getColumn() - new4.getRow()) == 1) {
+      assertTrue(game.moveUnit(pos, new4));
+    }
+    else {
+      assertFalse(game.moveUnit(pos, new4));
+    }
   }
 
   @Test
