@@ -19,9 +19,10 @@ public class TestSettlerBuildStrategy {
     public void redSettlerBuildsCity() {
         Position redSettler = new Position(4, 3);
         assertThat(game, is(notNullValue()));
-        if (redSettler.equals("settler")) {
+        if (game.getUnitAt(redSettler).getTypeString().equals(GameConstants.SETTLER)) {
+            game.performUnitActionAt(redSettler);
             //Check if red settler is removed
-            assertNull(((GameImpl)(game)).unitLoc[4][3]);
+            assertNull(GameImpl.unitLoc[4][3]);
             //Check if red owns built city at p
             assertThat(game.getCityAt(redSettler).getOwner(), is(Player.RED));
             //Check if city population is size one
@@ -33,9 +34,10 @@ public class TestSettlerBuildStrategy {
     public void blueSettlerBuildsCity() {
         Position blueSettler = new Position(3, 4);
         assertThat(game, is(notNullValue()));
-        if (blueSettler.equals("settler")) {
+        if (game.getUnitAt(blueSettler).getTypeString().equals(GameConstants.SETTLER)) {
+            game.performUnitActionAt(blueSettler);
             //Check if blue settler is removed
-            assertNull(((GameImpl)(game)).unitLoc[3][4]);
+            assertNull(GameImpl.unitLoc[3][4]);
             //Check if blue owns built city at p
             assertThat(game.getCityAt(blueSettler).getOwner(), is(Player.BLUE));
             //Check if city population is size one

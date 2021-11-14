@@ -31,7 +31,7 @@ public class TestLogAlphaCiv {
     public void redCityAt1_1(){
         Position p = new Position(1,1);
         assertThat(game, is(notNullValue()));
-        //assertThat((game.getCityAt(p)).getOwner(), is(Player.RED));
+        assertThat((game.getCityAt(p)).getOwner(), is(Player.RED));
     }
 
     @Test
