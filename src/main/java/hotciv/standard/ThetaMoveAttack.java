@@ -16,24 +16,30 @@ public class ThetaMoveAttack implements MoveAttackStrat {
         c = GameImpl.getCityLoc();
         t = GameImpl.getTileLoc();
 
+        //Get unit x and y coordinates
+        int xFrom = from.getRow();
+        int xTo = to.getRow();
+        int yFrom = from.getColumn();
+        int yTo = to.getColumn();
+
         //Ensure unit is not null
-        if (game.getUnitAt(from) == null) {
+        if (u[xFrom][yFrom] == null) {
             return false;
         } else {
             // Check for UFO
-            if (!Objects.equals(game.getUnitAt(from).getTypeString(), GameConstants.UFO)) {
+            if (!Objects.equals(u[xFrom][yFrom].getTypeString(), GameConstants.UFO)) {
                 //Ensure new position isn't mountains
-                if (Objects.equals(game.getTileAt(to).getTypeString(), GameConstants.MOUNTAINS)) {
+                if (Objects.equals(t[xTo][yTo].getTypeString(), GameConstants.MOUNTAINS)) {
                     return false;
                 }
                 // Ensure new position isn't oceans
-                if (Objects.equals(game.getTileAt(to).getTypeString(), GameConstants.OCEANS)) {
+                if (Objects.equals(t[xTo][yTo].getTypeString(), GameConstants.OCEANS)) {
                     return false;
                 }
             }
 
             // Ensure it is the correct player's unit
-            if (game.getPlayerInTurn() != game.getUnitAt(from).getOwner()) {
+            if (game.getPlayerInTurn() != u[xFrom][yFrom].getOwner()) {
                 return false;
             }
 

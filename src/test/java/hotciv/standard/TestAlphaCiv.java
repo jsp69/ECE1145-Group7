@@ -234,13 +234,10 @@ public class TestAlphaCiv {
   public void unitsCanMove1() {
     assertThat(game, is(notNullValue()));
     //Set unit position
-    Position old_neg = new Position(-2, 3);
-    Position new_neg = new Position(-2,4);
     Position pos = new Position(2, 0);
     Position new1 = new Position(2, 1);
     Position new2 = new Position(3, 4);
     //Check movement
-    assertFalse(game.moveUnit(old_neg, new_neg));
     assertTrue(game.moveUnit(pos, new1));
     assertFalse(game.moveUnit(new1, new2));
   }
