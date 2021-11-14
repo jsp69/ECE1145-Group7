@@ -3,30 +3,39 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 public class AlphaUnitAction implements UnitActionStrat {
+    Unit[][] u;
+    City[][] c;
+    Tile[][] t;
 
     @Override
-    public void performUnitActionAt(Position p, Game game) {
-        if(game.getUnitAt(p).getTypeString().equals(GameConstants.ARCHER)){
-            game.getUnitAt(p).setDefenses(6);
-            game.getUnitAt(p).setMoveCount(0);
-        }else if(game.getUnitAt(p).getTypeString().equals(GameConstants.SETTLER)){
-            ((GameImpl)(game)).cityLoc[p.getRow()][p.getColumn()]=new CityImpl(game.getUnitAt(p).getOwner());
-            ((GameImpl)(game)).unitLoc[p.getRow()][p.getColumn()]=null;
+    public City[][] getCitiesArray() { return c; }
+
+    @Override
+    public Tile[][] getTilesArray() { return t; }
+
+    @Override
+    public Unit[][] getUnitsArray() { return u; }
+
+    @Override
+    public void performUnitActionAt(Position p) {
+        //Update arrays
+        u = GameImpl.getUnitLoc();
+        c = GameImpl.getCityLoc();
+        t = GameImpl.getTileLoc();
+
+        //Get row, column, and unit
+        int r = p.getRow();
+        int col = p.getColumn();
+
+        //Check if unit is null
+        if (u[r][col] != null) {
+            if (u[r][col].getTypeString().equals(GameConstants.ARCHER)) {
+                u[r][col].setDefenses(6);
+                u[r][col].setMoveCount(0);
+            } else if (u[r][col].getTypeString().equals(GameConstants.SETTLER)) {
+                c[r][col] = new CityImpl(u[r][col].getOwner());
+                u[r][col] = null;
+            }
         }
-    }
-
-    @Override
-    public City[][] getCitiesArray() {
-        return new City[0][];
-    }
-
-    @Override
-    public Tile[][] getTilesArray() {
-        return new Tile[0][];
-    }
-
-    @Override
-    public Unit[][] getUnitsArray() {
-        return new Unit[0][];
     }
 }

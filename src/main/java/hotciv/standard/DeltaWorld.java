@@ -43,21 +43,6 @@ public class DeltaWorld implements WorldStrat {
     }
 
     @Override
-    public Tile getTileAt(Position P) {
-        return t[P.getRow()][P.getColumn()];
-    }
-
-    @Override
-    public Unit getUnitAt(Position p) {
-        return u[p.getRow()][p.getColumn()];
-    }
-
-    @Override
-    public City getCityAt(Position p) {
-        return c[p.getRow()][p.getColumn()];
-    }
-
-    @Override
     public City[][] getCitiesArray() {
         return c;
     }

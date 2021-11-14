@@ -3,15 +3,6 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 public class ThetaWorld implements WorldStrat {
-    // Array index corresponds to unit position unitLoc[Position row][Position Column]
-    Unit[][] u = new UnitImpl[16][16];
-
-    // Array index corresponds to tile position tileLoc[Position row][Position Column]
-    Tile [][] t = new TileImpl[16][16];
-
-    // Array index corresponds to city position cityLoc[Position row][Position Column]
-    City [][] c = new CityImpl[16][16];
-
     public ThetaWorld(){
         gameBoard();
     }
@@ -29,10 +20,12 @@ public class ThetaWorld implements WorldStrat {
         u[5][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
         u[2][1] = new UnitImpl(GameConstants.UFO, Player.RED);
         u[1][1] = new UnitImpl(GameConstants.UFO, Player.BLUE);
+        u[1][2] = new UnitImpl(GameConstants.UFO, Player.BLUE);
 
         t[1][0] = new TileImpl(GameConstants.OCEANS, new Position(1, 0));
         t[0][1] = new TileImpl(GameConstants.HILLS, new Position(0, 1));
         t[2][2] = new TileImpl(GameConstants.MOUNTAINS, new Position(2, 2));
+        t[0][3] = new TileImpl(GameConstants.MOUNTAINS, new Position(0, 3));
         t[2][1] = new TileImpl(GameConstants.FOREST, new Position(2,1));
 
         for(int i=0;i<16;i++){
@@ -46,31 +39,6 @@ public class ThetaWorld implements WorldStrat {
         c[1][1] = new CityImpl(Player.RED);
         c[4][1] = new CityImpl(Player.BLUE);
         c[3][2] = new CityImpl(Player.BLUE);
-    }
-
-    @Override
-    public Tile getTileAt( Position p ) {
-        return t[p.getRow()][p.getColumn()];
-    }
-
-    @Override
-    public Unit getUnitAt( Position p ) {
-        //Check if a unit exists at position p and return if so
-        if(u[p.getRow()][p.getColumn()] != null){
-            return u[p.getRow()][p.getColumn()];
-        }else{
-            return null;
-        }
-    }
-
-    @Override
-    public City getCityAt( Position p ) {
-        //Check if a city exists at position p and return if so
-        if(c[p.getRow()][p.getColumn()] != null){
-            return c[p.getRow()][p.getColumn()];
-        }else{
-            return null;
-        }
     }
 
     @Override

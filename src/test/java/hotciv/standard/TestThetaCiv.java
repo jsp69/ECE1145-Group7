@@ -10,6 +10,9 @@ public class TestThetaCiv {
     private Game game;
     Position redUFO = new Position(2, 1);
     Position blueUFO = new Position(1,1);
+    Position blueUFO1 = new Position(1,2);
+    Position blueCity = new Position(3,2);
+    Position blueCity1 = new Position(4,1);
 
     /** Fixture for ThetaCiv testing. */
     @Before
@@ -21,7 +24,8 @@ public class TestThetaCiv {
 
     @Test public void moveOverMountains() {
         assertThat(game, is(notNullValue()));
-        Position m = new Position(2, 2);
+        // Tile (0,3) is mountains
+        Position m = new Position(0, 3);
         assertTrue(game.moveUnit(redUFO, m));
     }
 
@@ -29,7 +33,7 @@ public class TestThetaCiv {
         assertThat(game, is(notNullValue()));
         game.endOfTurn();   //Change player to BLUE
         Position o = new Position(1, 0);
-        assertTrue(game.moveUnit(blueUFO, o));
+        assertTrue(game.moveUnit(blueUFO1, o));
     }
 
     @Test public void defenseStrength8() {
@@ -44,33 +48,31 @@ public class TestThetaCiv {
 
     @Test public void ufoActionDecreaseCityPopBy1() {
         assertThat(game, is(notNullValue()));
-        Position redCity = new Position(1,1);
         game.performUnitActionAt(blueUFO);
-        assertEquals(game.getCityAt(redCity).getSize(), 0);
+        assertEquals(game.getCityAt(blueUFO).getSize(), 0);
     }
 
     @Test public void forestChangesToPlains() {
         assertThat(game, is(notNullValue()));
-        Position trees = new Position(2,1);
-        assertEquals(game.getTileAt(trees).getTypeString(), GameConstants.FOREST);
+        assertEquals(game.getTileAt(redUFO).getTypeString(), GameConstants.FOREST);
         game.performUnitActionAt(redUFO);
-        assertEquals(game.getTileAt(trees).getTypeString(), GameConstants.PLAINS);
+        assertEquals(game.getTileAt(redUFO).getTypeString(), GameConstants.PLAINS);
     }
-    /*@Test public void ufoActionDestroysCity() {
+
+    @Test public void ufoActionDestroysCity() {
         assertThat(game, is(notNullValue()));
-        Position redCity = new Position(1,1);
-        game.performUnitActionAt(blueUFO);
+        // game.moveUnit(redUFO, blueCity);
+    }
 
-    }*/
-
-    /*@Test public void produceUFO() {
+    @Test public void changeProductionAtCityToUFO() {
         assertThat(game, is(notNullValue()));
-        Position r = new Position(1, 1);
+        game.changeProductionInCityAt(blueCity, GameConstants.UFO);
+        assertEquals(game.getCityAt(blueCity).getProduction(), GameConstants.UFO);
+    }
 
-    }*/
-
-    /*@Test public void flyOverCityWithNoUnits() {
+    @Test public void flyOverCityWithNoUnits() {
         assertThat(game, is(notNullValue()));
-
-    }*/
+        assertTrue(game.moveUnit(redUFO, blueCity1));
+        assertEquals(game.getCityAt(blueCity1).getOwner(), Player.BLUE);
+    }
 }

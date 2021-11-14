@@ -39,13 +39,13 @@ public class GameImpl implements Game {
   int age = -4000;
 
   // Array index corresponds to unit position unitLoc[Position row][Position Column]
-  public Unit[][] unitLoc;
+  static Unit[][] unitLoc;
 
   // Array index corresponds to tile position tileLoc[Position row][Position Column]
-  public Tile [][] tileLoc;
+  static Tile [][] tileLoc;
 
   // Array index corresponds to city position cityLoc[Position row][Position Column]
-  public City [][] cityLoc;
+  static City [][] cityLoc;
 
   //Factory object and strategies for variation control
   HotCivFactory civFactory;
@@ -110,26 +110,28 @@ public class GameImpl implements Game {
 
 
   public boolean moveUnit( Position from, Position to ) {
+    //Store unit locations before movement
+    Unit attacker = unitLoc[from.getRow()][from.getColumn()];
+    Unit defender = unitLoc[to.getRow()][to.getColumn()];
 
-    //Check from and to are not negative
-    if (from.getRow() > 0 && to.getColumn() > 0 && getUnitAt(to)!=null) {
-      //Store unit locations before movement
-      Unit attacker = unitLoc[from.getRow()][from.getColumn()];
-      Unit defender = unitLoc[to.getRow()][to.getColumn()];
+    boolean move = moveStrat.moveUnit(from,to,this,cityLoc,unitLoc);
 
-      boolean move = moveStrat.moveUnit(from, to, this, cityLoc, unitLoc);
+    //Update arrays
+    unitLoc = moveStrat.getUnitsArray();
+    tileLoc = moveStrat.getTilesArray();
+    cityLoc = moveStrat.getCitiesArray();
 
-      //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
-      boolean attack = (defender != null && defender.getOwner() != attacker.getOwner() && attacker.getOwner() == unitLoc[to.getRow()][to.getColumn()].getOwner());
+    //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
+    boolean attack =
+            (defender != null) &&
+                    (defender.getOwner() != attacker.getOwner()) &&
+                    (attacker.getOwner() == unitLoc[to.getRow()][to.getColumn()].getOwner());
 
-      //Increase attack count of current player if successful attack occurred
-      if (attack) {
-        winStrat.increaseAttack(getPlayerInTurn());
-      }
-      return move;
-    } else {
-      return false;
+    //Increase attack count of current player if successful attack occurred
+    if (attack) {
+      winStrat.increaseAttack(getPlayerInTurn());
     }
+    return move;
   }
 
   public void endOfTurn() {
@@ -142,20 +144,11 @@ public class GameImpl implements Game {
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {((CityImpl)(getCityAt(p))).setWorkforceFocus(balance);}
   public void changeProductionInCityAt( Position p, String unitType ) {((CityImpl)(getCityAt(p))).setProduction(unitType);}
-  public void performUnitActionAt( Position p ) {
-    if(getUnitAt(p).getTypeString().equals(GameConstants.SETTLER)) {
-      unitStrat.performUnitActionAt(p,this);
-    }else if(getUnitAt(p).getTypeString().equals(GameConstants.ARCHER)) {
-      unitStrat.performUnitActionAt(p, this);
-    }else if(getUnitAt(p).getTypeString().equals(GameConstants.LEGION)){
-
-    }else{
-      //System.out.print("hey");
-      unitStrat.performUnitActionAt(p,this);
-      unitLoc = unitStrat.getUnitsArray();
-      tileLoc = unitStrat.getTilesArray();
-      cityLoc = unitStrat.getCitiesArray();
-    }
+  public void performUnitActionAt(Position p) {
+    unitStrat.performUnitActionAt(p);
+    unitLoc = unitStrat.getUnitsArray();
+    tileLoc = unitStrat.getTilesArray();
+    cityLoc = unitStrat.getCitiesArray();
   }
   public void endOfRound() {
     //Grow all cities that meet conditions and increase food/production for each city
@@ -261,6 +254,26 @@ public class GameImpl implements Game {
     return false;
   }
 
+  // Fortify the archers
+  public boolean archersFortify(Position pos) {
+    int r = pos.getRow();
+    int c = pos.getColumn();
+    //Check that unit is archers
+    if (unitLoc[r][c].getTypeString().equals(GameConstants.ARCHER)) {
+      // Set attack to 0
+      ((UnitImpl)(unitLoc[r][c])).setAttack(0);
+      // Set defenses to 5
+      unitLoc[r][c].setDefenses(5);
+      // Set max move count to 0
+      unitLoc[r][c].setMoveCount(0);
+      return true;
+    }
+    else {
+      //Unit not archers
+      return false;
+    }
+  }
+
   private boolean checkSafeUnitTile(Position p){
     return !tileLoc[p.getRow()][p.getColumn()].getTypeString().equals(GameConstants.OCEANS) && !tileLoc[p.getRow()][p.getColumn()].getTypeString().equals(GameConstants.MOUNTAINS);
   }
@@ -269,13 +282,13 @@ public class GameImpl implements Game {
     cityLoc[x][y] = new CityImpl(player);
   }
 
-  public Unit[][] getUnitLoc() {
+  static public Unit[][] getUnitLoc() {
     return unitLoc;
   }
-  public City[][] getCityLoc() {
+  static public City[][] getCityLoc() {
     return cityLoc;
   }
-  public Tile[][] getTileLoc() {
+  static public Tile[][] getTileLoc() {
     return tileLoc;
   }
 }
