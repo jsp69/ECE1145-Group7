@@ -3,6 +3,8 @@ package hotciv.standard;
 import hotciv.framework.*;
 import org.hamcrest.CoreMatchers;
 import org.junit.*;
+
+import static hotciv.framework.GameConstants.ARCHER;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -154,7 +156,7 @@ public class TestAlphaCiv {
     Position p = new Position(2, 0);
     assertThat(game, is(notNullValue()));
     //Check the unit type
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(p).getTypeString(), is(ARCHER));
   }
 
   @Test
@@ -207,14 +209,18 @@ public class TestAlphaCiv {
   public void redUnitMovesAndDefends() {
     assertThat(game, is(notNullValue()));
     //Check if position has red city
-    Position p = new Position(1, 1);
+    Position redArcher = new Position(2,0);
+    Position redCity = new Position(1, 1);
     Position p_interim = new Position(2, 1);
-    if (game.getCityAt(p).getOwner() == (Player.RED)) {
+    if (game.getCityAt(redCity).getOwner() == (Player.RED)) {
       //Move Red unit to the city
-      game.moveUnit(new Position(2, 0), p_interim);
-      game.moveUnit(p_interim, p);
+      game.moveUnit(redArcher, p_interim);
+      game.moveUnit(p_interim, redCity);
+      //Check that red unit has moved to the red city pos
+      assertThat(game.getUnitAt(redCity).getTypeString(), is (GameConstants.ARCHER));
+      assertThat(game.getUnitAt(redCity).getOwner(), is (Player.RED));
       //Check that the red unit can defend its city
-      assertThat(game.getUnitAt(p).getDefensiveStrength(), is(1));
+      assertThat(game.getUnitAt(redCity).getDefensiveStrength(), is(1));
     }
   }
 
