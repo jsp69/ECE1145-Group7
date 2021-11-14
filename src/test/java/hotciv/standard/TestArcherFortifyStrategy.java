@@ -17,29 +17,29 @@ public class TestArcherFortifyStrategy {
 
     @Test
     public void redArcherFortifies() {
-        Position oldRedArcher = new Position(1, 0);
-        Position newRedArcher = new Position(2, 0);
+        Position redArcher = new Position(2, 0);
         assertThat(game, is(notNullValue()));
-        if (newRedArcher.equals("archer")) {
+        if (game.getUnitAt(redArcher).getTypeString().equals(GameConstants.ARCHER)) {
             //Check if defensive strength doubles
-            int oldDoubled = game.getUnitAt(oldRedArcher).getDefensiveStrength() * 2;
-            assertThat(oldDoubled, is(game.getUnitAt(newRedArcher).getDefensiveStrength()));
+            int doubled = game.getUnitAt(redArcher).getDefensiveStrength() * 2;
+            game.performUnitActionAt(redArcher);
+            assertThat(doubled, is(game.getUnitAt(redArcher).getDefensiveStrength()));
             //Check move count set to 0
-            assertThat(game.getUnitAt(newRedArcher).getMoveCount(), is(0));
+            assertThat(game.getUnitAt(redArcher).getMoveCount(), is(0));
         }
     }
 
     @Test
     public void blueArcherFortifies() {
-        Position oldBlueArcher = new Position(1, 1);
-        Position newBlueArcher = new Position(0, 2);
+        Position blueArcher = new Position(0, 2);
         assertThat(game, is(notNullValue()));
-        if (newBlueArcher.equals("archer")) {
+        if (game.getUnitAt(blueArcher).getTypeString().equals(GameConstants.ARCHER)) {
             //Check if defensive strength doubles
-            int oldDoubled = game.getUnitAt(oldBlueArcher).getDefensiveStrength() * 2;
-            assertThat(oldDoubled, is(game.getUnitAt(newBlueArcher).getDefensiveStrength()));
+            int doubled = game.getUnitAt(blueArcher).getDefensiveStrength() * 2;
+            game.performUnitActionAt(blueArcher);
+            assertThat(doubled, is(game.getUnitAt(blueArcher).getDefensiveStrength()));
             //Check move count set to 0
-            assertThat(game.getUnitAt(newBlueArcher).getMoveCount(), is(0));
+            assertThat(game.getUnitAt(blueArcher).getMoveCount(), is(0));
         }
     }
 }
