@@ -13,9 +13,9 @@ public class TestEpsilonCiv {
     @Test
     public void DefenseShouldWin(){
         //Game is set so attacker rolls 1 and defender rolls 6
-        game=new GameImpl(new EpsilonFactory(new FixedDice(1),new FixedDice(6)));
-        Position attack=new Position(3,3);
-        Position defense=new Position(3,2);
+        game = new GameImpl(new EpsilonFactory(new FixedDice(1),new FixedDice(6)));
+        Position attack = new Position(3,3);
+        Position defense = new Position(3,2);
         assertNotNull(game);
         //Validate units before testing
         assertThat(game.getUnitAt(attack).getOwner(),is(Player.RED));

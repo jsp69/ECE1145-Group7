@@ -37,7 +37,7 @@ public class TestDeltaCiv {
         assertThat(game, is(notNullValue()));
         //Check tile at (0,1)
         Position t1 = new Position(2,2);
-            assertThat(game.getTileAt(t1).getTypeString(), is(GameConstants.PLAINS));
+        assertThat(game.getTileAt(t1).getTypeString(), is(GameConstants.PLAINS));
     }
 
     @Test
