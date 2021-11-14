@@ -128,36 +128,6 @@ public class GameImpl implements Game {
     return move;
   }
 
-  public boolean moveUnitMore(Position from, Position to) {
-    Position oldP = new Position(from);
-    while (!moveUnit(from,to)) {
-      System.out.print("while: \n");
-      //Add one to row, move unit
-      if (from.getRow() != to.getRow()) {
-        from.setRow(from.getRow() + 1);
-        System.out.print("oldP: ");
-        System.out.println(getUnitAt(oldP));
-        System.out.print("p1: ");
-        System.out.println(getUnitAt(from));
-        moveUnit(oldP, from);
-        oldP.setRow(from.getRow());
-      }
-      //Add one to column, move unit
-      if (from.getColumn() != to.getColumn()) {
-        from.setColumn(from.getColumn() + 1);
-        System.out.print("oldP: ");
-        System.out.println(getUnitAt(oldP));
-        System.out.print("p1: ");
-        System.out.println(getUnitAt(from));
-        moveUnit(oldP, from);
-        oldP.setColumn(from.getColumn());
-      }
-    }
-    System.out.print("outta");
-    //Check if unit has been moved
-    return (from.getColumn() == to.getColumn()) && (from.getRow() == to.getRow());
-  }
-
   public void endOfTurn() {
     // Increment turn count
     this.turn++;
