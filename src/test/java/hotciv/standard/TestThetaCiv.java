@@ -18,10 +18,6 @@ public class TestThetaCiv {
     @Before
     public void setUp() { game = new GameImpl(new ThetaFactory()); }
 
-    /*@Test public void ufoProductionCost60() {
-
-    }*/
-
     @Test public void moveOverMountains() {
         assertThat(game, is(notNullValue()));
         // Tile (0,3) is mountains
@@ -48,8 +44,9 @@ public class TestThetaCiv {
 
     @Test public void ufoActionDecreaseCityPopBy1() {
         assertThat(game, is(notNullValue()));
+        assertEquals(game.getCityAt(blueUFO).getSize(), 1);
         game.performUnitActionAt(blueUFO);
-        assertEquals(game.getCityAt(blueUFO).getSize(), 0);
+        assertNull(game.getCityAt(blueUFO));
     }
 
     @Test public void forestChangesToPlains() {
@@ -62,7 +59,8 @@ public class TestThetaCiv {
     @Test public void ufoActionDestroysCity() {
         assertThat(game, is(notNullValue()));
         game.moveUnit(redUFO, blueCity);
-        //assertNull(game.getCityAt(blueCity));
+        game.performUnitActionAt(blueCity);
+        assertNull(game.getCityAt(blueCity));
     }
 
     @Test public void changeProductionAtCityToUFO() {
@@ -73,6 +71,7 @@ public class TestThetaCiv {
 
     @Test public void flyOverCityWithNoUnits() {
         assertThat(game, is(notNullValue()));
+        assertNull(game.getUnitAt(blueCity1));
         assertTrue(game.moveUnit(redUFO, blueCity1));
         assertEquals(game.getCityAt(blueCity1).getOwner(), Player.BLUE);
     }

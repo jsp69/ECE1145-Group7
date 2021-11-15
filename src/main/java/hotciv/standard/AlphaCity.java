@@ -1,14 +1,10 @@
 package hotciv.standard;
 
-import hotciv.framework.CityStrat;
-import hotciv.framework.Game;
-import hotciv.framework.Position;
+import hotciv.framework.*;
 
 public class AlphaCity implements CityStrat {
     @Override
-    public void cityGrow(Game game) {
-
-    }
+    public void cityGrow(Game game) {}
 
     @Override
     public void cityProduce(Game game) {

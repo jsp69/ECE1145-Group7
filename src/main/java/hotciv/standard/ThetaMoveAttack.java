@@ -47,16 +47,16 @@ public class ThetaMoveAttack implements MoveAttackStrat {
             }
 
             // Complete move
-            return canMove(from, to);
+            return canMove();
         }
     }
 
-    private boolean canMove(Position from, Position to) {
+    private boolean canMove() {
         String unitType = u[xFrom][yFrom].getTypeString();
 
         // Distance in columns, rows
-        int disCol = from.getColumn() - to.getColumn();
-        int disRow = from.getRow() - to.getRow();
+        int disCol = yFrom - yTo;
+        int disRow = xFrom - xTo;
         int absDisCol = Math.abs(disCol);
         int absDisRow = Math.abs(disRow);
 
@@ -67,12 +67,12 @@ public class ThetaMoveAttack implements MoveAttackStrat {
             else if (absDisCol == 1) { if (!Objects.equals(unitType, GameConstants.UFO)) { moveType = "d"; } }
             else { return false; }
         }
-        else if (from.getRow() == to.getRow()) {
+        else if (xFrom == xTo) {
             if (absDisCol == 2) { if (Objects.equals(unitType, GameConstants.UFO)) { moveType = "v"; } }
             else if (absDisCol == 1) { if (!Objects.equals(unitType, GameConstants.UFO)) { moveType = "v"; } }
             else { return false; }
         }
-        else if (from.getColumn() == to.getColumn()){
+        else if (yFrom == yTo){
             if (absDisRow == 2) { if (Objects.equals(unitType, GameConstants.UFO)) { moveType = "h"; } }
             else if (absDisRow == 1) { if (!Objects.equals(unitType, GameConstants.UFO)) { moveType = "h"; } }
             else { return false; }
@@ -140,18 +140,6 @@ public class ThetaMoveAttack implements MoveAttackStrat {
     private void moveUnit1(int x1, int y1, int x2, int y2) {
         u[x2][y2] = u[x1][y1];  // Copy unit
         u[x1][y1] = null;       // Delete old unit
-    }
-
-    private void checkBattle() {
-        //Get player in turn
-        Player currPlayer = u[xFrom][yFrom].getOwner();
-        //Check for UFO
-        if (Objects.equals(u[xFrom][yFrom].getTypeString(), GameConstants.UFO)) {
-            if (u[xTo][yTo] != null) {
-                //UFO destroys city
-                c[xTo][yTo] = null;
-            }
-        }
     }
 
     @Override

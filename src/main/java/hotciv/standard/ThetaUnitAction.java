@@ -84,12 +84,16 @@ public class ThetaUnitAction implements UnitActionStrat {
             //Check if ufo
             if (Objects.equals(u[r][col].getTypeString(), GameConstants.UFO)) {
                 //Decrease city population by 1
-                ((CityImpl) c[1][1]).setSize(c[1][1].getSize() - 1);
+                if (c[r][col] != null) {
+                    ((CityImpl)(c[r][col])).setSize(c[r][col].getSize() - 1);
+                    //Destroy city if population is 0
+                    if (c[r][col].getSize() == 0) { c[r][col] = null; }
+                }
             }
 
             //Check if forest
             if (Objects.equals(t[p.getRow()][p.getColumn()].getTypeString(), GameConstants.FOREST)) {
-                ((TileImpl) t[p.getRow()][p.getColumn()]).setTypeString(GameConstants.PLAINS);
+                ((TileImpl)(t[p.getRow()][p.getColumn()])).setTypeString(GameConstants.PLAINS);
             }
         }
     }
