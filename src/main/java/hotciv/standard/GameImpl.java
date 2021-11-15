@@ -110,9 +110,6 @@ public class GameImpl implements Game {
 
 
   public boolean moveUnit( Position from, Position to ) {
-
-    Position oldP = new Position(from);
-
     //Store unit locations before movement
     Unit attacker = unitLoc[from.getRow()][from.getColumn()];
     Unit defender = unitLoc[to.getRow()][to.getColumn()];
@@ -124,16 +121,6 @@ public class GameImpl implements Game {
     tileLoc = moveStrat.getTilesArray();
     cityLoc = moveStrat.getCitiesArray();
 
-    if (Math.abs(from.getRow() - to.getRow()) == 1) {
-      from.setColumn(from.getColumn() + 1);
-      oldP.setColumn(from.getColumn());
-    }
-    //Add one to column, move unit
-    if (Math.abs(from.getColumn() - to.getColumn()) == 1) {
-      from.setRow(from.getRow() + 1);
-      oldP.setRow(from.getRow());
-    }
-
     //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
     boolean attack =
             (defender != null) &&
@@ -143,6 +130,7 @@ public class GameImpl implements Game {
     if (attack) {
       winStrat.increaseAttack(getPlayerInTurn());
     }
+
     return move;
   }
 

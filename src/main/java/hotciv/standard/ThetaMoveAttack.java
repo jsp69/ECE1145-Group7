@@ -9,6 +9,9 @@ public class ThetaMoveAttack implements MoveAttackStrat {
     City[][] c;
     Tile[][] t;
 
+    //X and y values of position from and to
+    int xFrom, xTo, yFrom, yTo;
+
     @Override
     public boolean moveUnit(Position from, Position to, Game game, City[][] cityLoc, Unit[][] unitLoc) {
         //Update arrays
@@ -17,10 +20,10 @@ public class ThetaMoveAttack implements MoveAttackStrat {
         t = GameImpl.getTileLoc();
 
         //Get unit x and y coordinates
-        int xFrom = from.getRow();
-        int xTo = to.getRow();
-        int yFrom = from.getColumn();
-        int yTo = to.getColumn();
+        xFrom = from.getRow();
+        xTo = to.getRow();
+        yFrom = from.getColumn();
+        yTo = to.getColumn();
 
         //Ensure unit is not null
         if (u[xFrom][yFrom] == null) {
@@ -49,11 +52,7 @@ public class ThetaMoveAttack implements MoveAttackStrat {
     }
 
     private boolean canMove(Position from, Position to) {
-        int x1 = from.getRow();
-        int y1 = from.getColumn();
-        int x2 = to.getRow();
-        int y2 = to.getColumn();
-        String unitType = u[x1][y1].getTypeString();
+        String unitType = u[xFrom][yFrom].getTypeString();
 
         // Distance in columns, rows
         int disCol = from.getColumn() - to.getColumn();
@@ -80,58 +79,59 @@ public class ThetaMoveAttack implements MoveAttackStrat {
         }
         else { return false; }
 
-        int moveCount = u[x1][y1].getMoveCount();
+        int moveCount = u[xFrom][yFrom].getMoveCount();
         if (moveCount == 2) {
             assert moveType != null;
             if (moveType.equals("d")) {
                 //up and left
                 if ((disCol > 0) && (disRow > 0)) {
-                    moveUnit1(x1, y1, x2+1, y2+1);
-                    moveUnit1(x2+1,y2+1,x2,y2);
+                    moveUnit1(xFrom, yFrom, xTo+1, yTo+1);
+                    moveUnit1(xTo+1,yTo+1,xTo,yTo);
                 }
                 //up and right
                 else if ((disCol > 0) && (disRow < 0)) {
-                    moveUnit1(x1, y1, x2-1, y2+1);
-                    moveUnit1(x2-1,y2+1,x2,y2);
+                    moveUnit1(xFrom, yFrom, xTo-1, yTo+1);
+                    moveUnit1(xTo-1,yTo+1,xTo,yTo);
                 }
                 //down and right
                 else if ((disCol < 0) && (disRow < 0)) {
-                    moveUnit1(x1, y1, x2-1, y2-1);
-                    moveUnit1(x2-1,y2-1,x2,y2);
+                    moveUnit1(xFrom, yFrom, xTo-1, yTo-1);
+                    moveUnit1(xTo-1,yTo-1,xTo,yTo);
                 }
                 //down and left
                 else {
-                    moveUnit1(x1, y1, x2+1, y2-1);
-                    moveUnit1(x2+1,y2-1,x2,y2);
+                    moveUnit1(xFrom, yFrom, xTo+1, yTo-1);
+                    moveUnit1(xTo+1,yTo-1,xTo,yTo);
                 }
             }
             else if (moveType.equals("v")) {
                 //up
                 if (disCol > 0) {
-                    moveUnit1(x1, y1, x2, y2+1);
-                    moveUnit1(x2,y2+1,x2,y2);
+                    moveUnit1(xFrom, yFrom, xTo, yTo+1);
+                    moveUnit1(xTo,yTo+1,xTo,yTo);
                 }
                 //down
                 else {
-                    moveUnit1(x1, y1, x2, y2-1);
-                    moveUnit1(x2, y2-1, x2, y2);
+                    moveUnit1(xFrom, yFrom, xTo, yTo-1);
+                    moveUnit1(xTo, yTo-1, xTo, yTo);
                 }
             }
             else {
                 //left
                 if (disRow > 0) {
-                    moveUnit1(x1, y1, x2-1, y2);
-                    moveUnit1(x2-1, y2, x2, y2);
+                    moveUnit1(xFrom, yFrom, xTo - 1, yTo);
+                    moveUnit1(xTo - 1, yTo, xTo, yTo);
                 }
                 //right
                 else {
-                    moveUnit1(x1, y1, x2+1, y2);
-                    moveUnit1(x2+1, y2, x2, y2);
+                    moveUnit1(xFrom, yFrom, xTo + 1, yTo);
+                    moveUnit1(xTo + 1, yTo, xTo, yTo);
                 }
             }
+
         }
         else {
-            moveUnit1(x1, y1, x2, y2);
+            moveUnit1(xFrom, yFrom, xTo, yTo);
         }
 
         return true;
@@ -140,6 +140,18 @@ public class ThetaMoveAttack implements MoveAttackStrat {
     private void moveUnit1(int x1, int y1, int x2, int y2) {
         u[x2][y2] = u[x1][y1];  // Copy unit
         u[x1][y1] = null;       // Delete old unit
+    }
+
+    private void checkBattle() {
+        //Get player in turn
+        Player currPlayer = u[xFrom][yFrom].getOwner();
+        //Check for UFO
+        if (Objects.equals(u[xFrom][yFrom].getTypeString(), GameConstants.UFO)) {
+            if (u[xTo][yTo] != null) {
+                //UFO destroys city
+                c[xTo][yTo] = null;
+            }
+        }
     }
 
     @Override

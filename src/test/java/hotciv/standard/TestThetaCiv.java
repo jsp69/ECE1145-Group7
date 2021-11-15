@@ -61,7 +61,8 @@ public class TestThetaCiv {
 
     @Test public void ufoActionDestroysCity() {
         assertThat(game, is(notNullValue()));
-        // game.moveUnit(redUFO, blueCity);
+        game.moveUnit(redUFO, blueCity);
+        //assertNull(game.getCityAt(blueCity));
     }
 
     @Test public void changeProductionAtCityToUFO() {
