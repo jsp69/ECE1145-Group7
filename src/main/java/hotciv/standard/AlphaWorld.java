@@ -6,6 +6,13 @@ public class AlphaWorld implements WorldStrat {
 
 
     public AlphaWorld(){
+        for(int i=0;i<16;i++){
+            for(int j=0;j<16;j++){
+                u[i][j]=null;
+                t[i][j]=null;
+                c[i][j]=null;
+            }
+        }
         gameBoard();
     }
 

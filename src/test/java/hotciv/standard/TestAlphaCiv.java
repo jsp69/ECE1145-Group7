@@ -261,19 +261,19 @@ public class TestAlphaCiv {
     else {
       assertFalse(game.moveUnit(new1, new2));
     }
-    if ((Math.abs(pos.getRow() - new3.getRow()) == 1) && (pos.getColumn() == new3.getColumn())) {
+    if ((Math.abs(pos.getRow() - new3.getRow()) == 1) && (pos.getColumn() == new3.getColumn()) && game.getUnitAt(pos)!=null) {
       assertTrue(game.moveUnit(pos, new3));
     }
     else {
       assertFalse(game.moveUnit(pos, new3));
     }
-    if ((Math.abs(pos.getRow() - new4.getColumn()) == 1) && Math.abs(pos.getColumn() - new4.getRow()) == 1) {
+    if ((Math.abs(pos.getRow() - new4.getColumn()) == 1) && Math.abs(pos.getColumn() - new4.getRow()) == 1  && game.getUnitAt(pos)!=null) {
       assertTrue(game.moveUnit(pos, new4));
     }
     else {
       assertFalse(game.moveUnit(pos, new4));
     }
-    if (pos.getRow() == new5.getRow() && pos.getColumn() == new5.getColumn()) {
+    if (pos.getRow() == new5.getRow() && pos.getColumn() == new5.getColumn()  && game.getUnitAt(pos)!=null) {
       assertTrue(game.moveUnit(pos, new5));
     }
     else {
