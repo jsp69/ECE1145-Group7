@@ -62,6 +62,16 @@ public class WinnerStrategyContext implements Game {
 
     }
 
+    @Override
+    public void addObserver(GameObserver observer) {
+
+    }
+
+    @Override
+    public void setTileFocus(Position position) {
+
+    }
+
     public Collection<Player> getOwners() {
         City[][] cityLoc = new CityImpl[16][16];
         cityLoc[1][1] = new CityImpl(Player.RED);

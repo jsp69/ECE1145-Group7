@@ -150,6 +150,17 @@ public class GameImpl implements Game {
     tileLoc = unitStrat.getTilesArray();
     cityLoc = unitStrat.getCitiesArray();
   }
+
+  @Override
+  public void addObserver(GameObserver observer) {
+
+  }
+
+  @Override
+  public void setTileFocus(Position position) {
+
+  }
+
   public void endOfRound() {
     //Grow all cities that meet conditions and increase food/production for each city
     cityStrat.cityGrow(this);
@@ -199,7 +210,7 @@ public class GameImpl implements Game {
       for (int i = 0; i < 16; i++) {
         for(int j = 0; j < 16; j++) {
           if(unitLoc[i][j] != null) {
-            unitLoc[i][j].setMoveCount(1);
+            ((UnitImpl)(unitLoc[i][j])).setMoveCount(1);
           }
         }
       }
@@ -263,9 +274,9 @@ public class GameImpl implements Game {
       // Set attack to 0
       ((UnitImpl)(unitLoc[r][c])).setAttack(0);
       // Set defenses to 5
-      unitLoc[r][c].setDefenses(5);
+      ((UnitImpl)(unitLoc[r][c])).setDefenses(5);
       // Set max move count to 0
-      unitLoc[r][c].setMoveCount(0);
+      ((UnitImpl)(unitLoc[r][c])).setMoveCount(0);
       return true;
     }
     else {

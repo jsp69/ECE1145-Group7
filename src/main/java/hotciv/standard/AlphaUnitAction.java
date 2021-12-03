@@ -30,8 +30,8 @@ public class AlphaUnitAction implements UnitActionStrat {
         //Check if unit is null
         if (u[r][col] != null) {
             if (u[r][col].getTypeString().equals(GameConstants.ARCHER)) {
-                u[r][col].setDefenses(6);
-                u[r][col].setMoveCount(0);
+                ((UnitImpl)(u[r][col])).setDefenses(6);
+                ((UnitImpl)(u[r][col])).setMoveCount(0);
             } else if (u[r][col].getTypeString().equals(GameConstants.SETTLER)) {
                 c[r][col] = new CityImpl(u[r][col].getOwner());
                 u[r][col] = null;

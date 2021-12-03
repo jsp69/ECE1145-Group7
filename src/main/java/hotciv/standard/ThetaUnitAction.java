@@ -55,9 +55,9 @@ public class ThetaUnitAction implements UnitActionStrat {
                     } else {
                         //Double defensive strength
                         int ds = (u[2][0].getDefensiveStrength() * 2);
-                        u[2][0].setDefenses(ds);
+                        ((UnitImpl)(u[2][0])).setDefenses(ds);
                         //Archer cannot move
-                        u[2][0].setMoveCount(0);
+                        ((UnitImpl)(u[2][0])).setMoveCount(0);
                     }
                 }
 
@@ -74,9 +74,9 @@ public class ThetaUnitAction implements UnitActionStrat {
                     } else {
                         //Double defensive strength
                         int ds = (u[0][2].getDefensiveStrength()) * 2;
-                        u[0][2].setDefenses(ds);
+                        ((UnitImpl)(u[0][2])).setDefenses(ds);
                         //Archer cannot move
-                        u[0][2].setMoveCount(0);
+                        ((UnitImpl)(u[0][2])).setMoveCount(0);
                     }
                 }
             }

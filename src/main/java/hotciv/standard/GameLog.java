@@ -112,5 +112,15 @@ public class GameLog implements Game {
         }
     }
 
+    @Override
+    public void addObserver(GameObserver observer) {
+
+    }
+
+    @Override
+    public void setTileFocus(Position position) {
+
+    }
+
     public void toggleLogging(){logActive=!logActive;}
 }
