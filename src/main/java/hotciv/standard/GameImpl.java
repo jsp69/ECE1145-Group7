@@ -58,6 +58,7 @@ public class GameImpl implements Game {
   WorldStrat worldStrat;
   UnitActionStrat unitStrat;
 
+  GameObserver observer;
   // Observer array list
   private List<GameObserver> obsList = new ArrayList<>();
 
@@ -136,6 +137,7 @@ public class GameImpl implements Game {
       winStrat.increaseAttack(getPlayerInTurn());
     }
 
+    addObserver(observer);
     return move;
   }
 
@@ -146,6 +148,7 @@ public class GameImpl implements Game {
     if (this.turn > 1) {
       endOfRound();
     }
+    addObserver(observer);
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {((CityImpl)(getCityAt(p))).setWorkforceFocus(balance);}
   public void changeProductionInCityAt( Position p, String unitType ) {((CityImpl)(getCityAt(p))).setProduction(unitType);}
