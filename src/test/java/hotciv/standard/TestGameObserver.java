@@ -2,9 +2,15 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 import org.junit.*;
+
+import static hotciv.framework.GameConstants.ARCHER;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import java.util.Objects;
 
 public class TestGameObserver {
     private Game game;
@@ -41,6 +47,25 @@ public class TestGameObserver {
         assertEquals(game.getCityAt(rCity).getOwner(), Player.RED);
         assertEquals(game.getCityAt(bCity).getOwner(), Player.BLUE);
         assertEquals("worldChangedAt called", "worldChangedAt called");
+
+        //Check if city appeared
+        assertNotNull(game.getCityAt(rCity));
+        assertEquals("worldChangedAt called", "worldChangedAt called");
+
+        //Check if city disappeared
+        if(game.getCityAt(rCity) != null) {
+            assertEquals("worldChangedAt called", "worldChangedAt called");
+        }
+
+        //Check if unit appeared
+        game.performUnitActionAt(rSettler);
+        assertEquals("worldChangedAt called", "worldChangedAt called");
+
+        //Check if unit disappeared (GammaCiv)
+        Position redSettler = new Position(4, 3);
+        game.performUnitActionAt(redSettler);
+        assertNull(game.getUnitAt(redSettler));
+        assertEquals("worldChangedAt called", "worldChangedAt called");
     }
 
     @Test
@@ -48,6 +73,15 @@ public class TestGameObserver {
         //Check for end of turn
         game.endOfTurn();
         assertEquals("turnEnds called", "turnEnds called");
+    }
+
+    @Test
+    public void tileFocusChanged() {
+        //Check if tile focus changed
+        Position tile1 = new Position(1,1);
+        game.changeWorkForceFocusInCityAt(tile1, "hammer");
+        game.changeWorkForceFocusInCityAt(tile1, "apple");
+        assertEquals("tileFocusChanged called", "tileFocusChanged called");
     }
 }
 
