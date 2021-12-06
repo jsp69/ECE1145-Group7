@@ -136,8 +136,6 @@ public class GameImpl implements Game {
     if (attack) {
       winStrat.increaseAttack(getPlayerInTurn());
     }
-
-    addObserver(observer);
     return move;
   }
 
@@ -148,7 +146,6 @@ public class GameImpl implements Game {
     if (this.turn > 1) {
       endOfRound();
     }
-    addObserver(observer);
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {((CityImpl)(getCityAt(p))).setWorkforceFocus(balance);}
   public void changeProductionInCityAt( Position p, String unitType ) {((CityImpl)(getCityAt(p))).setProduction(unitType);}
