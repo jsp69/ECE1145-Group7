@@ -53,7 +53,7 @@ public class TestGameObserver {
         assertEquals("worldChangedAt called", "worldChangedAt called");
 
         //Check if city disappeared
-        if(game.getCityAt(rCity) != null) {
+        if(game.getCityAt(rCity) == null) {
             assertEquals("worldChangedAt called", "worldChangedAt called");
         }
 
@@ -61,10 +61,16 @@ public class TestGameObserver {
         game.performUnitActionAt(rSettler);
         assertEquals("worldChangedAt called", "worldChangedAt called");
 
-        //Check if unit disappeared (GammaCiv)
+        //Check if unit disappeared
         Position redSettler = new Position(4, 3);
         game.performUnitActionAt(redSettler);
         assertNull(game.getUnitAt(redSettler));
+        assertEquals("worldChangedAt called", "worldChangedAt called");
+
+        //Check if dice rolled
+        Game game_epsil;
+        game_epsil = new GameImpl(new EpsilonFactory(new FixedDice(1),new FixedDice(6)));
+        assertNotNull(game_epsil);
         assertEquals("worldChangedAt called", "worldChangedAt called");
     }
 
@@ -84,26 +90,3 @@ public class TestGameObserver {
         assertEquals("tileFocusChanged called", "tileFocusChanged called");
     }
 }
-
-
-
-        /** invoked every time some change occurs on a position
-         * in the world - a unit disappears or appears, a
-         * city appears, a city changes player color, or any
-         * other event that requires the GUI to redraw the
-         * graphics on a particular position.
-         * @param pos the position in the world that has changed state
-         */
-
-       /*
-        //assertThat(game, is(notNullValue()));
-        //Check if unit appears or disappears
-        Position redArcher = new Position(2, 0);
-        //Check unit attacking strength
-        if (game.getUnitAt(redArcher).getAttackingStrength() == 0) {
-            //Check the winner is blue
-            assertThat(game.moveUnit(new Position(3, 3), new Position(3, 2)), is(true));
-        }
-        assertNotNull(StubGameObserver);
-    }
-*/
