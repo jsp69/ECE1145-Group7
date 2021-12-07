@@ -52,7 +52,7 @@ public class StubGame1 implements Game {
   public void setTileFocus(Position position) {}
 
   // A simple implementation to draw the map of DeltaCiv
-  protected Map<Position,Tile> world; 
+  protected Map<Position,Tile> world;
   public Tile getTileAt( Position p ) { return world.get(p); }
 
 

@@ -1,6 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.Game;
+import hotciv.framework.GameObserver;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
 import org.junit.Before;
@@ -10,11 +11,8 @@ import static org.hamcrest.CoreMatchers.*;
 
 public class TestBetaCiv {
     private Game game;
-
     @Before
-    public void setUp(){
-        game= new GameImpl(new BetaFactory());
-    }
+    public void setUp(){ game = new GameImpl(new BetaFactory()); }
 
     //Test that RED will only win if they own all cities on map
     @Test

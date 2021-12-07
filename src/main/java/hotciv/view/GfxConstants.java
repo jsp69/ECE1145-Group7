@@ -74,6 +74,13 @@ public class GfxConstants {
   public static final String NOTHING = "black";
   public static final String REFRESH_BUTTON = "refresh";
 
+  // === Type strings for the various types of HotCivFigures used in HotCiv
+  public static final String UNIT_TYPE_STRING = "UNIT_TYPE";
+  public static final String CITY_TYPE_STRING = "CITY_TYPE";
+  public static final String TEXT_TYPE_STRING = "TEXT_TYPE";
+  public static final String TURN_SHIELD_TYPE_STRING = "TURN_SHIELD_TYPE";
+  public static final String UNIT_SHIELD_TYPE_STRING = "UNIT_SHIELD_TYPE";
+
   /** return the x pixel position on the graphical display
    * for a tile's column position
    * @param column the position of the tile

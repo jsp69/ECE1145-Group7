@@ -1,6 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.Game;
+import hotciv.framework.GameObserver;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -10,9 +11,7 @@ public class TestBetaAging {
     private Game game;
 
     @Before
-    public void setUp(){
-        game= new GameImpl(new BetaFactory());
-    }
+    public void setUp(){ game = new GameImpl(new BetaFactory()); }
 
     //Test Variant World Aging from 4000BC to 1973AD
     //endOfTurn methods are called to simulate passing of turns between players Red and Blue

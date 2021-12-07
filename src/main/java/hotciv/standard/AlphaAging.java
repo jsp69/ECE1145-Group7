@@ -16,6 +16,7 @@ public class AlphaAging implements AgingStrat {
     }
     @Override
     public int increaseAge(int age) {
-        return age + 100;
+        int a = age + 100;
+        return a;
     }
 }

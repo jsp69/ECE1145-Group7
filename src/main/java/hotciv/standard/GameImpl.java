@@ -64,13 +64,13 @@ public class GameImpl implements Game {
 
   public GameImpl(HotCivFactory factory){
     //Use Abstract Factory object to generate variant method algorithms
-    civFactory=factory;
-    winStrat=factory.createWinStrat();
-    ageStrat=factory.createAgingStrat();
-    moveStrat=factory.createMoveAttackStrat();
-    cityStrat=factory.createCityStrat();
-    worldStrat =factory.createWorldStrat();
-    unitStrat=factory.createUnitActionStrat();
+    civFactory = factory;
+    winStrat = factory.createWinStrat();
+    ageStrat = factory.createAgingStrat();
+    moveStrat = factory.createMoveAttackStrat();
+    cityStrat = factory.createCityStrat();
+    worldStrat = factory.createWorldStrat();
+    unitStrat = factory.createUnitActionStrat();
 
     unitLoc = worldStrat.getUnitsArray();
     tileLoc = worldStrat.getTilesArray();
@@ -118,9 +118,7 @@ public class GameImpl implements Game {
   public boolean moveUnit( Position from, Position to ) {
     //Store unit locations before movement
     Unit attacker = unitLoc[from.getRow()][from.getColumn()];
-
     Unit defender = unitLoc[to.getRow()][to.getColumn()];
-
     boolean move = moveStrat.moveUnit(from, to, this, cityLoc, unitLoc);
 
     //Update arrays
@@ -164,7 +162,7 @@ public class GameImpl implements Game {
   }
 
   @Override
-  public void addObserver(GameObserver observer) {
+  public void addObserver(GameObserver o) {
     obsList.add(observer);
   }
 
@@ -211,7 +209,7 @@ public class GameImpl implements Game {
 
   //Moves age forward
   public void increaseAge() {
-    this.age=ageStrat.increaseAge(this.age);
+    age = ageStrat.increaseAge(age);
   }
 
   //Units get max move count at round start
@@ -316,8 +314,6 @@ public class GameImpl implements Game {
   }
 
   private void updateTileAT(Position p){
-    for (GameObserver gameObserver : obsList) {
-      gameObserver.worldChangedAt(p);
-    }
+    for (GameObserver gameObserver : obsList) { gameObserver.worldChangedAt(p); }
   }
 }

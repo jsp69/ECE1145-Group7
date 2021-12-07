@@ -43,9 +43,7 @@ public class TestAlphaCiv {
    * Fixture for AlphaCiv testing.
    */
   @Before
-  public void setUp() {
-    game = new GameImpl(new AlphaFactory());
-  }
+  public void setUp() { game = new GameImpl(new AlphaFactory()); }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
   @Test
@@ -58,7 +56,7 @@ public class TestAlphaCiv {
   public void redCityAt1_1() {
     Position p = new Position(1, 1);
     assertThat(game, is(notNullValue()));
-    //assertThat((game.getCityAt(p)).getOwner(), is(Player.RED));
+    assertThat((game.getCityAt(p)).getOwner(), is(Player.RED));
   }
 
   @Test

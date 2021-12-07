@@ -39,6 +39,62 @@ public class ShowComposition {
     editor.showStatus("Click and drag any item to see Game's proper response.");
 
     // TODO: Replace the setting of the tool with your CompositionTool implementation.
-    editor.setTool( new NullTool() );
+    editor.setTool( new CompositionTool(editor, game) );
   }
+
+}
+
+class CompositionTool extends NullTool {
+  private final DrawingEditor editor;
+  private final Game game;
+  private CivFigure figureBelowClick;
+  private Tool state;
+
+  public CompositionTool(DrawingEditor editor, Game game) {
+    state = null;
+    this.editor = editor;
+    this.game = game;
+  }
+
+  /*@Override
+  public void mouseDown(MouseEvent e, int x, int y) {
+    // Find the figure (if any) just below the mouse click position
+    figureBelowClick = (CivFigure) editor.drawing().findFigure(x, y);
+    // Determine correct tool to use
+    if (figureBelowClick == null) {
+      // TODO: no figure below - set state correctly (set focus tool or null tool)
+      System.out.println("TODO: No figure below click point - PENDING IMPLEMENTATION");
+      state = new NullTool();
+    } else {
+      if (figureBelowClick.getType().equals(GfxConstants.TEXT_TYPE_STRING)) {
+        state = new EndOfTurnTool(editor, game);
+      } else {
+        // TODO: handle all the cases - action tool, unit move tool, etc
+        System.out.println("TODO: PENDING IMPLEMENTATION based upon hitting a figure with type: "
+                + figureBelowClick.getType());
+        state = new NullTool();
+      }
+    }
+
+    switch (figureBelowClick.getType()) {
+      case GfxConstants.TEXT_TYPE_STRING:
+        state = new ChangeAgeTool(CivFigure);
+        break;
+      case GfxConstants.UNIT_TYPE_STRING:
+        state = new MoveTool(editor, game);
+        break;
+      case GfxConstants.CITY_TYPE_STRING:
+        state = new ChangeCityTool();
+        break;
+      case GfxConstants.TURN_SHIELD_TYPE_STRING:
+        state = new EndOfTurnTool(editor, game);
+      default:
+        state = new NullTool();
+        break;
+    }
+
+    // Finally, delegate to the selected state
+    state.mouseDown(e, x, y);
+  }*/
+
 }

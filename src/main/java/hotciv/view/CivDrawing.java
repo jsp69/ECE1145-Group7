@@ -42,7 +42,7 @@ import minidraw.standard.*;
    limitations under the License.
 */
 
-public class CivDrawing 
+public class CivDrawing
   implements Drawing, GameObserver {
   
   protected Drawing delegate;
@@ -151,11 +151,17 @@ public class CivDrawing
   public void worldChangedAt(Position pos) {
     // TODO: Remove system.out debugging output
     System.out.println( "CivDrawing: world changes at "+pos);
+    clearSelection();
     // this is a really brute-force algorithm: destroy
     // all known units and build up the entire set again
+    for ( Figure f : unitFigureMap.values()) {
+      remove(f);
+    }
     defineUnitMap();
 
     // TODO: Cities may change on position as well
+    System.out.println("Unit map updated, icons and cities not updated.");
+    System.out.println(" *** IMPLEMENTATION PENDING ***");
   }
 
   public void turnEnds(Player nextPlayer, int age) {
@@ -167,11 +173,13 @@ public class CivDrawing
                         new Point( GfxConstants.TURN_SHIELD_X,
                                    GfxConstants.TURN_SHIELD_Y ) );
     // TODO: Age output pending
+    System.out.println(" *** IMPLEMENTATION PENDING ***");
   }
 
   public void tileFocusChangedAt(Position position) {
     // TODO: Implementation pending
-    System.out.println( "Fake it: tileFocusChangedAt "+position );
+    System.out.println( "Fake it: tileFocusChangedAt " + position);
+    System.out.println(" *** IMPLEMENTATION PENDING ***");
   }
 
   @Override
@@ -182,6 +190,9 @@ public class CivDrawing
     defineUnitMap();
     defineIcons();
     // TODO: Cities pending
+    System.out.println("-- CivDrawing / requestUpdate() called.");
+    System.out.println("Units and icons rebuilt, cities not implemented yet.");
+    System.out.println(" *** IMPLEMENTATION PENDING ***");
   }
 
   @Override

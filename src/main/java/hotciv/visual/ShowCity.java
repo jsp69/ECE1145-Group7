@@ -37,7 +37,7 @@ public class ShowCity {
       new MiniDrawApplication( "Click to see city graphics update...",  
                                new HotCivFactory3(game) );
     editor.open();
-    CityStub city = new CityStub();
+    StubCity city = new StubCity(game.getPlayerInTurn());
 
     CityFigure cf = new CityFigure( city,
                                     new Point( GfxConstants.getXFromColumn(4),
@@ -49,9 +49,9 @@ public class ShowCity {
 }
 
 class ChangeCityTool extends NullTool {
-  private CityStub city;
+  private StubCity city;
   private CityFigure cityFigure;
-  public ChangeCityTool(CityStub c, CityFigure cf) {
+  public ChangeCityTool(StubCity c, CityFigure cf) {
     city = c;
     cityFigure = cf;
   }

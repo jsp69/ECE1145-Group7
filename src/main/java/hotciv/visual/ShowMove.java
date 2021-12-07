@@ -32,7 +32,7 @@ import hotciv.stub.*;
 public class ShowMove {
   
   public static void main(String[] args) {
-    Game game=new GameImpl(new AlphaFactory());
+    Game game = new GameImpl(new AlphaFactory());
 
     DrawingEditor editor = 
       new MiniDrawApplication( "Move any unit using the mouse",  
@@ -54,33 +54,33 @@ class MoveTool extends NullTool{
   private Position from;
 
   public MoveTool(DrawingEditor e, Game g){
-    this.editor=e;
-    this.game=g;
+    this.editor = e;
+    this.game = g;
   }
 
   @Override
   public void mouseDown(MouseEvent e, int x, int y){
     //Getting offset coordinates for click
-    int newX=x-20;
-    int newY=y-16;
+    int newX = x-20;
+    int newY = y-16;
 
     //Getting grid position from 0-15
-    int posX= (int) Math.floor(newX/30);
-    int posY= (int) Math.floor(newY/30);
+    int posX = (int) Math.floor(newX/30);
+    int posY = (int) Math.floor(newY/30);
 
-    this.from=new Position(posY,posX);
+    this.from = new Position(posY,posX);
     editor.showStatus(String.valueOf(from.getRow()));
   }
 
   @Override
   public void mouseUp(MouseEvent e, int x, int y) {
     //Getting offset coordinates for click
-    int newX=x-20;
-    int newY=y-16;
+    int newX = x-20;
+    int newY = y-16;
 
     //Getting grid position from 0-15
-    int posX= (int) Math.floor(newX/30);
-    int posY= (int) Math.floor(newY/30);
+    int posX = (int) Math.floor(newX/30);
+    int posY = (int) Math.floor(newY/30);
 
     if(!(from.getRow()==posY && from.getColumn()==posX)) {
       game.moveUnit(this.from, new Position(posY, posX));
