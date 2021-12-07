@@ -118,6 +118,7 @@ public class GameImpl implements Game {
   public boolean moveUnit( Position from, Position to ) {
     //Store unit locations before movement
     Unit attacker = unitLoc[from.getRow()][from.getColumn()];
+
     Unit defender = unitLoc[to.getRow()][to.getColumn()];
 
     boolean move = moveStrat.moveUnit(from, to, this, cityLoc, unitLoc);
@@ -128,14 +129,20 @@ public class GameImpl implements Game {
     cityLoc = moveStrat.getCitiesArray();
 
     //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
-    boolean attack =
-            (defender != null) &&
-                    (defender.getOwner() != attacker.getOwner()) &&
-                    (attacker.getOwner() == unitLoc[to.getRow()][to.getColumn()].getOwner());
+    boolean attack=false;
+    if(defender!=null && attacker!=null) {
+      attack =
+              (defender.getOwner() != attacker.getOwner()) &&
+                      (attacker.getOwner() == unitLoc[to.getRow()][to.getColumn()].getOwner());
+    }
+
     //Increase attack count of current player if successful attack occurred
     if (attack) {
       winStrat.increaseAttack(getPlayerInTurn());
     }
+
+    updateTileAT(from);
+    updateTileAT(to);
     return move;
   }
 
@@ -306,5 +313,11 @@ public class GameImpl implements Game {
   }
   static public Tile[][] getTileLoc() {
     return tileLoc;
+  }
+
+  private void updateTileAT(Position p){
+    for (GameObserver gameObserver : obsList) {
+      gameObserver.worldChangedAt(p);
+    }
   }
 }

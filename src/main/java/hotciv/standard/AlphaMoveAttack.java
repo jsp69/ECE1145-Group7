@@ -24,7 +24,7 @@ public class AlphaMoveAttack implements MoveAttackStrat {
 
         //Ensure unit is not null
         if (u[xFrom][yFrom] == null) {
-            return false;
+           return false;
         } else {
             //Ensure new position isn't mountains
             if (Objects.equals(t[xTo][yTo].getTypeString(), GameConstants.MOUNTAINS)) {
