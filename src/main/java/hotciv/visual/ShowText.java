@@ -53,7 +53,6 @@ class ChangeAgeTool extends NullTool {
   public ChangeAgeTool(TextFigure tf) {
     textFigure = tf;
   }
-
   int count = 0;
   public void mouseDown(MouseEvent e, int x, int y) {
     count++;

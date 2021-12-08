@@ -43,17 +43,17 @@ public class ShowCity {
                                     new Point( GfxConstants.getXFromColumn(4),
                                                GfxConstants.getYFromRow(7) ) );
     editor.drawing().add(cf);
-    editor.setTool( new ChangeCityTool(city, cf) );
+    editor.setTool( new ChangeCityTool(cf) );
 
   }
 }
 
 class ChangeCityTool extends NullTool {
-  private StubCity city;
   private CityFigure cityFigure;
-  public ChangeCityTool(StubCity c, CityFigure cf) {
-    city = c;
+  private StubCity city;
+  public ChangeCityTool(CityFigure cf) {
     cityFigure = cf;
+    city = (StubCity) cityFigure.getCityFromFigure();
   }
   public void mouseDown(MouseEvent e, int x, int y) {
     city.makeAChange();

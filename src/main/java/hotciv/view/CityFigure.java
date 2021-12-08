@@ -33,21 +33,21 @@ import hotciv.framework.*;
 
  */
 
-public class CityFigure extends ImageFigure {
+public class CityFigure extends CivFigure {
   private City city;
   private Point position;
 
   public CityFigure(City c, Point p) {
-    super("city", p); 
+    super("city", p, GfxConstants.CITY_TYPE_STRING);
     position = p;
     city = c;
   }
   public void draw(Graphics g) {
     // draw background color
     g.setColor(GfxConstants.getColorForPlayer(city.getOwner()));
-    g.fillRect( position.x+1, position.y+1, 
-        GfxConstants.TILESIZE-2, 
-        GfxConstants.TILESIZE-2 );
+    g.fillRect( position.x + 1, position.y + 1,
+        GfxConstants.TILESIZE - 2,
+        GfxConstants.TILESIZE - 2 );
 
     super.draw(g);
 
@@ -56,9 +56,11 @@ public class CityFigure extends ImageFigure {
     Font font = new Font("Helvetica", Font.BOLD, 24);
     g.setFont(font);
     
-    String size = ""+city.getSize();
+    String size = "" + city.getSize();
     g.drawString(size, 
         position.x + GfxConstants.CITY_SIZE_OFFSET_X, 
         position.y + GfxConstants.CITY_SIZE_OFFSET_Y);
   }
+
+  public City getCityFromFigure() { return this.city; }
 }
