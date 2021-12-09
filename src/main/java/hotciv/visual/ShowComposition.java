@@ -81,7 +81,7 @@ class CompositionTool extends NullTool {
             state = new EndOfTurnTool(editor, game);
             break;
           case GfxConstants.UNIT_SHIELD_TYPE_STRING:
-            state = new ActionTool();
+            state = new ActionTool(editor, game);
             break;
           default:
             state = new NullTool();
