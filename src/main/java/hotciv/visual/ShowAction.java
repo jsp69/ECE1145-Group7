@@ -39,10 +39,20 @@ public class ShowAction {
     editor.showStatus("Shift-Click on unit to see Game's performAction method being called.");
 
     // TODO: Replace the setting of the tool with your ActionTool implementation.
-    editor.setTool( new ActionTool() );
+    editor.setTool( new ActionTool(editor, game) );
   }
 }
 
 class ActionTool extends NullTool {
-  
+    private DrawingEditor editor;
+    private Game game;
+    private Tool state;
+
+  public ActionTool(DrawingEditor e, Game g) {
+    state = null;
+    this.editor = e;
+    this.game = g;
+  }
+
+
 }
