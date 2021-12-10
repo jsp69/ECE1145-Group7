@@ -46,13 +46,23 @@ public class ShowAction {
 class ActionTool extends NullTool {
     private DrawingEditor editor;
     private Game game;
-    private Tool state;
+    private Position p;
 
   public ActionTool(DrawingEditor e, Game g) {
-    state = null;
     this.editor = e;
     this.game = g;
   }
 
-
+  @Override
+  public void mouseDown(MouseEvent e, int x, int y) {
+      if(e.isShiftDown()) {
+          game.performUnitActionAt(p);
+      }
+  }
+  @Override
+  public void mouseUp(MouseEvent e, int x, int y) {
+      if(e.isShiftDown()) {
+          game.performUnitActionAt(p);
+      }
+  }
 }
