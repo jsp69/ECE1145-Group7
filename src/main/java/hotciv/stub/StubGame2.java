@@ -1,6 +1,7 @@
 package hotciv.stub;
 
 import hotciv.framework.*;
+import hotciv.standard.CityImpl;
 
 import java.util.*;
 
@@ -40,8 +41,11 @@ public class StubGame2 implements Game {
   private Position pos_legion_blue;
   private Position pos_settler_red;
   private Position pos_ufo_red;
+  private Position pos_city_red;
 
   private Unit red_archer;
+
+  private City red_city;
 
   public Unit getUnitAt(Position p) {
     if ( p.equals(pos_archer_red) ) {
@@ -98,9 +102,11 @@ public class StubGame2 implements Game {
     pos_legion_blue = new Position( 3, 2);
     pos_settler_red = new Position( 4, 3);
     pos_ufo_red = new Position( 6, 4);
+    pos_city_red = new Position(4,0);
 
     // the only one I need to store for this stub
-    red_archer = new StubUnit( GameConstants.ARCHER, Player.RED );   
+    red_archer = new StubUnit( GameConstants.ARCHER, Player.RED );
+    red_city = new StubCity(Player.RED);
 
     inTurn = Player.RED;
   }
@@ -125,7 +131,7 @@ public class StubGame2 implements Game {
   }
 
   // TODO: Add more stub behaviour to test MiniDraw updating
-  public City getCityAt( Position p ) { return null; }
+  public City getCityAt( Position p ) { if(p.getRow()==4 && p.getColumn()==0) return red_city; else return null; }
   public Player getWinner() { return null; }
   public int getAge() { return 0; }  
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
@@ -133,9 +139,7 @@ public class StubGame2 implements Game {
   public void performUnitActionAt( Position p ) {}  
 
   public void setTileFocus(Position position) {
-    // TODO: setTileFocus implementation pending.
-    System.out.println("-- StubGame2 / setTileFocus called.");
-    System.out.println(" *** IMPLEMENTATION PENDING ***");
+    gameObserver.tileFocusChangedAt(position);
   }
 
 }

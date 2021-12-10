@@ -1,5 +1,7 @@
 package hotciv.visual;
 
+import hotciv.standard.AlphaFactory;
+import hotciv.standard.GameImpl;
 import minidraw.standard.*;
 import minidraw.framework.*;
 
@@ -30,7 +32,8 @@ import hotciv.stub.*;
 public class ShowSetFocus {
   
   public static void main(String[] args) {
-    Game game = new StubGame2();
+    //Game game = new StubGame2();
+    Game game = new GameImpl(new AlphaFactory());
 
     DrawingEditor editor = 
       new MiniDrawApplication( "Click any tile to set focus",  
@@ -38,7 +41,30 @@ public class ShowSetFocus {
     editor.open();
     editor.showStatus("Click a tile to see Game's setFocus method being called.");
 
-    // TODO: Replace the setting of the tool with your SetFocusTool implementation.
-    editor.setTool( new SelectionTool(editor) );
+    editor.setTool( new FocusTool(game,editor));
+  }
+}
+
+class FocusTool extends NullTool{
+  Game game;
+  DrawingEditor editor;
+
+  public FocusTool(Game game, DrawingEditor editor){
+    this.game=game;
+    this.editor=editor;
+  }
+
+  @Override
+  public void mouseDown(MouseEvent e, int x, int y) {
+    //Getting offset coordinates for click
+    int newX=x-20;
+    int newY=y-16;
+
+    //Getting grid position from 0-15
+    int posX= (int) Math.floor(newX/30);
+    int posY= (int) Math.floor(newY/30);
+
+    game.setTileFocus(new Position(posY,posX));
+    editor.showStatus(String.valueOf(posY)+" - "+String.valueOf(posX));
   }
 }

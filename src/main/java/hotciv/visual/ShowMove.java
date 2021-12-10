@@ -69,7 +69,7 @@ MoveTool extends NullTool{
     int posX = (int) Math.floor(newX/30);
     int posY = (int) Math.floor(newY/30);
 
-    this.from = new Position(posY,posX);
+    this.from = GfxConstants.getPositionFromXY(x,y);
     editor.showStatus(String.valueOf(from.getRow()));
   }
 
@@ -84,7 +84,7 @@ MoveTool extends NullTool{
     int posY = (int) Math.floor(newY/30);
 
     if(!(from.getRow()==posY && from.getColumn()==posX)) {
-      game.moveUnit(this.from, new Position(posY, posX));
+      game.moveUnit(this.from, GfxConstants.getPositionFromXY(x,y));
     }
   }
 }

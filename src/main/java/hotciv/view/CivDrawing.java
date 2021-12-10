@@ -135,15 +135,35 @@ public class CivDrawing
   }
 
   protected ImageFigure turnShieldIcon;
+  protected ImageFigure cityShield;
+  protected ImageFigure unitShield;
+  protected TextFigure ageText;
+  protected TextFigure unitMoves;
+  protected ImageFigure cityProduce;
+  protected ImageFigure cityBalance;
   protected void defineIcons() {
     // TODO: Further development to include rest of figures needed
     turnShieldIcon = 
-      new ImageFigure( "redshield",
+      new ImageFigure( GfxConstants.RED_SHIELD,
                        new Point( GfxConstants.TURN_SHIELD_X,
-                                  GfxConstants.TURN_SHIELD_Y ) ); 
+                                  GfxConstants.TURN_SHIELD_Y ) );
+
+    ageText = new TextFigure("4000 BC", new Point(GfxConstants.AGE_TEXT_X, GfxConstants.AGE_TEXT_Y) );
+    cityShield=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.CITY_SHIELD_X,GfxConstants.CITY_SHIELD_Y));
+    unitShield=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.UNIT_SHIELD_X,GfxConstants.UNIT_SHIELD_Y));
+    unitMoves=new TextFigure("0",new Point(GfxConstants.UNIT_COUNT_X,GfxConstants.UNIT_COUNT_Y));
+    cityProduce=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.CITY_PRODUCTION_X,GfxConstants.CITY_PRODUCTION_Y));
+    cityBalance=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.WORKFORCEFOCUS_X,GfxConstants.WORKFORCEFOCUS_Y));
+
     // insert in delegate figure list to ensure graphical
     // rendering.
     delegate.add(turnShieldIcon);
+    delegate.add(ageText);
+    delegate.add(cityShield);
+    delegate.add(unitShield);
+    delegate.add(unitMoves);
+    delegate.add(cityProduce);
+    delegate.add(cityBalance);
   }
  
   // === Observer Methods ===
@@ -173,13 +193,47 @@ public class CivDrawing
                         new Point( GfxConstants.TURN_SHIELD_X,
                                    GfxConstants.TURN_SHIELD_Y ) );
     // TODO: Age output pending
+    ageText.setText(String.valueOf(game.getAge()));
     System.out.println(" *** IMPLEMENTATION PENDING ***");
   }
 
   public void tileFocusChangedAt(Position position) {
-    // TODO: Implementation pending
-    System.out.println( "Fake it: tileFocusChangedAt " + position);
-    System.out.println(" *** IMPLEMENTATION PENDING ***");
+    Point cityS = new Point(GfxConstants.CITY_SHIELD_X,GfxConstants.CITY_SHIELD_Y);
+    Point unitS = new Point(GfxConstants.UNIT_SHIELD_X,GfxConstants.UNIT_SHIELD_Y);
+    Point cityP = new Point(GfxConstants.CITY_PRODUCTION_X,GfxConstants.CITY_PRODUCTION_Y);
+    Point cityB = new Point(GfxConstants.WORKFORCEFOCUS_X,GfxConstants.WORKFORCEFOCUS_Y);
+
+    //Change Unit stuff
+    if(game.getUnitAt(position)==null){
+      unitShield.set(GfxConstants.NOTHING,unitS);
+      unitMoves.setText("0");
+    }else{
+      if(game.getUnitAt(position).getOwner()==Player.RED){
+        unitShield.set(GfxConstants.RED_SHIELD,unitS);
+      }else{
+        unitShield.set(GfxConstants.BLUE_SHIELD,unitS);
+      }
+      unitMoves.setText(String.valueOf(game.getUnitAt(position).getMoveCount()));
+    }
+
+    //Change City stuff
+    if(game.getCityAt(position)==null) {
+      cityShield.set(GfxConstants.NOTHING, cityS);
+      cityProduce.set(GfxConstants.NOTHING,cityP);
+      cityBalance.set(GfxConstants.NOTHING,cityB);
+    }else{
+      if (game.getCityAt(position).getOwner() == Player.RED) {
+        cityShield.set(GfxConstants.RED_SHIELD, cityS);
+      } else{
+        cityShield.set(GfxConstants.BLUE_SHIELD, cityS);
+      }
+      cityBalance.set(game.getCityAt(position).getWorkforceFocus(),cityB);
+      if(game.getCityAt(position).getProduction()==null){
+        cityProduce.set(GfxConstants.NOTHING,cityP);
+      }else{
+        cityProduce.set(game.getUnitAt(position).getTypeString(),cityP);
+      }
+    }
   }
 
   @Override

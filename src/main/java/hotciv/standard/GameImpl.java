@@ -162,13 +162,13 @@ public class GameImpl implements Game {
   }
 
   @Override
-  public void addObserver(GameObserver o) {
-    obsList.add(observer);
-  }
+  public void addObserver(GameObserver o) {obsList.add(o);}
 
   @Override
   public void setTileFocus(Position position) {
-
+    for (GameObserver gameObserver : obsList) {
+      gameObserver.tileFocusChangedAt(position);
+    }
   }
 
   public void endOfRound() {
