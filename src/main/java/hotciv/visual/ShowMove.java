@@ -48,7 +48,8 @@ public class ShowMove {
 
 //Game board starts at 20,16
 //Game board ends at 500,492
-class MoveTool extends NullTool{
+class
+MoveTool extends NullTool{
   private Game game;
   private DrawingEditor editor;
   private Position from;
