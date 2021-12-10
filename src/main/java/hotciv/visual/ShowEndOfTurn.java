@@ -6,6 +6,7 @@ import minidraw.framework.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.Rectangle;
 
 import hotciv.framework.*;
 import hotciv.view.*;
@@ -50,6 +51,28 @@ class EndOfTurnTool extends NullTool {
   public EndOfTurnTool(DrawingEditor e, Game g) {
     game = g;
     editor = e;
+  }
+
+  //turn shield: (559, 64)
+  @Override
+  public void mouseDown(MouseEvent e, int x, int y){
+    //Top shield in age section from gfx constants
+    Rectangle turnShield = new Rectangle(559, 64, 535, 23);
+
+    //Check whether the mouse click coordinates are within the rectangle
+    if(turnShield.contains(x, y)) {
+      game.endOfTurn();
+    }
+  }
+
+  public void mouseUp(MouseEvent e, int x, int y){
+    //Top shield in age section from gfx constants
+    Rectangle turnShield = new Rectangle(559, 64, 535, 23);
+
+    //Check whether the mouse click coordinates are within the rectangle
+    if(turnShield.contains(x, y)) {
+      game.endOfTurn();
+    }
   }
 
 }
