@@ -135,6 +135,8 @@ public class CivDrawing
   }
 
   protected ImageFigure turnShieldIcon;
+  protected ImageFigure unitShieldIcon;
+  protected ImageFigure cityShieldIcon;
   protected ImageFigure cityShield;
   protected ImageFigure unitShield;
   protected TextFigure ageText;
@@ -147,6 +149,14 @@ public class CivDrawing
             new ImageFigure( GfxConstants.RED_SHIELD,
                     new Point( GfxConstants.TURN_SHIELD_X,
                             GfxConstants.TURN_SHIELD_Y ) );
+    unitShieldIcon =
+            new ImageFigure( GfxConstants.RED_SHIELD,
+                    new Point( GfxConstants.UNIT_SHIELD_X,
+                            GfxConstants.UNIT_SHIELD_Y ) );
+    cityShieldIcon =
+            new ImageFigure( GfxConstants.RED_SHIELD,
+                    new Point( GfxConstants.CITY_SHIELD_X,
+                            GfxConstants.CITY_SHIELD_Y ) );
 
     ageText = new TextFigure("4000 BC", new Point(GfxConstants.AGE_TEXT_X, GfxConstants.AGE_TEXT_Y) );
     cityShield=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.CITY_SHIELD_X,GfxConstants.CITY_SHIELD_Y));
@@ -164,6 +174,8 @@ public class CivDrawing
     delegate.add(unitMoves);
     delegate.add(cityProduce);
     delegate.add(cityBalance);
+    delegate.add(unitShieldIcon);
+    delegate.add(cityShieldIcon);
   }
 
   // === Observer Methods ===
