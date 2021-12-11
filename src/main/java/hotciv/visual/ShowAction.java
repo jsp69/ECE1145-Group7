@@ -55,14 +55,19 @@ class ActionTool extends NullTool {
 
   @Override
   public void mouseDown(MouseEvent e, int x, int y) {
+
+      //Getting offset coordinates for click
+      int newX = x-20;
+      int newY = y-16;
+
+      //Getting grid position from 0-15
+      int posX = (int) Math.floor(newX/30);
+      int posY = (int) Math.floor(newY/30);
+
+      //Perform designated unit action at position if shift is down
       if(e.isShiftDown()) {
           game.performUnitActionAt(p);
       }
-  }
-  @Override
-  public void mouseUp(MouseEvent e, int x, int y) {
-      if(e.isShiftDown()) {
-          game.performUnitActionAt(p);
-      }
+      editor.showStatus(String.valueOf(posY)+" - "+String.valueOf(posX));
   }
 }

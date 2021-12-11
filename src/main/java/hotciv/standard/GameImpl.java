@@ -159,6 +159,10 @@ public class GameImpl implements Game {
     unitLoc = unitStrat.getUnitsArray();
     tileLoc = unitStrat.getTilesArray();
     cityLoc = unitStrat.getCitiesArray();
+    for (GameObserver gameObserver : obsList) {
+      gameObserver.worldChangedAt(p);
+    }
+    updateTileAT(p);
   }
 
   @Override
