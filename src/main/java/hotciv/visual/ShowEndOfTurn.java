@@ -56,12 +56,12 @@ class EndOfTurnTool extends NullTool {
   //turn shield: (559, 64)
   //tile size: 30
   @Override
-  public void mouseDown(MouseEvent e, int x, int y){
+  public void mouseDown(MouseEvent e, int x, int y) {
     //Top shield in age section from gfx constants
     Rectangle turnShield = new Rectangle(559, 64, 30, 30);
 
     //Check whether the mouse click coordinates are within the rectangle
-    if(turnShield.contains(x, y)) {
+    if (turnShield.contains(x, y)) {
       game.endOfTurn();
     }
   }
