@@ -190,7 +190,6 @@ public class CivDrawing
       remove(f);
     }
     defineUnitMap();
-    defineIcons();
 
     // TODO: Cities may change on position as well
     System.out.println("Unit map updated, icons and cities not updated.");
