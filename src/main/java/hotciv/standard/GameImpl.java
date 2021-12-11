@@ -159,6 +159,14 @@ public class GameImpl implements Game {
     unitLoc = unitStrat.getUnitsArray();
     tileLoc = unitStrat.getTilesArray();
     cityLoc = unitStrat.getCitiesArray();
+    //Archer fortifies
+    archersFortify(p);
+    int r = p.getRow();
+    int c = p.getColumn();
+    //Settler builds city
+    if (unitLoc[r][c].getTypeString().equals(GameConstants.SETTLER)) {
+      createNewCity(r,c,getPlayerInTurn());
+    }
     System.out.println("performUnitAt is being called");
     updateTileAT(p);
   }
