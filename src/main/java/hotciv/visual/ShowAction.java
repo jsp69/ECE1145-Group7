@@ -68,14 +68,12 @@ class ActionTool extends NullTool {
 
       this.p = GfxConstants.getPositionFromXY(posX,posY);
 
-      //Top shield in age section from gfx constants
-      Rectangle unitShield = new Rectangle(594, 188, 30, 30);
-
       //Perform designated unit action at position if shift is down
-      if(unitShield.contains(x, y) && e.isShiftDown()) {
+      if(e.isShiftDown()) {
           game.setTileFocus(new Position(posY,posX));
-          game.performUnitActionAt(this.p);
+          game.performUnitActionAt(new Position(posY,posX));
+          //System.out.print("shift is held down");
       }
-      //editor.showStatus(String.valueOf(posY)+" - "+String.valueOf(posX));
+      editor.showStatus(String.valueOf(posY)+" - "+String.valueOf(posX));
   }
 }
