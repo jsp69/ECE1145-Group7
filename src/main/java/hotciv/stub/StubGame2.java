@@ -136,7 +136,11 @@ public class StubGame2 implements Game {
   public int getAge() { return 0; }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
-  public void performUnitActionAt( Position p ) {gameObserver.worldChangedAt(p);}
+  public void performUnitActionAt( Position p ) {
+    gameObserver.worldChangedAt(p);
+    System.out.print("defense strength for unit is" +getUnitAt(p).getDefensiveStrength());
+    System.out.print("move count for unit is" +getUnitAt(p).getMoveCount());
+  }
 
   public void setTileFocus(Position position) {
     gameObserver.tileFocusChangedAt(position);
