@@ -141,6 +141,7 @@ public class CivDrawing
   protected TextFigure unitMoves;
   protected ImageFigure cityProduce;
   protected ImageFigure cityBalance;
+  protected TextFigure unitType;
   protected void defineIcons() {
     // TODO: Further development to include rest of figures needed
     turnShieldIcon = 
@@ -154,6 +155,7 @@ public class CivDrawing
     unitMoves=new TextFigure("0",new Point(GfxConstants.UNIT_COUNT_X,GfxConstants.UNIT_COUNT_Y));
     cityProduce=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.CITY_PRODUCTION_X,GfxConstants.CITY_PRODUCTION_Y));
     cityBalance=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.WORKFORCEFOCUS_X,GfxConstants.WORKFORCEFOCUS_Y));
+    unitType=new TextFigure("N/A",new Point(GfxConstants.UNIT_SHIELD_X-27,GfxConstants.UNIT_SHIELD_Y-42));
 
     // insert in delegate figure list to ensure graphical
     // rendering.
@@ -164,6 +166,7 @@ public class CivDrawing
     delegate.add(unitMoves);
     delegate.add(cityProduce);
     delegate.add(cityBalance);
+    delegate.add(unitType);
   }
  
   // === Observer Methods ===
@@ -207,6 +210,7 @@ public class CivDrawing
     if(game.getUnitAt(position)==null){
       unitShield.set(GfxConstants.NOTHING,unitS);
       unitMoves.setText("0");
+      unitType.setText("N/A");
     }else{
       if(game.getUnitAt(position).getOwner()==Player.RED){
         unitShield.set(GfxConstants.RED_SHIELD,unitS);
@@ -214,6 +218,7 @@ public class CivDrawing
         unitShield.set(GfxConstants.BLUE_SHIELD,unitS);
       }
       unitMoves.setText(String.valueOf(game.getUnitAt(position).getMoveCount()));
+      unitType.setText(game.getUnitAt(position).getTypeString());
     }
 
     //Change City stuff
