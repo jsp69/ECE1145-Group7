@@ -18,33 +18,33 @@ import minidraw.standard.*;
  * that it is INCOMPLETE and that there are several options
  * for CLEANING UP THE CODE when you add features to it!
 
-   This source code is from the book 
-     "Flexible, Reliable Software:
-       Using Patterns and Agile Development"
-     published 2010 by CRC Press.
-   Author: 
-     Henrik B Christensen 
-     Department of Computer Science
-     Aarhus University
-   
-   Please visit http://www.baerbak.com/ for further information.
+ This source code is from the book
+ "Flexible, Reliable Software:
+ Using Patterns and Agile Development"
+ published 2010 by CRC Press.
+ Author:
+ Henrik B Christensen
+ Department of Computer Science
+ Aarhus University
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
- 
-       http://www.apache.org/licenses/LICENSE-2.0
- 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-*/
+ Please visit http://www.baerbak.com/ for further information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 
 public class CivDrawing
-  implements Drawing, GameObserver {
-  
+        implements Drawing, GameObserver {
+
   protected Drawing delegate;
   /** store all moveable figures visible in this drawing = units */
   protected Map<Unit,UnitFigure> unitFigureMap;
@@ -52,7 +52,7 @@ public class CivDrawing
   /** the Game instance that this CivDrawing is going to render units
    * from */
   protected Game game;
-  
+
   public CivDrawing( DrawingEditor editor, Game game ) {
     super();
     this.delegate = new StandardDrawing();
@@ -68,7 +68,7 @@ public class CivDrawing
     // and the set of 'icons' in the status panel
     defineIcons();
   }
-  
+
   /** The CivDrawing should not allow client side
    * units to add and manipulate figures; only figures
    * that renders game objects are relevant, and these
@@ -105,9 +105,9 @@ public class CivDrawing
           String type = unit.getTypeString();
           // convert the unit's Position to (x,y) coordinates
           Point point = new Point( GfxConstants.getXFromColumn(p.getColumn()),
-                                   GfxConstants.getYFromRow(p.getRow()) );
+                  GfxConstants.getYFromRow(p.getRow()) );
           UnitFigure unitFigure =
-            new UnitFigure( type, point, unit );
+                  new UnitFigure( type, point, unit );
           unitFigure.addFigureChangeListener(this);
           unitFigureMap.put(unit, unitFigure);
 
@@ -141,13 +141,12 @@ public class CivDrawing
   protected TextFigure unitMoves;
   protected ImageFigure cityProduce;
   protected ImageFigure cityBalance;
-  protected TextFigure unitType;
   protected void defineIcons() {
     // TODO: Further development to include rest of figures needed
-    turnShieldIcon = 
-      new ImageFigure( GfxConstants.RED_SHIELD,
-                       new Point( GfxConstants.TURN_SHIELD_X,
-                                  GfxConstants.TURN_SHIELD_Y ) );
+    turnShieldIcon =
+            new ImageFigure( GfxConstants.RED_SHIELD,
+                    new Point( GfxConstants.TURN_SHIELD_X,
+                            GfxConstants.TURN_SHIELD_Y ) );
 
     ageText = new TextFigure("4000 BC", new Point(GfxConstants.AGE_TEXT_X, GfxConstants.AGE_TEXT_Y) );
     cityShield=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.CITY_SHIELD_X,GfxConstants.CITY_SHIELD_Y));
@@ -155,7 +154,6 @@ public class CivDrawing
     unitMoves=new TextFigure("0",new Point(GfxConstants.UNIT_COUNT_X,GfxConstants.UNIT_COUNT_Y));
     cityProduce=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.CITY_PRODUCTION_X,GfxConstants.CITY_PRODUCTION_Y));
     cityBalance=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.WORKFORCEFOCUS_X,GfxConstants.WORKFORCEFOCUS_Y));
-    unitType=new TextFigure("N/A",new Point(GfxConstants.UNIT_SHIELD_X-27,GfxConstants.UNIT_SHIELD_Y-42));
 
     // insert in delegate figure list to ensure graphical
     // rendering.
@@ -166,9 +164,8 @@ public class CivDrawing
     delegate.add(unitMoves);
     delegate.add(cityProduce);
     delegate.add(cityBalance);
-    delegate.add(unitType);
   }
- 
+
   // === Observer Methods ===
 
   public void worldChangedAt(Position pos) {
@@ -181,6 +178,7 @@ public class CivDrawing
       remove(f);
     }
     defineUnitMap();
+    defineIcons();
 
     // TODO: Cities may change on position as well
     System.out.println("Unit map updated, icons and cities not updated.");
@@ -193,8 +191,8 @@ public class CivDrawing
     String playername = "red";
     if ( nextPlayer == Player.BLUE ) { playername = "blue"; }
     turnShieldIcon.set( playername+"shield",
-                        new Point( GfxConstants.TURN_SHIELD_X,
-                                   GfxConstants.TURN_SHIELD_Y ) );
+            new Point( GfxConstants.TURN_SHIELD_X,
+                    GfxConstants.TURN_SHIELD_Y ) );
     // TODO: Age output pending
     ageText.setText(String.valueOf(game.getAge()));
     System.out.println(" *** IMPLEMENTATION PENDING ***");
@@ -210,7 +208,6 @@ public class CivDrawing
     if(game.getUnitAt(position)==null){
       unitShield.set(GfxConstants.NOTHING,unitS);
       unitMoves.setText("0");
-      unitType.setText("N/A");
     }else{
       if(game.getUnitAt(position).getOwner()==Player.RED){
         unitShield.set(GfxConstants.RED_SHIELD,unitS);
@@ -218,7 +215,6 @@ public class CivDrawing
         unitShield.set(GfxConstants.BLUE_SHIELD,unitS);
       }
       unitMoves.setText(String.valueOf(game.getUnitAt(position).getMoveCount()));
-      unitType.setText(game.getUnitAt(position).getTypeString());
     }
 
     //Change City stuff
@@ -306,7 +302,7 @@ public class CivDrawing
 
   @Override
   public void addDrawingChangeListener(DrawingChangeListener arg0) {
-    delegate.addDrawingChangeListener(arg0);   
+    delegate.addDrawingChangeListener(arg0);
   }
 
   @Override
