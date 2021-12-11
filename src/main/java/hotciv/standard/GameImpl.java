@@ -297,6 +297,7 @@ public class GameImpl implements Game {
       ((UnitImpl)(unitLoc[r][c])).setDefenses(5);
       // Set max move count to 0
       ((UnitImpl)(unitLoc[r][c])).setMoveCount(0);
+      System.out.print("archersFortify is called");
       return true;
     }
     else {
