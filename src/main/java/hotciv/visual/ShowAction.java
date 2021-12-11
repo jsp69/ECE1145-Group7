@@ -6,6 +6,7 @@ import minidraw.framework.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.Rectangle;
 
 import hotciv.framework.*;
 import hotciv.view.*;
@@ -53,16 +54,28 @@ class ActionTool extends NullTool {
     this.game = g;
   }
 
+  //unit shield (594,188)
   @Override
   public void mouseDown(MouseEvent e, int x, int y) {
-      if(e.isShiftDown()) {
-          game.performUnitActionAt(p);
+
+      //Getting offset coordinates for click
+      int newX = x-20;
+      int newY = y-16;
+
+      //Getting grid position from 0-15
+      int posX = (int) Math.floor(newX/30);
+      int posY = (int) Math.floor(newY/30);
+
+      this.p = GfxConstants.getPositionFromXY(posX,posY);
+
+      //Top shield in age section from gfx constants
+      Rectangle unitShield = new Rectangle(594, 188, 30, 30);
+
+      //Perform designated unit action at position if shift is down
+      if(unitShield.contains(x, y) && e.isShiftDown()) {
+          game.setTileFocus(new Position(posY,posX));
+          game.performUnitActionAt(this.p);
       }
-  }
-  @Override
-  public void mouseUp(MouseEvent e, int x, int y) {
-      if(e.isShiftDown()) {
-          game.performUnitActionAt(p);
-      }
+      //editor.showStatus(String.valueOf(posY)+" - "+String.valueOf(posX));
   }
 }
