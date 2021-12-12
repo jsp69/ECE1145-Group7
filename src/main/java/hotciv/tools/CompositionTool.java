@@ -1,71 +1,65 @@
 package hotciv.tools;
 
 import hotciv.framework.*;
+import hotciv.view.GfxConstants;
 import hotciv.visual.*;
 import minidraw.framework.*;
 import minidraw.standard.*;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
-public class CompositionTool
-        extends AbstractTool
-        implements Tool {
+public class CompositionTool extends AbstractTool {
 
     private Game game;
-    private List<Tool> tools = new ArrayList<>();
-    private Tool fChild, cachedNullTool;
-    protected Figure draggedFigure;
+    private DrawingEditor editor;
+    private NullTool tool;
 
     public CompositionTool(DrawingEditor edit, Game g) {
         super(edit);
         game = g;
-        cachedNullTool = new NullTool();
-        fChild = cachedNullTool;
-
-        tools.add(new EndOfTurnTool(edit, game));
-        tools.add(new UnitMoveTool(edit, game));
-        tools.add(new SetFocusTool(edit, game));
-        tools.add(new UnitActionTool(edit, game));
+        editor = edit;
     }
 
-    @Override
+    /* Definitions of the different tools:
+       UnitMoveTool = MOUSE_PRESSED + MOUSE_DRAGGED
+       UnitActionTool = MOUSE_CLICKED + isShiftDown()
+       SetFocusTool = MOUSE_CLICKED
+       EndOfTurnTool = MOUSE_CLICKED + in the turn shield rectangle
+     */
+
     public void mouseDown(MouseEvent e, int x, int y) {
-        Drawing model = this.editor().drawing();
-        model.lock();
+        // f is the figure below the mouse click
+        Figure f = editor.drawing().findFigure(x,y);
+        if (f != null) {
+            // Get origin points of the figure
+            int fx = f.displayBox().getLocation().x;
+            int fy = f.displayBox().getLocation().y;
 
-        for(Tool tool : tools){
-            tool.mouseDown(e, x, y);
+            // Determine correct tool
+            if (e.isShiftDown()) {
+                tool = new UnitActionTool(editor, game);
+            } else if ((fx == GfxConstants.TURN_SHIELD_X) && (fy == GfxConstants.TURN_SHIELD_Y)) {
+                tool = new EndOfTurnTool(editor, game);
+            } else if (true) {
+                tool = new UnitMoveTool(editor, game);
+            } else {
+                tool = new SetFocusTool(editor, game);
+            }
         }
-        fChild.mouseDown(e, x, y);
+
+        // Complete requested action
+        tool.mouseDown(e,x,y);
     }
 
-    @Override
     public void mouseDrag(MouseEvent e, int x, int y) {
-        for(Tool tool : tools){
-            tool.mouseDrag(e, x, y);
-        }
-        fChild.mouseDrag(e, x, y);
+        // UnitMoveTool mouseDrag() event is called
+        tool.mouseDrag(e,x,y);
     }
 
-    @Override
-    public void mouseMove(MouseEvent e, int x, int y) {
-        for(Tool tool : tools){
-            tool.mouseMove(e, x, y);
-        }
-        fChild.mouseMove(e, x, y);
-    }
-
-    @Override
     public void mouseUp(MouseEvent e, int x, int y) {
-        for(Tool tool : tools){
-            tool.mouseUp(e, x, y);
-        }
-        fChild.mouseUp(e, x, y);
+        // UnitMoveTool mouseUp() event is called
+        tool.mouseUp(e,x,y);
     }
-
-    @Override
-    public void keyDown(KeyEvent k, int i) {};
 }

@@ -4,8 +4,10 @@ import hotciv.framework.Game;
 import hotciv.framework.Position;
 import hotciv.view.GfxConstants;
 import minidraw.framework.DrawingEditor;
+import minidraw.framework.Figure;
 import minidraw.standard.NullTool;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 //Game board starts at 20,16
@@ -13,7 +15,9 @@ import java.awt.event.MouseEvent;
 public class UnitMoveTool extends NullTool {
     private Game game;
     private DrawingEditor editor;
-    private Position from;
+    private Position from, to;
+    private Figure figure;
+    int oldX, oldY;
 
     public UnitMoveTool(DrawingEditor e, Game g){
         this.editor = e;
@@ -22,30 +26,27 @@ public class UnitMoveTool extends NullTool {
 
     @Override
     public void mouseDown(MouseEvent e, int x, int y){
-        //Getting offset coordinates for click
-        int newX = x-20;
-        int newY = y-16;
-
-        //Getting grid position from 0-15
-        int posX = (int) Math.floor(newX/30);
-        int posY = (int) Math.floor(newY/30);
-
-        this.from = GfxConstants.getPositionFromXY(x,y);
-        editor.showStatus(String.valueOf(from.getRow()));
+        figure = editor.drawing().findFigure(x,y);
+        from = GfxConstants.getPositionFromXY(x,y);
+        oldX = x;
+        oldY = y;
+        game.setTileFocus(from);
     }
 
     @Override
-    public void mouseUp(MouseEvent e, int x, int y) {
-        //Getting offset coordinates for click
-        int newX = x-20;
-        int newY = y-16;
+    public void mouseDrag(MouseEvent mouseEvent, int x, int y){
+        if (figure != null) {
+            figure.moveBy(x - oldX, y - oldY);
+            oldX = x; oldY = y;
+        }
+    }
 
-        //Getting grid position from 0-15
-        int posX = (int) Math.floor(newX/30);
-        int posY = (int) Math.floor(newY/30);
-
-        if(!(from.getRow()==posY && from.getColumn()==posX)) {
-            game.moveUnit(this.from, GfxConstants.getPositionFromXY(x,y));
+    @Override
+    public void mouseUp(MouseEvent mouseEvent, int x, int y){
+        if (figure != null) {
+            Rectangle rect = figure.displayBox();
+            to = GfxConstants.getPositionFromXY(rect.x + GfxConstants.TILESIZE / 2, rect.y + GfxConstants.TILESIZE / 2);
+            game.moveUnit(from, to);
         }
     }
 }

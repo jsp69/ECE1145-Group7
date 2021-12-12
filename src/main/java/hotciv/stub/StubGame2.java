@@ -137,8 +137,8 @@ public class StubGame2 implements Game {
   public void changeProductionInCityAt( Position p, String unitType ) {}
   public void performUnitActionAt( Position p ) {
     gameObserver.worldChangedAt(p);
-    System.out.print("defense strength for unit is" +getUnitAt(p).getDefensiveStrength());
-    System.out.print("move count for unit is" +getUnitAt(p).getMoveCount());
+    System.out.println("defense strength for unit is " +getUnitAt(p).getDefensiveStrength());
+    System.out.println("move count for unit is " +getUnitAt(p).getMoveCount());
   }
 
   public void setTileFocus(Position position) {

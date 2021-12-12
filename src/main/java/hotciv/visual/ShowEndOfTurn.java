@@ -35,7 +35,6 @@ public class ShowEndOfTurn {
     editor.open();
     editor.showStatus("Click to shield to see Game's endOfTurn method being called.");
 
-    // TODO: Replace the setting of the tool with your EndOfTurnTool implementation.
     editor.setTool( new EndOfTurnTool(editor, game) );
   }
 }
