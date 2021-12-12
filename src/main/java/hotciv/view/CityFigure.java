@@ -33,13 +33,13 @@ import hotciv.framework.*;
 
  */
 
-public class CityFigure extends CivFigure {
+public class CityFigure extends ImageFigure {
   private City city;
   private Point position;
   private String figureType = GfxConstants.CITY_TYPE_STRING;
 
   public CityFigure(City c, Point p) {
-    super("city", p, GfxConstants.CITY_TYPE_STRING);
+    super("city", p);
     position = p;
     city = c;
   }
@@ -64,5 +64,5 @@ public class CityFigure extends CivFigure {
   }
 
   public City getCityFromFigure() { return this.city; }
-  public String getFigureType() { return figureType; }
+
 }
