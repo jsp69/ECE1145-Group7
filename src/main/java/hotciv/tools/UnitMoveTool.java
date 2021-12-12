@@ -10,8 +10,6 @@ import minidraw.standard.NullTool;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-//Game board starts at 20,16
-//Game board ends at 500,492
 public class UnitMoveTool extends NullTool {
     private Game game;
     private DrawingEditor editor;
@@ -28,9 +26,7 @@ public class UnitMoveTool extends NullTool {
     public void mouseDown(MouseEvent e, int x, int y){
         figure = editor.drawing().findFigure(x,y);
         from = GfxConstants.getPositionFromXY(x,y);
-        oldX = x;
-        oldY = y;
-        game.setTileFocus(from);
+        oldX = x; oldY = y;
     }
 
     @Override

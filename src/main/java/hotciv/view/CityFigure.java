@@ -36,13 +36,13 @@ import hotciv.framework.*;
 public class CityFigure extends ImageFigure {
   private City city;
   private Point position;
-  private String figureType = GfxConstants.CITY_TYPE_STRING;
 
   public CityFigure(City c, Point p) {
     super("city", p);
     position = p;
     city = c;
   }
+
   public void draw(Graphics g) {
     // draw background color
     g.setColor(GfxConstants.getColorForPlayer(city.getOwner()));

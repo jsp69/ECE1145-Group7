@@ -6,8 +6,6 @@ import hotciv.visual.*;
 import minidraw.framework.*;
 import minidraw.standard.*;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class CompositionTool extends AbstractTool {
@@ -42,11 +40,10 @@ public class CompositionTool extends AbstractTool {
                 tool = new UnitActionTool(editor, game);
             } else if ((fx == GfxConstants.TURN_SHIELD_X) && (fy == GfxConstants.TURN_SHIELD_Y)) {
                 tool = new EndOfTurnTool(editor, game);
-            } else if (true) {
-                tool = new UnitMoveTool(editor, game);
             } else {
                 tool = new SetFocusTool(editor, game);
             }
+
         }
 
         // Complete requested action

@@ -29,12 +29,12 @@ public class UnitActionTool extends NullTool {
         int posX = (int) Math.floor(newX/30);
         int posY = (int) Math.floor(newY/30);
 
-        this.p = GfxConstants.getPositionFromXY(posX,posY);
+        this.p = GfxConstants.getPositionFromXY(x,y);
 
         //Perform designated unit action at position if shift is down
         if(e.isShiftDown()) {
-            game.setTileFocus(new Position(posY,posX));
-            game.performUnitActionAt(new Position(posY,posX));
+            game.setTileFocus(p);
+            game.performUnitActionAt(p);
             //System.out.print("shift is held down");
         }
         editor.showStatus(posY +" - "+ posX);

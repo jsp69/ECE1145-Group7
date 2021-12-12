@@ -153,6 +153,8 @@ public class GameImpl implements Game {
     if (this.turn > 1) {
       endOfRound();
     }
+    // Update game observer
+    observers.turnEnds(getPlayerInTurn(), getAge());
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) { ((CityImpl)(getCityAt(p))).setWorkforceFocus(balance); }
   public void changeProductionInCityAt( Position p, String unitType ) { ((CityImpl)(getCityAt(p))).setProduction(unitType); }
@@ -185,17 +187,19 @@ public class GameImpl implements Game {
     Position p = new Position(0,0);
     for (City[] cityRow : cityLoc) {
       for (City c : cityRow) {
-        if (Objects.equals(c.getProduction(), GameConstants.ARCHER) && c.getTreasury() >= 10) {
-          if (placeUnitAround(p, GameConstants.ARCHER, getCityAt(p).getOwner())) {
-            ((CityImpl)(c)).setTreasury(c.getTreasury() - 10);
-          }
-        } else if(Objects.equals(c.getProduction(), GameConstants.LEGION) && c.getTreasury() >= 15) {
-          if (placeUnitAround(p, GameConstants.LEGION, getCityAt(p).getOwner())) {
-            ((CityImpl)(c)).setTreasury(c.getTreasury() - 15);
-          }
-        } else if(Objects.equals(c.getProduction(), GameConstants.SETTLER) && c.getTreasury() >= 20){
-          if(placeUnitAround(p,GameConstants.SETTLER,getCityAt(p).getOwner())){
-            ((CityImpl)(c)).setTreasury(c.getTreasury() - 20);
+        if (c != null) {
+          if (Objects.equals(c.getProduction(), GameConstants.ARCHER) && c.getTreasury() >= 10) {
+            if (placeUnitAround(p, GameConstants.ARCHER, getCityAt(p).getOwner())) {
+              ((CityImpl) (c)).setTreasury(c.getTreasury() - 10);
+            }
+          } else if (Objects.equals(c.getProduction(), GameConstants.LEGION) && c.getTreasury() >= 15) {
+            if (placeUnitAround(p, GameConstants.LEGION, getCityAt(p).getOwner())) {
+              ((CityImpl) (c)).setTreasury(c.getTreasury() - 15);
+            }
+          } else if (Objects.equals(c.getProduction(), GameConstants.SETTLER) && c.getTreasury() >= 20) {
+            if (placeUnitAround(p, GameConstants.SETTLER, getCityAt(p).getOwner())) {
+              ((CityImpl) (c)).setTreasury(c.getTreasury() - 20);
+            }
           }
         }
       }

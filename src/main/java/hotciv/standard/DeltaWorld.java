@@ -1,18 +1,21 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.stub.StubTile;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class DeltaWorld implements WorldStrat {
 
+    Map<Position, Tile> world;
+
     DeltaWorld() {
         for(int i=0;i<16;i++){
             for(int j=0;j<16;j++){
-                u[i][j]=null;
-                t[i][j]=null;
-                c[i][j]=null;
+                u[i][j] = null;
+                t[i][j] = null;
+                c[i][j] = null;
             }
         }
         gameBoard();
@@ -44,7 +47,7 @@ public class DeltaWorld implements WorldStrat {
                         ".....ooooooooo..",
                 };
         // Conversion...
-        Map<Position, Tile> theWorld = new HashMap<>();
+        world = new HashMap<>();
         String line;
         for (int r = 0; r < GameConstants.WORLDSIZE; r++) {
             line = layout[r];
@@ -67,7 +70,7 @@ public class DeltaWorld implements WorldStrat {
                     type = GameConstants.HILLS;
                 }
                 Position p = new Position(r, c);
-                theWorld.put(p, new TileImpl(type));
+                world.put(p, new TileImpl(type));
             }
         }
 
@@ -76,23 +79,16 @@ public class DeltaWorld implements WorldStrat {
             p.setRow(i);
             for (int j = 0; j < 16; j++) {
                 p.setColumn(j);
-                t[i][j] = theWorld.get(p);
+                t[i][j] = world.get(p);
             }
         }
 
-        u[2][0] = new UnitImpl(GameConstants.ARCHER, Player.RED);
-        u[4][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
-        u[2][3] = new UnitImpl(GameConstants.SETTLER, Player.RED);
-        u[3][3] = new UnitImpl(GameConstants.LEGION, Player.RED);
-        u[0][2] = new UnitImpl(GameConstants.ARCHER, Player.BLUE);
-        u[3][4] = new UnitImpl(GameConstants.SETTLER, Player.BLUE);
-        u[3][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
-        u[4][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
-        u[5][2] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
+        // Original units in DeltaWorld
+        u[3][8] = new UnitImpl(GameConstants.ARCHER, Player.RED);
+        u[4][4] = new UnitImpl(GameConstants.LEGION, Player.BLUE);
+        u[5][5] = new UnitImpl(GameConstants.SETTLER, Player.RED);
 
-        c[1][1] = new CityImpl(Player.RED);
-        c[4][1] = new CityImpl(Player.BLUE);
-        c[3][2] = new CityImpl(Player.BLUE);
+        // Original cities in DeltaWorld
         c[8][12] = new CityImpl(Player.RED);
         c[4][5] = new CityImpl(Player.BLUE);
     }
@@ -111,4 +107,5 @@ public class DeltaWorld implements WorldStrat {
     public Unit[][] getUnitsArray() {
         return u;
     }
+
 }
