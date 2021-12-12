@@ -119,7 +119,20 @@ public class GameImpl implements Game {
     //Store unit locations before movement
     Unit attacker = unitLoc[from.getRow()][from.getColumn()];
     Unit defender = unitLoc[to.getRow()][to.getColumn()];
+    if(attacker==null){
+      observers.worldChangedAt(from);
+      observers.worldChangedAt(to);
+      return false;
+    }
+    if(getUnitAt(from).getMoveCount()==0){
+      observers.worldChangedAt(from);
+      observers.worldChangedAt(to);
+      return false;
+    }
     boolean move = moveStrat.moveUnit(from, to, this, cityLoc, unitLoc);
+    if(move){
+      ((UnitImpl)(unitLoc[to.getRow()][to.getColumn()])).move=0;
+    }
 
     //Update arrays
     unitLoc = moveStrat.getUnitsArray();
@@ -128,7 +141,7 @@ public class GameImpl implements Game {
 
     //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
     boolean attack=false;
-    if(defender!=null && attacker!=null) {
+    if(defender!=null) {
       attack =
               (defender.getOwner() != attacker.getOwner()) &&
                       (attacker.getOwner() == unitLoc[to.getRow()][to.getColumn()].getOwner());
