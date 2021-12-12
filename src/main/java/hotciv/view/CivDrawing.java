@@ -275,7 +275,6 @@ public class CivDrawing
       unitShieldIcon.set(GfxConstants.NOTHING,unitS);
       unitMoves.setText("0");
     } else {
-      System.out.println(game.getUnitAt(position).getOwner());
       if(game.getUnitAt(position).getOwner() == Player.RED){
         unitShieldIcon.set(GfxConstants.RED_SHIELD, unitS);
       } else{
