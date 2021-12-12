@@ -1,13 +1,15 @@
 package hotciv.view;
 
 import hotciv.framework.*;
+import minidraw.framework.*;
+import minidraw.standard.ImageFigure;
+import minidraw.standard.StandardDrawing;
 
 import java.awt.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-
-import minidraw.framework.*;
-import minidraw.standard.*;
+import java.util.Map;
 
 /** CivDrawing is a specialized Drawing (model component) from
  * MiniDraw that dynamically builds the list of Figures for MiniDraw
@@ -204,9 +206,12 @@ public class CivDrawing
     turnShieldIcon.set( playername+"shield",
             new Point( GfxConstants.TURN_SHIELD_X,
                     GfxConstants.TURN_SHIELD_Y ) );
-    // TODO: Age output pending
-    ageText.setText(String.valueOf(game.getAge()));
-    System.out.println(" *** IMPLEMENTATION PENDING ***");
+
+    // Check if age is BC or AD
+    String BC_or_AD;
+    if (game.getAge() >= 0) { BC_or_AD = " AD"; }
+    else { BC_or_AD = " BC"; }
+    ageText.setText(Math.abs(game.getAge()) + BC_or_AD);
   }
 
   public void tileFocusChangedAt(Position position) {

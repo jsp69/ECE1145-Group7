@@ -132,7 +132,7 @@ public class StubGame2 implements Game {
   // TODO: Add more stub behaviour to test MiniDraw updating
   public City getCityAt( Position p ) { if(p.getRow()==4 && p.getColumn()==0) return red_city; else return null; }
   public Player getWinner() { return null; }
-  public int getAge() { return 0; }
+  public int getAge() { return -4000; }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
   public void performUnitActionAt( Position p ) {
