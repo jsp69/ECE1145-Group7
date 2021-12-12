@@ -255,6 +255,7 @@ public class CivDrawing
     if(game.getUnitAt(position)==null){
       unitShield.set(GfxConstants.NOTHING,unitS);
       unitMoves.setText("0");
+      unitType.setText("N/A");
     }else{
       if(game.getUnitAt(position).getOwner()==Player.RED){
         unitShield.set(GfxConstants.RED_SHIELD,unitS);
