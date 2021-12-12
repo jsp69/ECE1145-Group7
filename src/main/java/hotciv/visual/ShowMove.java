@@ -12,6 +12,7 @@ import javax.swing.*;
 import hotciv.framework.*;
 import hotciv.view.*;
 import hotciv.stub.*;
+import hotciv.tools.*;
 
 /** Template code for exercise FRS 36.39.
 
@@ -42,49 +43,6 @@ public class ShowMove {
 
     // TODO: Replace the setting of the tool with your UnitMoveTool implementation.
     //editor.setTool( new SelectionTool(editor) );
-    editor.setTool(new MoveTool(editor,game));
-  }
-}
-
-//Game board starts at 20,16
-//Game board ends at 500,492
-class
-MoveTool extends NullTool{
-  private Game game;
-  private DrawingEditor editor;
-  private Position from;
-
-  public MoveTool(DrawingEditor e, Game g){
-    this.editor = e;
-    this.game = g;
-  }
-
-  @Override
-  public void mouseDown(MouseEvent e, int x, int y){
-    //Getting offset coordinates for click
-    int newX = x-20;
-    int newY = y-16;
-
-    //Getting grid position from 0-15
-    int posX = (int) Math.floor(newX/30);
-    int posY = (int) Math.floor(newY/30);
-
-    this.from = GfxConstants.getPositionFromXY(x,y);
-    editor.showStatus(String.valueOf(from.getRow()));
-  }
-
-  @Override
-  public void mouseUp(MouseEvent e, int x, int y) {
-    //Getting offset coordinates for click
-    int newX = x-20;
-    int newY = y-16;
-
-    //Getting grid position from 0-15
-    int posX = (int) Math.floor(newX/30);
-    int posY = (int) Math.floor(newY/30);
-
-    if(!(from.getRow()==posY && from.getColumn()==posX)) {
-      game.moveUnit(this.from, GfxConstants.getPositionFromXY(x,y));
-    }
+    editor.setTool(new UnitMoveTool(editor,game));
   }
 }

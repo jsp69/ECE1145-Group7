@@ -199,11 +199,9 @@ public class CivDrawing
   }
 
   public void turnEnds(Player nextPlayer, int age) {
-    // TODO: Remove system.out debugging output
-    System.out.println( "CivDrawing: turnEnds at "+age+", next is "+nextPlayer );
-    String playername = "red";
-    if ( nextPlayer == Player.BLUE ) { playername = "blue"; }
-    turnShieldIcon.set( playername+"shield",
+    String playerName = "red";
+    if ( nextPlayer == Player.BLUE ) { playerName = "blue"; }
+    turnShieldIcon.set( playerName+"shield",
             new Point( GfxConstants.TURN_SHIELD_X,
                     GfxConstants.TURN_SHIELD_Y ) );
 

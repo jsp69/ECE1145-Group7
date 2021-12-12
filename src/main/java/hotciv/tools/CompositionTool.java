@@ -25,16 +25,14 @@ public class CompositionTool
         cachedNullTool = new NullTool();
         fChild = cachedNullTool;
 
-        /*tools.add(new EndOfTurnTool(edit, game));
-        tools.add(new MoveTool(edit, game));
-        tools.add(new FocusTool(edit, game));
-        tools.add(new ActionTool(edit, game));
-        tools.add(new EndOfTurnTool(edit, game));*/
+        tools.add(new EndOfTurnTool(edit, game));
+        tools.add(new UnitMoveTool(edit, game));
+        tools.add(new SetFocusTool(edit, game));
+        tools.add(new UnitActionTool(edit, game));
     }
 
     @Override
-    public void mouseDown(MouseEvent e, int x, int y)
-    {
+    public void mouseDown(MouseEvent e, int x, int y) {
         Drawing model = this.editor().drawing();
         model.lock();
 

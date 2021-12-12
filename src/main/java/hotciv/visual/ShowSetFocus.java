@@ -12,6 +12,7 @@ import javax.swing.*;
 import hotciv.framework.*;
 import hotciv.view.*;
 import hotciv.stub.*;
+import hotciv.tools.*;
 
 /** Template code for exercise FRS 36.40.
 
@@ -41,23 +42,6 @@ public class ShowSetFocus {
     editor.open();
     editor.showStatus("Click a tile to see Game's setFocus method being called.");
 
-    editor.setTool( new FocusTool(editor, game));
-  }
-}
-
-class FocusTool extends NullTool{
-  Game game;
-  DrawingEditor editor;
-
-  public FocusTool(DrawingEditor editor, Game game){
-    this.game=game;
-    this.editor=editor;
-  }
-
-  @Override
-  public void mouseDown(MouseEvent e, int x, int y) {
-    //Getting offset coordinates for click
-    game.setTileFocus(GfxConstants.getPositionFromXY(x,y));
-    //editor.showStatus(String.valueOf(posY)+" - "+String.valueOf(posX));
+    editor.setTool( new SetFocusTool(editor, game));
   }
 }

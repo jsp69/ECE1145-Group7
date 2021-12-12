@@ -3,14 +3,10 @@ package hotciv.visual;
 import minidraw.standard.*;
 import minidraw.framework.*;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.Rectangle;
-
 import hotciv.framework.*;
 import hotciv.view.*;
 import hotciv.stub.*;
+import hotciv.tools.EndOfTurnTool;
 
 /** Template code for exercise FRS 36.42.
 
@@ -41,28 +37,5 @@ public class ShowEndOfTurn {
 
     // TODO: Replace the setting of the tool with your EndOfTurnTool implementation.
     editor.setTool( new EndOfTurnTool(editor, game) );
-  }
-}
-
-class EndOfTurnTool extends NullTool {
-  private Game game;
-  private DrawingEditor editor;
-  private Position p;
-
-  public EndOfTurnTool(DrawingEditor e, Game g) {
-    game = g;
-    editor = e;
-  }
-
-  //tile size: 30x30
-  @Override
-  public void mouseDown(MouseEvent e, int x, int y) {
-    //Top shield in age section from gfx constants
-    Rectangle turnShield = new Rectangle(GfxConstants.TURN_SHIELD_X, GfxConstants.TURN_SHIELD_Y, 30, 30);
-
-    //Check whether the mouse click coordinates are within the rectangle
-    if (turnShield.contains(x, y)) {
-      game.endOfTurn();
-    }
   }
 }
