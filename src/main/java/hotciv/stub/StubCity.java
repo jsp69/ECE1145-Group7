@@ -2,6 +2,7 @@ package hotciv.stub;
 
 import hotciv.framework.*;
 
+// A test stub implementation just to force some graphical updates.
 public class StubCity implements City {
     Player owner;
     int size = 1;

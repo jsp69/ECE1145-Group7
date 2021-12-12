@@ -1,5 +1,6 @@
 package hotciv.view;
 
+import minidraw.standard.AbstractFigure;
 import minidraw.standard.ImageFigure;
 
 import java.awt.*;

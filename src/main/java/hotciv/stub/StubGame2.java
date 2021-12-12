@@ -1,7 +1,6 @@
 package hotciv.stub;
 
 import hotciv.framework.*;
-import hotciv.standard.CityImpl;
 
 import java.util.*;
 

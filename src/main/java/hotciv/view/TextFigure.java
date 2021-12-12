@@ -39,6 +39,7 @@ public class TextFigure extends AbstractFigure {
   private String text;
   private Font fFont;
   FontMetrics metrics = null;
+  private String figureType = GfxConstants.TEXT_TYPE_STRING;
 
   public TextFigure(String text, Point position) {
     this.position = position;
@@ -83,4 +84,9 @@ public class TextFigure extends AbstractFigure {
     }
     return new Dimension(fWidth, fHeight);
   }
+
+  public String getFigureType() {
+    return figureType;
+  }
+
 }

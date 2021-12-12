@@ -1,15 +1,17 @@
 package hotciv.visual;
 
+import hotciv.tools.CompositionTool;
 import minidraw.standard.*;
 import minidraw.framework.*;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import hotciv.framework.*;
 import hotciv.view.*;
 import hotciv.stub.*;
+
 
 /** Template code for exercise FRS 36.44.
 
@@ -40,57 +42,6 @@ public class ShowComposition {
 
     // TODO: Replace the setting of the tool with your CompositionTool implementation.
     editor.setTool( new CompositionTool(editor, game) );
-  }
-
-}
-
-class CompositionTool extends NullTool {
-  private final DrawingEditor editor;
-  private final Game game;
-  private CivFigure figure;
-  private Tool state;
-
-  public CompositionTool(DrawingEditor editor, Game game) {
-    state = null;
-    this.editor = editor;
-    this.game = game;
-  }
-
-  @Override
-  public void mouseDown(MouseEvent e, int x, int y) {
-    // Find the figure (if any) just below the mouse click position
-    figure = (CivFigure) editor.drawing().findFigure(x, y);
-    // Determine correct tool to use
-    if (figure == null) {
-      System.out.println("No figure below click point.");
-      System.out.println(" *** IMPLEMENTATION PENDING ***");
-      state = new NullTool();
-    } else {
-      if (figure.getType().equals(GfxConstants.TEXT_TYPE_STRING)) {
-        state = new EndOfTurnTool(editor, game);
-      } else {
-        // TODO: handle all the cases - action tool, unit move tool, etc
-        switch (figure.getType()) {
-          case GfxConstants.UNIT_TYPE_STRING:
-            state = new MoveTool(editor, game);
-            break;
-          case GfxConstants.CITY_TYPE_STRING:
-            state = new ChangeCityTool((CityFigure) figure);
-            break;
-          case GfxConstants.TURN_SHIELD_TYPE_STRING:
-            state = new EndOfTurnTool(editor, game);
-            break;
-          case GfxConstants.UNIT_SHIELD_TYPE_STRING:
-            state = new ActionTool(editor, game);
-            break;
-          default:
-            state = new NullTool();
-            break;
-        }
-      }
-    }
-    // Finally, delegate to the selected state
-    state.mouseDown(e, x, y);
   }
 
 }

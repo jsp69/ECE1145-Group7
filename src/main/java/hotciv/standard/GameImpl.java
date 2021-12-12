@@ -58,11 +58,11 @@ public class GameImpl implements Game {
   WorldStrat worldStrat;
   UnitActionStrat unitStrat;
 
-  GameObserver observer;
-  // Observer array list
-  private List<GameObserver> obsList = new ArrayList<>();
+  GameObserverList observers;
 
   public GameImpl(HotCivFactory factory){
+    observers = new GameObserverList();
+
     //Use Abstract Factory object to generate variant method algorithms
     civFactory = factory;
     winStrat = factory.createWinStrat();
@@ -139,8 +139,10 @@ public class GameImpl implements Game {
       winStrat.increaseAttack(getPlayerInTurn());
     }
 
-    updateTileAT(from);
-    updateTileAT(to);
+    //Notify all observers
+    observers.worldChangedAt(from);
+    observers.worldChangedAt(to);
+
     return move;
   }
 
@@ -152,34 +154,26 @@ public class GameImpl implements Game {
       endOfRound();
     }
   }
-  public void changeWorkForceFocusInCityAt( Position p, String balance ) {((CityImpl)(getCityAt(p))).setWorkforceFocus(balance);}
-  public void changeProductionInCityAt( Position p, String unitType ) {((CityImpl)(getCityAt(p))).setProduction(unitType);}
+  public void changeWorkForceFocusInCityAt( Position p, String balance ) { ((CityImpl)(getCityAt(p))).setWorkforceFocus(balance); }
+  public void changeProductionInCityAt( Position p, String unitType ) { ((CityImpl)(getCityAt(p))).setProduction(unitType); }
   public void performUnitActionAt(Position p) {
+    //Perform unit action
     unitStrat.performUnitActionAt(p);
+
+    //Update game arrays
     unitLoc = unitStrat.getUnitsArray();
     tileLoc = unitStrat.getTilesArray();
     cityLoc = unitStrat.getCitiesArray();
-    //Archer fortifies
-    archersFortify(p);
-    int r = p.getRow();
-    int c = p.getColumn();
-    //Settler builds city
-    if (unitLoc[r][c].getTypeString().equals(GameConstants.SETTLER)) {
-      createNewCity(r,c,getPlayerInTurn());
-    }
-    System.out.println("performUnitAt is being called");
-    updateTileAT(p);
+
+    //Notify observer of changes
+    observers.worldChangedAt(p);
   }
 
   @Override
-  public void addObserver(GameObserver o) {obsList.add(o);}
+  public void addObserver(GameObserver o) { observers.addObserver(o); }
 
   @Override
-  public void setTileFocus(Position position) {
-    for (GameObserver gameObserver : obsList) {
-      gameObserver.tileFocusChangedAt(position);
-    }
-  }
+  public void setTileFocus(Position position) { observers.tileFocusChangedAt(position); }
 
   public void endOfRound() {
     //Grow all cities that meet conditions and increase food/production for each city
@@ -188,24 +182,20 @@ public class GameImpl implements Game {
 
     //Go through all cities and see if they have finished production of their units
     //If so, place them in/around the city in the first available spot
-    Position p=new Position(0,0);
-    for(int i=0;i<16;i++){
-      p.setRow(i);
-      for(int j=0;j<16;j++){
-        p.setColumn(j);
-        if(cityLoc[i][j]!=null){
-          if(Objects.equals(cityLoc[i][j].getProduction(), GameConstants.ARCHER) && cityLoc[i][j].getTreasury()>=10){
-            if(placeUnitAround(p,GameConstants.ARCHER,getCityAt(p).getOwner())){
-              ((CityImpl)(cityLoc[i][j])).setTreasury(cityLoc[i][j].getTreasury()-10);
-            }
-          }else if(Objects.equals(cityLoc[i][j].getProduction(), GameConstants.LEGION) && cityLoc[i][j].getTreasury()>=15){
-            if(placeUnitAround(p,GameConstants.LEGION,getCityAt(p).getOwner())){
-              ((CityImpl)(cityLoc[i][j])).setTreasury(cityLoc[i][j].getTreasury()-15);
-            }
-          }else if(Objects.equals(cityLoc[i][j].getProduction(), GameConstants.SETTLER) && cityLoc[i][j].getTreasury()>=20){
-            if(placeUnitAround(p,GameConstants.SETTLER,getCityAt(p).getOwner())){
-              ((CityImpl)(cityLoc[i][j])).setTreasury(cityLoc[i][j].getTreasury()-20);
-            }
+    Position p = new Position(0,0);
+    for (City[] cityRow : cityLoc) {
+      for (City c : cityRow) {
+        if (Objects.equals(c.getProduction(), GameConstants.ARCHER) && c.getTreasury() >= 10) {
+          if (placeUnitAround(p, GameConstants.ARCHER, getCityAt(p).getOwner())) {
+            ((CityImpl)(c)).setTreasury(c.getTreasury() - 10);
+          }
+        } else if(Objects.equals(c.getProduction(), GameConstants.LEGION) && c.getTreasury() >= 15) {
+          if (placeUnitAround(p, GameConstants.LEGION, getCityAt(p).getOwner())) {
+            ((CityImpl)(c)).setTreasury(c.getTreasury() - 15);
+          }
+        } else if(Objects.equals(c.getProduction(), GameConstants.SETTLER) && c.getTreasury() >= 20){
+          if(placeUnitAround(p,GameConstants.SETTLER,getCityAt(p).getOwner())){
+            ((CityImpl)(c)).setTreasury(c.getTreasury() - 20);
           }
         }
       }
@@ -285,27 +275,6 @@ public class GameImpl implements Game {
     return false;
   }
 
-  // Fortify the archers
-  public boolean archersFortify(Position pos) {
-    int r = pos.getRow();
-    int c = pos.getColumn();
-    //Check that unit is archers
-    if (unitLoc[r][c].getTypeString().equals(GameConstants.ARCHER)) {
-      // Set attack to 0
-      ((UnitImpl)(unitLoc[r][c])).setAttack(0);
-      // Set defenses to 5
-      ((UnitImpl)(unitLoc[r][c])).setDefenses(5);
-      // Set max move count to 0
-      ((UnitImpl)(unitLoc[r][c])).setMoveCount(0);
-      System.out.print("archersFortify is called");
-      return true;
-    }
-    else {
-      //Unit not archers
-      return false;
-    }
-  }
-
   private boolean checkSafeUnitTile(Position p){
     return !tileLoc[p.getRow()][p.getColumn()].getTypeString().equals(GameConstants.OCEANS) && !tileLoc[p.getRow()][p.getColumn()].getTypeString().equals(GameConstants.MOUNTAINS);
   }
@@ -324,7 +293,4 @@ public class GameImpl implements Game {
     return tileLoc;
   }
 
-  private void updateTileAT(Position p){
-    for (GameObserver gameObserver : obsList) { gameObserver.worldChangedAt(p); }
-  }
 }
