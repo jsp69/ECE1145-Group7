@@ -40,7 +40,6 @@ import minidraw.standard.ImageFigure;
 
 public class UnitFigure extends ImageFigure {
   protected Unit associatedUnit;
-  protected String figureType = GfxConstants.UNIT_TYPE_STRING;
   
   public UnitFigure(String name, Point origin, Unit unit) {
     super(name, origin);
@@ -67,10 +66,6 @@ public class UnitFigure extends ImageFigure {
     g.fillOval(fDisplayBox.x, fDisplayBox.y+7, 8, 6);
     g.setColor(Color.black);
     g.drawOval(fDisplayBox.x, fDisplayBox.y+7, 8, 6);
-  }
-
-  public String getFigureType() {
-    return figureType;
   }
 
 }

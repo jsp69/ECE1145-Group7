@@ -1,5 +1,7 @@
 package hotciv.visual;
 
+import hotciv.standard.GameImpl;
+import hotciv.standard.SemiFactory;
 import minidraw.standard.*;
 import minidraw.framework.*;
 
@@ -27,7 +29,7 @@ import hotciv.tools.EndOfTurnTool;
 public class ShowEndOfTurn {
   
   public static void main(String[] args) {
-    Game game = new StubGame2();
+    Game game = new GameImpl(new SemiFactory());
 
     DrawingEditor editor = 
       new MiniDrawApplication( "Click top shield to end the turn",  

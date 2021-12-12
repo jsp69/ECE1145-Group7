@@ -1,24 +1,22 @@
 package hotciv.standard;
 
-import hotciv.framework.CityStrat;
-import hotciv.framework.Game;
-import hotciv.framework.GameConstants;
-import hotciv.framework.Position;
+import hotciv.framework.*;
 
 import java.util.Arrays;
 
 public class EtaCity implements CityStrat {
     @Override
     public void cityGrow(Game game) {
-        Position p=new Position(0,0);
+        Position p = new Position(0,0);
         for(int i=0;i<16;i++){
             p.setRow(i);
             for(int j=0;j<16;j++){
                 p.setColumn(j);
-                if(game.getCityAt(p)!=null){
-                    if(((CityImpl)(game.getCityAt(p))).getFood()>=game.getCityAt(p).getSize()*3+5 && game.getCityAt(p).getSize()<=9){
+                if (game.getCityAt(p) != null){
+                    if ( ( ((CityImpl)(game.getCityAt(p))).getFood() >= ( 3 * game.getCityAt(p).getSize() + 5 ) )
+                            && ( game.getCityAt(p).getSize() <= 9 ) ) {
                         ((CityImpl)(game.getCityAt(p))).setFood(0);
-                        ((CityImpl)(game.getCityAt(p))).setSize(game.getCityAt(p).getSize()+1);
+                        ((CityImpl)(game.getCityAt(p))).setSize(game.getCityAt(p).getSize() + 1);
                     }
                 }
             }
@@ -27,7 +25,7 @@ public class EtaCity implements CityStrat {
 
     @Override
     public void cityProduce(Game game) {
-        Position p=new Position(0,0);
+        Position p = new Position(0,0);
         int[] foodTiles;
         int[] prodTiles;
         int foodOut;
@@ -37,23 +35,26 @@ public class EtaCity implements CityStrat {
             p.setRow(i);
             for (int j = 0; j < 16; j++) {
                 p.setColumn(j);
-                foodOut=1;
-                prodOut=1;
+                foodOut = 1;
+                prodOut = 1;
                 if (game.getCityAt(p) != null) {
-                    prodTiles=surroundProd(p,game);
-                    foodTiles=surroundFood(p,game);
+                    prodTiles = surroundProd(p,game);
+                    foodTiles = surroundFood(p,game);
+
                     Arrays.sort(prodTiles);
                     Arrays.sort(foodTiles);
-                    for(int k=7;k>7-game.getCityAt(p).getSize()+1;k--){
+
+                    for (int k=7;k>7-game.getCityAt(p).getSize()+1;k--){
                         foodOut+=foodTiles[k];
                         prodOut+=prodTiles[k];
                     }
-                    if(game.getCityAt(p).getWorkforceFocus().equals(GameConstants.productionFocus)){
-                        ((CityImpl)(game.getCityAt(p))).setTreasury(game.getCityAt(p).getTreasury()+prodOut);
-                        ((CityImpl)(game.getCityAt(p))).setFood(((CityImpl)(game.getCityAt(p))).getFood()+1);
-                    }else{
-                        ((CityImpl)(game.getCityAt(p))).setTreasury(game.getCityAt(p).getTreasury()+1);
-                        ((CityImpl)(game.getCityAt(p))).setFood(((CityImpl)(game.getCityAt(p))).getFood()+foodOut);
+
+                    if (game.getCityAt(p).getWorkforceFocus().equals(GameConstants.productionFocus)){
+                        ((CityImpl)(game.getCityAt(p))).setTreasury(game.getCityAt(p).getTreasury() + prodOut);
+                        ((CityImpl)(game.getCityAt(p))).setFood(((CityImpl)(game.getCityAt(p))).getFood() + 1);
+                    } else{
+                        ((CityImpl)(game.getCityAt(p))).setTreasury(game.getCityAt(p).getTreasury() + 1);
+                        ((CityImpl)(game.getCityAt(p))).setFood(((CityImpl)(game.getCityAt(p))).getFood() + foodOut);
                     }
                 }
             }

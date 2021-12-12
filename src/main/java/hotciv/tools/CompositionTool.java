@@ -6,20 +6,27 @@ import hotciv.visual.*;
 import minidraw.framework.*;
 import minidraw.standard.*;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 import java.awt.event.MouseEvent;
 
 public class CompositionTool extends AbstractTool {
 
     private Game game;
     private DrawingEditor editor;
-    private NullTool tool;
+    private List<NullTool> tools;
 
     public CompositionTool(DrawingEditor edit, Game g) {
         super(edit);
         game = g;
         editor = edit;
+
+        tools = new ArrayList<>();
+        tools.add(new SetFocusTool(editor, game));
+        tools.add(new EndOfTurnTool(editor, game));
+        tools.add(new UnitActionTool(editor, game));
+        tools.add(new UnitMoveTool(editor, game));
     }
 
     /* Definitions of the different tools:
@@ -39,27 +46,23 @@ public class CompositionTool extends AbstractTool {
 
             // Determine correct tool
             if (e.isShiftDown()) {
-                tool = new UnitActionTool(editor, game);
+                tools.get(2).mouseDown(e,x,y);
             } else if ((fx == GfxConstants.TURN_SHIELD_X) && (fy == GfxConstants.TURN_SHIELD_Y)) {
-                tool = new EndOfTurnTool(editor, game);
-            } else if (true) {
-                tool = new UnitMoveTool(editor, game);
+                tools.get(1).mouseDown(e,x,y);
             } else {
-                tool = new SetFocusTool(editor, game);
+                tools.get(0).mouseDown(e,x,y);
+                tools.get(3).mouseDown(e,x,y);
             }
         }
-
-        // Complete requested action
-        tool.mouseDown(e,x,y);
     }
 
     public void mouseDrag(MouseEvent e, int x, int y) {
         // UnitMoveTool mouseDrag() event is called
-        tool.mouseDrag(e,x,y);
+        tools.get(3).mouseDrag(e,x,y);
     }
 
     public void mouseUp(MouseEvent e, int x, int y) {
         // UnitMoveTool mouseUp() event is called
-        tool.mouseUp(e,x,y);
+        tools.get(3).mouseUp(e,x,y);
     }
 }

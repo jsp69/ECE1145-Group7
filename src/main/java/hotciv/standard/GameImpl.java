@@ -153,6 +153,8 @@ public class GameImpl implements Game {
     if (this.turn > 1) {
       endOfRound();
     }
+    // Update game observer
+    observers.turnEnds(getPlayerInTurn(), getAge());
   }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) { ((CityImpl)(getCityAt(p))).setWorkforceFocus(balance); }
   public void changeProductionInCityAt( Position p, String unitType ) { ((CityImpl)(getCityAt(p))).setProduction(unitType); }
