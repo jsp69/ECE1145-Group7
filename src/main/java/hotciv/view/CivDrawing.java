@@ -180,6 +180,7 @@ public class CivDrawing
     delegate.add(cityShieldIcon);
   }
 
+
   // === Observer Methods ===
 
   public void worldChangedAt(Position pos) {
@@ -194,6 +195,8 @@ public class CivDrawing
     defineUnitMap();
 
     // TODO: Cities may change on position as well
+   // defineCityMap();
+
     System.out.println("Unit map updated, icons and cities not updated.");
     System.out.println(" *** IMPLEMENTATION PENDING ***");
   }
@@ -258,6 +261,7 @@ public class CivDrawing
     // entire Drawing.
     defineUnitMap();
     defineIcons();
+    //defineCityMap();
     // TODO: Cities pending
     System.out.println("-- CivDrawing / requestUpdate() called.");
     System.out.println("Units and icons rebuilt, cities not implemented yet.");
