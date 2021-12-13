@@ -1,5 +1,7 @@
 package hotciv.visual;
 
+import hotciv.standard.AlphaFactory;
+import hotciv.standard.GameImpl;
 import minidraw.standard.*;
 import minidraw.framework.*;
 
@@ -27,7 +29,7 @@ import hotciv.tools.UnitActionTool;
 public class ShowAction {
 
     public static void main(String[] args) {
-        Game game = new StubGame2();
+        Game game = new GameImpl(new AlphaFactory());
 
         DrawingEditor editor =
                 new MiniDrawApplication( "Shift-Click unit to invoke its action",

@@ -15,6 +15,15 @@ public class UnitImpl implements Unit {
         this.tType = type;
         if (type == GameConstants.UFO) {
             this.defense = 8;
+        }else if(type==GameConstants.ARCHER){
+            this.defense=3;
+            this.attack=2;
+        }else if(type==GameConstants.LEGION){
+            this.defense=2;
+            this.attack=4;
+        }else{
+            this.defense=3;
+            this.attack=0;
         }
         this.owner = play;
     }

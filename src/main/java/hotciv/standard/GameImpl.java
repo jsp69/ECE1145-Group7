@@ -116,10 +116,28 @@ public class GameImpl implements Game {
 
 
   public boolean moveUnit( Position from, Position to ) {
+    if(from.getColumn()>=16 || from.getRow()>=16 || to.getColumn()>=16 || to.getRow()>=16){
+      observers.worldChangedAt(from);
+      observers.worldChangedAt(to);
+      return false;
+    }
     //Store unit locations before movement
     Unit attacker = unitLoc[from.getRow()][from.getColumn()];
     Unit defender = unitLoc[to.getRow()][to.getColumn()];
+    if(attacker==null){
+      observers.worldChangedAt(from);
+      observers.worldChangedAt(to);
+      return false;
+    }
+    if(getUnitAt(from).getMoveCount()==0){
+      observers.worldChangedAt(from);
+      observers.worldChangedAt(to);
+      return false;
+    }
     boolean move = moveStrat.moveUnit(from, to, this, cityLoc, unitLoc);
+    if(move){
+      ((UnitImpl)(unitLoc[to.getRow()][to.getColumn()])).move=0;
+    }
 
     //Update arrays
     unitLoc = moveStrat.getUnitsArray();
@@ -128,7 +146,7 @@ public class GameImpl implements Game {
 
     //Check if a successful attack has occurred by comparing the previous unit at "to" and the current unit
     boolean attack=false;
-    if(defender!=null && attacker!=null) {
+    if(defender!=null) {
       attack =
               (defender.getOwner() != attacker.getOwner()) &&
                       (attacker.getOwner() == unitLoc[to.getRow()][to.getColumn()].getOwner());
@@ -159,6 +177,9 @@ public class GameImpl implements Game {
   public void changeWorkForceFocusInCityAt( Position p, String balance ) { ((CityImpl)(getCityAt(p))).setWorkforceFocus(balance); }
   public void changeProductionInCityAt( Position p, String unitType ) { ((CityImpl)(getCityAt(p))).setProduction(unitType); }
   public void performUnitActionAt(Position p) {
+    if(getUnitAt(p)==null || getPlayerInTurn()!=getUnitAt(p).getOwner()){
+      return;
+    }
     //Perform unit action
     unitStrat.performUnitActionAt(p);
 
@@ -187,7 +208,7 @@ public class GameImpl implements Game {
     Position p = new Position(0,0);
     for (City[] cityRow : cityLoc) {
       for (City c : cityRow) {
-        if (c != null) {
+        if(c!=null) {
           if (Objects.equals(c.getProduction(), GameConstants.ARCHER) && c.getTreasury() >= 10) {
             if (placeUnitAround(p, GameConstants.ARCHER, getCityAt(p).getOwner())) {
               ((CityImpl) (c)).setTreasury(c.getTreasury() - 10);
@@ -209,6 +230,7 @@ public class GameImpl implements Game {
     this.turn = 0;
     increaseAge();
     winStrat.incrementRound();
+    unitsMaxMoveAtStart();
   }
 
   //Moves age forward

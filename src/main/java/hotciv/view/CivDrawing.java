@@ -185,8 +185,8 @@ public class CivDrawing
   }
 
   // Icons that appear and change with tile focus
-  protected ImageFigure turnShieldIcon, unitShieldIcon, cityShieldIcon;
-  protected TextFigure ageText, unitMoves;
+  protected ImageFigure turnShieldIcon, cityShield, unitShield;
+  protected TextFigure ageText, unitMoves, unitType;
   protected ImageFigure cityProduce, cityBalance;
 
   protected void defineIcons() {
@@ -194,44 +194,25 @@ public class CivDrawing
             new ImageFigure( GfxConstants.RED_SHIELD,
                     new Point( GfxConstants.TURN_SHIELD_X,
                             GfxConstants.TURN_SHIELD_Y ) );
-    unitShieldIcon =
-            new ImageFigure( GfxConstants.NOTHING,
-                    new Point( GfxConstants.UNIT_SHIELD_X,
-                            GfxConstants.UNIT_SHIELD_Y ) );
-    cityShieldIcon =
-            new ImageFigure( GfxConstants.NOTHING,
-                    new Point( GfxConstants.CITY_SHIELD_X,
-                            GfxConstants.CITY_SHIELD_Y ) );
 
-    ageText =
-            new TextFigure("4000 BC",
-                    new Point(GfxConstants.AGE_TEXT_X,
-                            GfxConstants.AGE_TEXT_Y) );
-
-    unitMoves =
-            new TextFigure("0",
-                    new Point(GfxConstants.UNIT_COUNT_X,
-                            GfxConstants.UNIT_COUNT_Y));
-
-    cityProduce =
-            new ImageFigure(GfxConstants.NOTHING,
-                    new Point(GfxConstants.CITY_PRODUCTION_X,
-                            GfxConstants.CITY_PRODUCTION_Y));
-
-    cityBalance =
-            new ImageFigure(GfxConstants.NOTHING,
-                    new Point(GfxConstants.WORKFORCEFOCUS_X,
-                            GfxConstants.WORKFORCEFOCUS_Y));
+    ageText = new TextFigure("4000 BC", new Point(GfxConstants.AGE_TEXT_X, GfxConstants.AGE_TEXT_Y) );
+    cityShield=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.CITY_SHIELD_X,GfxConstants.CITY_SHIELD_Y));
+    unitShield=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.UNIT_SHIELD_X,GfxConstants.UNIT_SHIELD_Y));
+    unitMoves=new TextFigure("0",new Point(GfxConstants.UNIT_COUNT_X,GfxConstants.UNIT_COUNT_Y));
+    cityProduce=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.CITY_PRODUCTION_X,GfxConstants.CITY_PRODUCTION_Y));
+    cityBalance=new ImageFigure(GfxConstants.NOTHING,new Point(GfxConstants.WORKFORCEFOCUS_X,GfxConstants.WORKFORCEFOCUS_Y));
+    unitType=new TextFigure("N/A",new Point(GfxConstants.UNIT_SHIELD_X-27,GfxConstants.UNIT_SHIELD_Y-42));
 
     // insert in delegate figure list to ensure graphical
     // rendering.
     delegate.add(turnShieldIcon);
     delegate.add(ageText);
+    delegate.add(cityShield);
+    delegate.add(unitShield);
     delegate.add(unitMoves);
     delegate.add(cityProduce);
     delegate.add(cityBalance);
-    delegate.add(unitShieldIcon);
-    delegate.add(cityShieldIcon);
+    delegate.add(unitType);
   }
 
   // === Observer Methods ===
@@ -271,28 +252,30 @@ public class CivDrawing
     Point cityB = new Point(GfxConstants.WORKFORCEFOCUS_X,GfxConstants.WORKFORCEFOCUS_Y);
 
     //Change Unit stuff
-    if(game.getUnitAt(position) == null){
-      unitShieldIcon.set(GfxConstants.NOTHING,unitS);
+    if(game.getUnitAt(position)==null){
+      unitShield.set(GfxConstants.NOTHING,unitS);
       unitMoves.setText("0");
-    } else {
-      if(game.getUnitAt(position).getOwner() == Player.RED){
-        unitShieldIcon.set(GfxConstants.RED_SHIELD, unitS);
-      } else{
-        unitShieldIcon.set(GfxConstants.BLUE_SHIELD, unitS);
+      unitType.setText("N/A");
+    }else{
+      if(game.getUnitAt(position).getOwner()==Player.RED){
+        unitShield.set(GfxConstants.RED_SHIELD,unitS);
+      }else{
+        unitShield.set(GfxConstants.BLUE_SHIELD,unitS);
       }
       unitMoves.setText(String.valueOf(game.getUnitAt(position).getMoveCount()));
+      unitType.setText(game.getUnitAt(position).getTypeString());
     }
 
     //Change City stuff
-    if(game.getCityAt(position) == null) {
-      cityShieldIcon.set(GfxConstants.NOTHING, cityS);
+    if(game.getCityAt(position)==null) {
+      cityShield.set(GfxConstants.NOTHING, cityS);
       cityProduce.set(GfxConstants.NOTHING,cityP);
       cityBalance.set(GfxConstants.NOTHING,cityB);
-    } else{
+    }else{
       if (game.getCityAt(position).getOwner() == Player.RED) {
-        cityShieldIcon.set(GfxConstants.RED_SHIELD, cityS);
+        cityShield.set(GfxConstants.RED_SHIELD, cityS);
       } else{
-        cityShieldIcon.set(GfxConstants.BLUE_SHIELD, cityS);
+        cityShield.set(GfxConstants.BLUE_SHIELD, cityS);
       }
 
       cityBalance.set(game.getCityAt(position).getWorkforceFocus(),cityB);
