@@ -50,10 +50,10 @@ public class CompositionTool extends AbstractTool {
             } else if ((fx == GfxConstants.TURN_SHIELD_X) && (fy == GfxConstants.TURN_SHIELD_Y)) {
                 tools.get(1).mouseDown(e,x,y);
             } else {
-                tools.get(0).mouseDown(e,x,y);
                 tools.get(3).mouseDown(e,x,y);
             }
         }
+        tools.get(0).mouseDown(e,x,y);
     }
 
     public void mouseDrag(MouseEvent e, int x, int y) {

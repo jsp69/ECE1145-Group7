@@ -247,6 +247,9 @@ public class GameImpl implements Game {
         for(int j = 0; j < 16; j++) {
           if(unitLoc[i][j] != null) {
             ((UnitImpl)(unitLoc[i][j])).setMoveCount(1);
+            if(unitLoc[i][j].getDefensiveStrength()==6 && unitLoc[i][j].getTypeString()==GameConstants.ARCHER){
+              ((UnitImpl)(unitLoc[i][j])).setMoveCount(0);
+            }
           }
         }
       }
