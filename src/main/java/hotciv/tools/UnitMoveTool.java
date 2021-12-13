@@ -2,7 +2,10 @@ package hotciv.tools;
 
 import hotciv.framework.Game;
 import hotciv.framework.Position;
+import hotciv.view.CityFigure;
 import hotciv.view.GfxConstants;
+import hotciv.view.TextFigure;
+import hotciv.view.UnitFigure;
 import minidraw.framework.DrawingEditor;
 import minidraw.framework.Figure;
 import minidraw.standard.NullTool;
@@ -31,7 +34,7 @@ public class UnitMoveTool extends NullTool {
 
     @Override
     public void mouseDrag(MouseEvent mouseEvent, int x, int y){
-        if (figure != null && GfxConstants.getPositionFromXY(x,y).getColumn()<16 && GfxConstants.getPositionFromXY(x,y).getRow()<16) {
+        if (figure != null && figure instanceof UnitFigure) {
             figure.moveBy(x - oldX, y - oldY);
             oldX = x; oldY = y;
         }
