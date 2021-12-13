@@ -116,6 +116,11 @@ public class GameImpl implements Game {
 
 
   public boolean moveUnit( Position from, Position to ) {
+    if(from.getColumn()>=16 || from.getRow()>=16 || to.getColumn()>=16 || to.getRow()>=16){
+      observers.worldChangedAt(from);
+      observers.worldChangedAt(to);
+      return false;
+    }
     //Store unit locations before movement
     Unit attacker = unitLoc[from.getRow()][from.getColumn()];
     Unit defender = unitLoc[to.getRow()][to.getColumn()];
@@ -225,6 +230,7 @@ public class GameImpl implements Game {
     this.turn = 0;
     increaseAge();
     winStrat.incrementRound();
+    unitsMaxMoveAtStart();
   }
 
   //Moves age forward

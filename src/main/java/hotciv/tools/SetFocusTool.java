@@ -1,6 +1,7 @@
 package hotciv.tools;
 
 import hotciv.framework.Game;
+import hotciv.framework.Position;
 import hotciv.view.GfxConstants;
 import minidraw.framework.DrawingEditor;
 import minidraw.standard.NullTool;
@@ -18,6 +19,9 @@ public class SetFocusTool extends NullTool {
 
     @Override
     public void mouseDown(MouseEvent e, int x, int y) {
-        game.setTileFocus(GfxConstants.getPositionFromXY(x,y));
+        Position p = new Position(GfxConstants.getPositionFromXY(x,y));
+        if(p.getRow()<16 && p.getColumn()<16) {
+            game.setTileFocus(p);
+        }
     }
 }

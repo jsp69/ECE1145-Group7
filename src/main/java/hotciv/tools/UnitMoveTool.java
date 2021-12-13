@@ -31,7 +31,7 @@ public class UnitMoveTool extends NullTool {
 
     @Override
     public void mouseDrag(MouseEvent mouseEvent, int x, int y){
-        if (figure != null) {
+        if (figure != null && GfxConstants.getPositionFromXY(x,y).getColumn()<16 && GfxConstants.getPositionFromXY(x,y).getRow()<16) {
             figure.moveBy(x - oldX, y - oldY);
             oldX = x; oldY = y;
         }
