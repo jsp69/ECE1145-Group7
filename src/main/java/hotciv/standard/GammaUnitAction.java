@@ -45,34 +45,32 @@ public class GammaUnitAction implements UnitActionStrat {
                 //Check if red
                 if (Objects.equals(u[r][col].getOwner(), Player.RED)) {
                     //Check if already fortified
-                    int oldDS = 0;
-                    if ((r == 1) && (col == 0)) { oldDS = u[r][col].getDefensiveStrength() * 2; }
-                    if (oldDS == u[2][0].getDefensiveStrength()) {
+                    int oldDS = u[r][col].getDefensiveStrength();
+                    if(oldDS % 2 == 0) {
                         //Defensive strength stays same
-                        u[1][0].getDefensiveStrength();
+                        u[r][col].getDefensiveStrength();
                     } else {
                         //Double defensive strength
-                        int ds = (u[2][0].getDefensiveStrength() * 2);
-                        ((UnitImpl)(u[2][0])).setDefenses(ds);
+                        int ds = (u[r][col].getDefensiveStrength() * 2);
+                        ((UnitImpl)(u[r][col])).setDefenses(ds);
                         //Archer cannot move
-                        ((UnitImpl)(u[2][0])).setMoveCount(0);
+                        ((UnitImpl)(u[r][col])).setMoveCount(0);
                     }
                 }
 
                 //Check if blue
                 else if (Objects.equals(u[r][col].getOwner(), Player.BLUE)) {
                     //Check if already fortified
-                    int oldDS = 0;
-                    if ((r == 1) && (col == 1)) { oldDS = u[1][1].getDefensiveStrength() * 2; }
-                    if (oldDS == u[0][2].getDefensiveStrength()) {
+                    int oldDS = u[r][col].getDefensiveStrength();
+                    if(oldDS % 2 == 0) {
                         //Defensive strength stays same
-                        u[1][1].getDefensiveStrength();
+                        u[r][col].getDefensiveStrength();
                     } else {
                         //Double defensive strength
-                        int ds = (u[0][2].getDefensiveStrength()) * 2;
-                        ((UnitImpl)(u[0][2])).setDefenses(ds);
+                        int ds = (u[r][col].getDefensiveStrength()) * 2;
+                        ((UnitImpl)(u[r][col])).setDefenses(ds);
                         //Archer cannot move
-                        ((UnitImpl)(u[0][2])).setMoveCount(0);
+                        ((UnitImpl)(u[r][col])).setMoveCount(0);
                     }
                 }
             }
