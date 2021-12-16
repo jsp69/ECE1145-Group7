@@ -44,6 +44,7 @@ public class TestThetaCiv {
 
     @Test public void ufoActionDecreaseCityPopBy1() {
         assertThat(game, is(notNullValue()));
+        game.endOfTurn();
         assertEquals(game.getCityAt(blueUFO).getSize(), 1);
         game.performUnitActionAt(blueUFO);
         assertNull(game.getCityAt(blueUFO));

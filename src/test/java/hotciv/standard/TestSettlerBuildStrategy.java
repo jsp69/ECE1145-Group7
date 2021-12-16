@@ -34,6 +34,7 @@ public class TestSettlerBuildStrategy {
     public void blueSettlerBuildsCity() {
         Position blueSettler = new Position(3, 4);
         assertThat(game, is(notNullValue()));
+        game.endOfTurn();
         if (game.getUnitAt(blueSettler).getTypeString().equals(GameConstants.SETTLER)) {
             game.performUnitActionAt(blueSettler);
             //Check if blue settler is removed

@@ -40,6 +40,7 @@ public class TestGammaCiv {
     public void blueSettlerBuildsCity() {
         Position blueSettler = new Position(3, 4);
         assertThat(game, is(notNullValue()));
+        game.endOfTurn();
         if (Objects.equals(game.getUnitAt(blueSettler).getTypeString(), GameConstants.SETTLER)) {
             game.performUnitActionAt(blueSettler);
             //Check if blue settler is removed
@@ -69,6 +70,7 @@ public class TestGammaCiv {
     public void blueArcherFortifies() {
         Position blueArcher = new Position(0, 2);
         assertThat(game, is(notNullValue()));
+        game.endOfTurn();
         if (Objects.equals(game.getUnitAt(blueArcher).getTypeString(), GameConstants.ARCHER)) {
             int oldDefStrength = game.getUnitAt(blueArcher).getDefensiveStrength();
             game.performUnitActionAt(blueArcher);

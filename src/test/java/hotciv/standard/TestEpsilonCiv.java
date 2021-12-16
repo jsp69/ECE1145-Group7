@@ -75,7 +75,11 @@ public class TestEpsilonCiv {
 
         //Attack 3 times and ensure they all happen
         assertTrue(game.moveUnit(attack,defense1));
+        game.endOfTurn();
+        game.endOfTurn();
         assertTrue(game.moveUnit(defense1,defense2));
+        game.endOfTurn();
+        game.endOfTurn();
         assertTrue(game.moveUnit(defense2,defense3));
     
         //Check winner after 3 successful attacks

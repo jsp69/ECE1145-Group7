@@ -213,12 +213,14 @@ public class TestAlphaCiv {
     if (game.getCityAt(redCity).getOwner() == (Player.RED)) {
       //Move Red unit to the city
       game.moveUnit(redArcher, p_interim);
+      game.endOfTurn();
+      game.endOfTurn();
       game.moveUnit(p_interim, redCity);
       //Check that red unit has moved to the red city pos
       assertThat(game.getUnitAt(redCity).getTypeString(), is (GameConstants.ARCHER));
       assertThat(game.getUnitAt(redCity).getOwner(), is (Player.RED));
       //Check that the red unit can defend its city
-      assertThat(game.getUnitAt(redCity).getDefensiveStrength(), is(1));
+      assertThat(game.getUnitAt(redCity).getDefensiveStrength(), is(3));
     }
   }
 

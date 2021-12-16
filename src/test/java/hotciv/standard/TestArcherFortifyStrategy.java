@@ -33,6 +33,7 @@ public class TestArcherFortifyStrategy {
     public void blueArcherFortifies() {
         Position blueArcher = new Position(0, 2);
         assertThat(game, is(notNullValue()));
+        game.endOfTurn();
         if (game.getUnitAt(blueArcher).getTypeString().equals(GameConstants.ARCHER)) {
             //Check if defensive strength doubles
             int doubled = game.getUnitAt(blueArcher).getDefensiveStrength() * 2;
